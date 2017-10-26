@@ -1,0 +1,29 @@
+<div class="notices">
+  <div class="content">
+    <a routerLink="/" class="back-nav"><img src="/assets/arrow-left.svg"/></a>
+    <h2 class="inline-page-title">Payments</h2>
+
+    <div class="card">
+      <div class="row list-parent">
+        <div class="col s3 list-header">PAYER NAME</div>
+        <div class="col s3 list-header">PAYMENT REFERENCE</div>
+        <div class="col s3 list-header right-aligned">PAYMENT AMOUNT</div>
+        <div class="col s2 list-header">PAYMENT DATE</div>
+        <div class="col s1 list-header">&nbsp;</div>
+      </div>
+
+      <div [ngStyle]="setLineStyle(payment)" class="row list-parent" *ngFor="let payment of eventPayments; let i = index;">
+        <div class="col s3"><h4>{{ payment.first_name }} {{payment.last_name}}</h4></div>
+        <div class="col s3"><h4>{{ payment.payment_reference | ellipsis:20 }}</h4></div>
+        <div class="col s3 small-text right-aligned">{{ payment.amount }} {{ payment.currency }}</div>
+        <div class="col s2 small-text">{{ payment.payment_date | friendlydate }}</div>
+        <div class="col s1">
+          <div class="row-actions">
+            <img class="view-icon" (click)="viewEventPaymentDetails(payment)" alt="view" src="/assets/view.svg"/>
+            <img (click)="editEventPayment(payment)" class="edit-icon" alt="edit" src="/assets/edit.svg"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

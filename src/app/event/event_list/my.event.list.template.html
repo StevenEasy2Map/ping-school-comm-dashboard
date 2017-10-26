@@ -1,0 +1,28 @@
+<div class="container events">
+  <div class="content">
+    <a routerLink="/dashboard" class="back-nav"><img src="/assets/arrow-left.svg"/></a>
+    <h2 class="inline-page-title">Events</h2>
+
+    <div class="card">
+      <div class="row list-parent">
+        <div class="col s5 list-header">EVENT NAME</div>
+        <div class="col s4 list-header">DATE PUBLISHED</div>
+        <div class="col s3 list-header">&nbsp;</div>
+      </div>
+
+      <div [ngStyle]="setLineStyle(event)" class="row list-parent" *ngFor="let event of events; let i = index;">
+        <div class="col s5">
+          <a (click)="viewEventDetails(i)">
+            <h4>{{ event.title | ellipsis:20 }}</h4>
+          </a>
+        </div>
+        <div class="col s4 small-text">{{ event.start_date | friendlydate }} - {{ event.end_date | friendlydate }}</div>
+        <div class="col s3">
+          <div class="row-actions">
+            <img class="view-icon" (click)="viewEventDetails(event)" alt="view" src="/assets/view.svg"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

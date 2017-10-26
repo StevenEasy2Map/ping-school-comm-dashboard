@@ -1,0 +1,36 @@
+@import "variables";
+
+@mixin border-radius($radius) {
+  border-radius: $radius;
+}
+
+@mixin box-shadow {
+    box-shadow: 0 1px 3px 0 rgba(44, 57, 71, 0.52);
+}
+
+@mixin box-shadow-hover {
+    box-shadow: 0 2px 10px 0 rgba(44, 57, 71, 0.52);
+}
+
+@mixin transition($sec) {
+  transition: all ease ($sec);
+}
+
+@mixin rotate($deg) {
+  transform: rotate($deg);
+}
+
+@mixin opacity($opacity) {
+   opacity: ($opacity);
+}
+
+@mixin centralise() {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@mixin blur($blur){
+	filter: blur($blur);
+}

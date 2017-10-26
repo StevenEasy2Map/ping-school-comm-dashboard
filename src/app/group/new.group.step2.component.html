@@ -1,0 +1,97 @@
+<div class="container row">
+  <form #loginForm="ngForm" class="col s12">
+    <div class="row">
+      <div role="alert" *ngIf="error" class="col s12">
+        <span class="red-text text-darken-4">{{ error }}</span>
+      </div>
+    </div>
+
+    <h3 class="title">Create a Group - Step 2</h3>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <h6>Give your group a name</h6>
+        <input autocomplete="off" style="margin-bottom: 15px;width:500px;"
+               id="groupName" required [(ngModel)]="groupName"
+               name="groupName" type="text" class="validate form-control">
+        <label style="display: none" for="groupName">Group Name</label>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="input-field col s12">
+        <h6>Give your group a description</h6>
+        <textarea [(ngModel)]="groupDescription"
+                  id="groupDescription" style="max-width:500px;height:100px;"
+                  name="groupDescription" class="materialize-textarea"
+                  data-length="512"></textarea>
+        <label style="display: none" for="groupDescription">Textarea</label>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <h6>Link to your group's WhatsApp group (optional)</h6>
+        <input autocomplete="off" style="margin-bottom: 15px;width:500px;"
+               id="whatsApp" [(ngModel)]="whatsApp"
+               name="whatsApp" type="text" class="validate form-control">
+        <label style="display: none" for="groupName">Link to Group's WhatsApp group</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+
+        <div class="file-field input-field">
+          <div class="btn">
+            <div class="upload-icon">
+              <img src="/assets/upload.svg"/>
+            </div>
+            <span>Upload a group image or logo (optional)</span>
+            <input id="logoUpload" type="file">
+          </div>
+          <div class="file-path-wrapper">
+            <img *ngIf="!!groupImage" src="{{ groupImage }}"
+                 style="max-width:300px;border:2px solid #ebebeb;border-radius:2px;margin-left:20px;"/>
+            <input style="display: none" class="file-path" type="text">
+            <a *ngIf="!!groupImage" (click)="groupImage = null" class="delete-upload">
+              <img src="/assets/delete.svg"/>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="row group-meta-parent">
+      <div class="input-field col s12">
+        <input [(ngModel)]="groupPrivate" name="groupPrivate"
+               type="checkbox" id="groupPrivate"/>
+        <label class="description" for="groupPrivate">This is a private group</label>
+        <p class="description_hint">(users can only join private groups with an invite token, or by being invited directly by you or another group administrator)</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <input [(ngModel)]="childNames" name="childNames"
+               type="checkbox" id="childNames"/>
+        <label class="description" for="childNames">Group members must indicate their child's name when joining</label>
+      </div>
+    </div>
+
+
+
+    <div class="row">
+      <div class="col s12 submit-button-parent">
+        <button style="margin-top:10px;" [disabled]="!loginForm.form.valid" (click)="createGroup()"
+                class="btn waves-effect waves-light" type="submit" name="action">Submit
+          <i class="material-icons right">send</i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

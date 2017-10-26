@@ -1,0 +1,211 @@
+<div class="container row top-padding">
+  <form #loginForm="ngForm" class="col s12">
+    <div class="row">
+      <div role="alert" *ngIf="error" class="col s12">
+        <span class="red-text text-darken-4">{{ error }}</span>
+      </div>
+    </div>
+
+    <a routerLink="/" class="back-nav"><img src="/assets/arrow-left.svg"/></a>
+    <h2 class="inline-page-title">Edit Group</h2>
+
+
+    <div class="row">
+      <div class="input-field col s12">
+        <h6>Your group a name</h6>
+        <input autocomplete="off" style="margin-bottom: 15px;width:500px;"
+               id="groupName" required [(ngModel)]="group.name"
+               name="groupName" type="text" class="validate form-control">
+        <label style="display: none" for="groupName">Group Name</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <h6>Link to Group's WhatsApp group (optional)</h6>
+        <input autocomplete="off" style="margin-bottom: 15px;width:500px;"
+               id="whatsApp" [(ngModel)]="group.whatsapp_group_link"
+               name="whatsApp" type="text" class="validate form-control">
+        <label style="display: none" for="groupName">Link to Group's WhatsApp group</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <h6>Give your group a description</h6>
+        <textarea [(ngModel)]="group.description"
+                  id="groupDescription" style="max-width:500px;height:100px;"
+                  name="groupDescription" class="materialize-textarea"
+                  data-length="512"></textarea>
+        <label style="display: none" for="groupDescription">Textarea</label>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input [(ngModel)]="group.is_private" name="groupPrivate"
+               type="checkbox" id="groupPrivate"/>
+        <label class="description" for="groupPrivate">This is a private group</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+
+        <div class="file-field input-field">
+          <div class="btn">
+            <div class="upload-icon">
+              <img src="/assets/upload.svg"/>
+            </div>
+            <span>Upload a group image or logo (optional)</span>
+            <input id="logoUpload" type="file">
+          </div>
+          <div class="file-path-wrapper">
+            <img *ngIf="!!group.image" src="{{ group.image }}"
+                 style="max-width:300px;border:2px solid #ebebeb;border-radius:2px;margin-left:20px;"/>
+            <input style="display: none" class="file-path" type="text">
+            <a *ngIf="!!group.image" (click)="group.image = ''" class="delete-upload">
+              <img src="/assets/delete.svg"/>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div ngif="!!questions && questions.length > 0 && !question" class="row">
+
+      <h6>Group Questions
+
+        <a (click)="addQuestion()" class="btn-floating halfway-fab waves-effect waves-light red"><i
+          class="material-icons">add</i></a>
+
+
+      </h6>
+      <div class="input-field col s12">
+
+        <table class="bordered">
+          <thead>
+          <tr>
+            <th style="width:80%">Question</th>
+            <th style="width:10%">Required</th>
+            <th class="right-align">Delete</th>
+            <th class="right-align">Edit</th>
+          </tr>
+          <tr *ngFor="let item of questions; let i = index;">
+            <td style="width:80%">{{ item.question_title }}</td>
+            <td>{{ !!item.required ? 'yes' : 'no' }}</td>
+            <td class="right-align"><a (click)="deleteQuestion(i);">
+              <i class="material-icons">mode_delete</i></a></td>
+            <td class="right-align">
+              <a (click)="editQuestion(i);"><i class="material-icons">mode_edit</i></a></td>
+          </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="questionProcessing" style="background-color: #DADADA;padding:10px;">
+
+      <div class="row">
+
+        <h6 *ngIf="!!question && question.id !== -1">Edit Question</h6>
+        <h6 *ngIf="!!question && question.id === -1">Add Question</h6>
+        <div class="input-field col s12">
+          <h6>Question</h6>
+          <input *ngIf="!!question" autocomplete="off"
+                 style="margin-bottom: 15px;width:500px;"
+                 id="questionTitle" required [(ngModel)]="question.question_title"
+                 name="questionTitle" type="text" class="validate form-control">
+          <label style="display: none" for="questionTitle">Question</label>
+        </div>
+        <div class="input-field col s12">
+          <input *ngIf="!!question"
+                 [(ngModel)]="question.required"
+                 name="questionRequired"
+                 type="checkbox" id="questionRequired"/>
+          <label class="description" for="questionRequired">This question is mandatory (cannot be left empty)</label>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col s12 submit-button-parent">
+
+          <button (click)="cancelAddEditQuestion()"
+                  class="btn waves-effect waves-light"
+                  style="float:left;margin-left:80px;" type="button" name="action">
+            Cancel
+            <i class="material-icons right">clear</i>
+          </button>
+
+          <button (click)="addEditQuestion()"
+                  class="btn waves-effect waves-light"
+                  style="float:right;margin-right:80px;" type="button" name="action">
+            Save
+            <i class="material-icons right">send</i>
+          </button>
+
+
+        </div>
+      </div>
+
+    </div>
+
+
+    <div *ngIf="!questionProcessing" class="row">
+      <div class="col s12 submit-button-parent">
+        <button style="margin-top:10px;" [disabled]="!loginForm.form.valid" (click)="editGroup()"
+                class="btn waves-effect waves-light" type="submit" name="action">Save Changes
+          <i class="material-icons right">send</i>
+        </button>
+      </div>
+    </div>
+
+
+    <div class="row">
+
+      <h6>Group Members
+
+      </h6>
+      <div class="input-field col s12">
+
+        <table class="bordered">
+          <thead>
+          <tr>
+            <th style="width:30%">Name</th>
+            <th style="width:40%">Email</th>
+            <th style="width:10%">Role</th>
+            <th style="width:15%">Status</th>
+            <th style="width:5%" class="right-align">View</th>
+          </tr>
+          <tr *ngFor="let member of members; let i = index;">
+            <td>{{ member.first_name }} {{member.last_name}}</td>
+            <td>{{ member.email }}</td>
+            <td>{{ member.role }}</td>
+            <td>{{ member.validated ? 'validated' : 'not validated' }}</td>
+            <td><img class="view-icon" (click)="viewMemberDetails(member)" alt="view" src="/assets/view.svg"/></td>
+          </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+
+  </form>
+
+  <div id="modalConfirmQuestionDelete" class="modal"
+       materialize="modal"
+       [materializeParams]="[{dismissible: false}]"
+       [materializeActions]="modalActions">
+    <div class="modal-content">
+      <h4>Deleting Question</h4>
+      <p>Are you sure you want to delete this question?</p>
+    </div>
+    <div class="modal-footer">
+      <a (click)="closeModal()" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+      <a href="#!" (click)="deleteQuestion(null);closeModal();"
+         class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
+
+</div>

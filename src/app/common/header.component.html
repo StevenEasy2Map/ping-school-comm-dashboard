@@ -1,0 +1,13 @@
+<nav>
+  <div class="nav-wrapper">
+    <a href="#" class="brand-logo"><img src="/assets/ping_logo_01.png" style="width:45px"></a>
+    <ul class="right">
+      <!--<li><a style="color:#FAFAFA" *ngIf="!authService.authenticated" routerLink="/signin">Sign In</a></li>
+      <li><a style="color:#FAFAFA" *ngIf="!authService.authenticated" routerLink="/signup">Sign Up</a></li>-->
+      <li><a style="color:#FAFAFA" *ngIf="authService.authenticated" href="#" (click)="logout()">Logout</a></li>
+    </ul>
+  </div>
+  <div [ngClass]="{'visible': authService.processing, 'not-visible' : !authService.processing}" class="progress top">
+    <div class="indeterminate"></div>
+  </div>
+</nav>

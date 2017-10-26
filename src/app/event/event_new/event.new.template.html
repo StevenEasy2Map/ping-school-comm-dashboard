@@ -1,0 +1,356 @@
+<div materialize class="container events-and-events">
+
+  <div class="content">
+    <h2 class="inline-page-title">Create new event</h2>
+    <ul materialize="collapsible" class="collapsible" data-collapsible="accordion">
+      <!--<li class="card">
+        <div class="collapsible-header"><img class="collapsibe-header-icon recipients"
+                                             src="/assets/recipients.svg"/>
+          Recipients
+        </div>
+        <div class="collapsible-body">
+
+          <h4>{{groupSummary.name}}</h4>
+
+          <div class="row row-with-line" *ngFor="let grade of grades; let i = index">
+              <div class="top-level-checkbox col s6">
+                  <input class="filled-in" type="checkbox"
+                         id="{{ grade.name }}"
+                         [(ngModel)]="grade.selected"
+                         (change)="gradeCheckUncheck(i)"/>
+                  <label for="{{ grade.name }}">{{ grade.name }}</label>
+              </div>
+
+              <div class="col s6">
+                  <div class="children-checkbox-group">
+                      <div *ngFor="let class of grade.classes">
+                          <input class="filled-in" type="checkbox"
+                                 id="{{ class.className }}"
+                                 [(ngModel)]="class.selected"/>
+                          <label for="{{ class.className }}">{{ class.className }}</label>
+
+
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+        </div>
+      </li>-->
+      <li class="card">
+        <div class="collapsible-header"><img class="collapsibe-header-icon" src="/assets/event-details.svg"/>
+          Event details
+          <div class="collapsible-arrow">
+
+            <img src="/assets/arrow-down.svg"/>
+          </div>
+        </div>
+        <div class="collapsible-body">
+
+          <div class="row">
+            <div class="col s12">
+              <label for="eventtitle">Event Title</label>
+              <input style="max-width:500px" class="validate" [(ngModel)]="event.title" id="eventtitle" type="text"/>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s6">
+              <label for="startdate">Start date</label>
+              <ng2-datepicker id="startdate" [options]="startDateOptions"
+                              [(ngModel)]="startDateModel"></ng2-datepicker>
+            </div>
+            <div class="col s6">
+
+              <label>Start time</label>
+              <div class="row">
+
+                <div class="col s2 time-select">
+                  <select class="time" [(ngModel)]="startTimeHours">
+                    <option *ngFor="let hour of hours">
+                      {{hour | numberpad}}
+                    </option>
+                  </select>
+                </div>
+                <div class="col s1 time-colon"></div>
+                <div class="col s2 time-select">
+                  <select class="time" style="float:left;" [(ngModel)]="startTimeMinutes">
+                    <option *ngFor="let minute of minutes">
+                      {{minute | numberpad}}
+                    </option>
+                  </select>
+                </div>
+                <div class="col s7">&nbsp;</div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s6">
+
+              <label for="enddate">End Date</label>
+
+              <ng2-datepicker id="enddate" [options]="endDateOptions"
+                              [(ngModel)]="endDateModel"></ng2-datepicker>
+
+            </div>
+            <div class="col s6">
+
+              <label>End time</label>
+              <div class="row">
+
+                <div class="col s2 time-select">
+                  <select class="time" [(ngModel)]="endTimeHours">
+                    <option *ngFor="let hour of hours">
+                      {{hour | numberpad}}
+                    </option>
+                  </select>
+                </div>
+                <div class="col s1 time-colon"></div>
+                <div class="col s2 time-select">
+                  <select class="time" style="float:left;" [(ngModel)]="endTimeMinutes">
+                    <option *ngFor="let minute of minutes">
+                      {{minute | numberpad}}
+                    </option>
+                  </select>
+                </div>
+                <div class="col s7">&nbsp;</div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s6"><!--
+                            <img ng-show="!!event.image" ng-src="{{event.image}}">-->
+              <div class="file-field input-field">
+                <div class="btn">
+                  <div class="upload-icon">
+                    <img src="/assets/upload.svg"/>
+                  </div>
+                  <span>Upload a banner image</span>
+                  <input id="imageUpload" type="file">
+                </div>
+                <div class="file-path-wrapper center-align">
+                  <img *ngIf="!!event.image" src="{{ event.image }}"
+                       style="max-width:90%;border:1px solid #EBEBEB;"/>
+                  <input style="display: none" class="file-path" type="text">
+                  <a *ngIf="!!event.image" (click)="event.image = null;" class="delete-upload">
+                    <img src="/assets/delete.svg"/>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col s6">
+              <div class="file-field input-field">
+                <div class="btn">
+                  <div class="upload-icon">
+                    <img src="/assets/upload.svg"/>
+                  </div>
+                  <span>Upload an attachment</span>
+                  <input id="fileUpload" type="file">
+                </div>
+                <div class="file-path-wrapper center-align">
+                  <input style="display: none" class="file-path" type="text">
+                  <a *ngIf="!!event.attachment_link" target="_blank" href="{{ event.attachment_link }}">View
+                    Document</a>
+                  <a *ngIf="!!event.image" (click)="event.image = null;" class="delete-upload">
+                    <img src="/assets/delete.svg"/>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s12">
+              <h5>External links</h5>
+              <div class="row">
+                <div class="col s6">
+                  <label for="link1_url">Link 1 - URL</label>
+                  <input style="max-width:300px" class="validate" [(ngModel)]="event.link1_url"
+                         id="link1_url"
+                         type="text"/>
+                </div>
+                <div class="col s6">
+                  <label for="link1_title">Link 1 - Title</label>
+                  <input style="max-width:300px" class="validate" [(ngModel)]="event.link1_title"
+                         id="link1_title" type="text"/>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s6">
+                  <label for="link2_url">Link 2 - URL</label>
+                  <input style="max-width:300px" class="validate" [(ngModel)]="event.link2_url"
+                         id="link2_url"
+                         type="text"/>
+                </div>
+                <div class="col s6">
+                  <label for="link2_title">Link 2 - Title</label>
+                  <input style="max-width:300px" class="validate" [(ngModel)]="event.link2_title"
+                         id="link2_title" type="text"/>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s6">
+                  <label for="link3_url">Link 3 - URL</label>
+                  <input style="max-width:300px" class="validate" [(ngModel)]="event.link3_url"
+                         id="link3_url"
+                         type="text"/>
+                </div>
+                <div class="col s6">
+                  <label for="link3_title">Link 3 - Title</label>
+                  <input style="max-width:300px" class="validate" [(ngModel)]="event.link3_title"
+                         id="link3_title" type="text"/>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+
+        </div>
+      </li>
+      <li class="card">
+        <div class="collapsible-header">
+          <img class="collapsibe-header-icon message" src="/assets/message.svg"/>
+          Event message
+          <div class="collapsible-arrow">
+            <img src="/assets/arrow-down.svg"/>
+          </div>
+        </div>
+        <div class="collapsible-body">
+
+          <!--<ckeditor [(ngModel)]="event.description" debounce="500"></ckeditor>-->
+
+          <textarea [(ngModel)]="event.description" style="width:90%;min-height:300px;"></textarea>
+
+        </div>
+      </li>
+
+
+      <!--<li class="card">
+        <div class="collapsible-header main-color">
+          <img class="collapsibe-header-icon payments" src="/assets/payment.svg"/>
+          Payment details
+          <div class="collapsible-arrow">
+            <img src="/assets/arrow-down.svg"/>
+          </div>
+        </div>
+        <div class="collapsible-body">
+          <div class="payment-options">
+            <div class="row">
+              <div class="col s12 top-padding">
+                <input class="filled-in"
+                       id="payment-associated"
+                       type="checkbox"
+                       [(ngModel)]="paymentApplicable"/>
+                <label for="payment-associated">There is a payment associated with this event</label>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="paymentApplicable" class="row">
+            <div class="col s12 top-padding">
+              <input class="filled-in" [(ngModel)]="allowUsersToSetPaymentAmount" name="allow_user_set"
+                     type="checkbox" id="allow_user_set"/>
+              <label style="!important;margin-top:5px;" for="allow_user_set">Allow user to choose payment amount</label>
+            </div>
+          </div>
+
+
+          <div *ngIf="paymentApplicable" class="row">
+            <div class="col s6">
+              <label *ngIf="allowUsersToSetPaymentAmount" for="paymentamount">Default payment amount (R)</label>
+              <label *ngIf="!allowUsersToSetPaymentAmount" for="paymentamount">Payment amount (R)</label>
+              <input class="validate short"
+                     [(ngModel)]="event.payment_amount"
+                     placeholder="Payment Amount"
+                     id="paymentamount" type="text">
+
+
+            </div>
+            <div class="col s6">
+              <label *ngIf="allowUsersToSetPaymentAmount" for="minpaymentamount">Minimum payment amount (R)</label>
+              <input *ngIf="allowUsersToSetPaymentAmount" class="validate short"
+                     [(ngModel)]="event.min_payment_amount"
+                     placeholder="Minimum Payment Amount"
+                     id="minpaymentamount" type="text">
+            </div>
+          </div>
+          <div *ngIf="paymentApplicable" class="row">
+            <div class="col s6">
+              <label *ngIf="allowUsersToSetPaymentAmount" for="maxpaymentamount">Maximum payment amount (R)</label>
+              <input *ngIf="allowUsersToSetPaymentAmount" class="validate short"
+                     [(ngModel)]="event.max_payment_amount"
+                     placeholder="Maximum Payment Amount"
+                     id="maxpaymentamount" type="text">
+            </div>
+
+            <div class="col s6">
+
+            </div>
+          </div>
+          <div *ngIf="paymentApplicable" class="row">
+
+            <div class="col s12">
+
+
+              <label for="ref">Payment Reference</label>
+              <input id="ref" type="text" class="validate short" placeholder="Payment Reference"
+                     [(ngModel)]="event.payment_reference">
+
+              <input [(ngModel)]="appendPaymentRefUserLastName" name="lastname_ref"
+                     type="checkbox" id="lastname_ref"/>
+              <label style="font-size:13px !important;margin-top:5px;" class="small-text" for="lastname_ref">Append user's lastname to reference</label>
+
+
+            </div>
+
+          </div>
+
+          <div *ngIf="paymentApplicable" class="row">
+            <div class="input-field col s12">
+              <h6>Payment description / notes <span class="small-text">(if applicable)</span></h6>
+              <textarea [(ngModel)]="event.payment_instructions"
+                        id="payment_notes" style="max-width:500px;height:100px;"
+                        name="payment_notes" class="materialize-textarea"
+                        data-length="512"></textarea>
+              <label style="display: none" for="payment_notes">Textarea</label>
+
+            </div>
+          </div>
+
+        </div>
+
+      </li>-->
+
+
+    </ul>
+
+    <div class="row">
+      <div class="col s6">
+        <a (click)="backToList()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Cancel</a>
+      </div>
+      <div class="col s6 right-align">
+        <a (click)="createEvent()" class="waves-effect waves-light btn">Done</a>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+

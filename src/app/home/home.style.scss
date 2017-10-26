@@ -1,0 +1,31 @@
+@import "../css/app.scss";
+
+div.avatar {
+
+  float: left;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  cursor: pointer;
+
+}
+
+div.avatar:hover {
+  background-color: #FFFFFF;
+  opacity: .50;
+  -moz-opacity: .50;
+  filter: alpha(opacity=50);
+}
+
+div.role {
+
+  position: absolute;
+  right: 18px;
+  bottom: 10px;
+  font-weight: 500;
+  font-family: Ubuntu;
+
+}

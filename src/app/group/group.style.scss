@@ -1,0 +1,94 @@
+@import "../css/app.scss";
+
+ul.autocomplete-content.dropdown-content {
+  margin-top: 0px !important;
+}
+
+.file-field.input-field {
+  max-width: 400px !important;
+}
+
+h3.title {
+  color: #555555;
+  font-size: 22px;
+  font-weight: 500;
+  margin: 40px 10px 0 5px;
+}
+
+h5 {
+  text-align: center;
+  padding: 10px;
+  color: #565656;
+  font-size: 22px;
+}
+
+h6 {
+  text-align: left;
+  padding: 5px;
+  color: #565656;
+  font-size: 18px;
+}
+
+label.description {
+  font-size: 19px !important;
+  color: #424242;
+  font-family: Ubuntu;
+
+  .small {
+    font-size: 14px !important;
+  }
+
+}
+
+p.group-invite-token-explain {
+  font-style: italic;
+  padding: 0;
+  margin: 0;
+  font-size: 15px;
+  text-align: center;
+  margin-top: -10px;
+  color: #8c8c8c;
+  font-weight: 300;
+}
+
+div.submit-button-parent {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  text-align: center;
+  border-top: 1px solid #999999;
+
+  button {
+    margin-top: 10px;
+  }
+
+}
+
+h4.group-created {
+  text-align: center;
+  font-size: 23px;
+  color: #585858
+}
+
+input[_ngcontent-c2] ~ label[_ngcontent-c2] {
+  font-size: 18px !important;
+  color: #565656;
+}
+
+p.description_hint {
+  font-style: italic;
+  color: #757575;
+  font-size: 15px;
+  padding: 5px 10px;
+}
+
+div.group-meta-parent{
+  margin-top: 40px;
+  margin-bottom: 20px;
+  border-top: 1px solid #999999;
+}
+
+
+input.chips.input {
+    width: 180px !important;
+}
+

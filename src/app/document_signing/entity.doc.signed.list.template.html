@@ -1,0 +1,34 @@
+<div class="container notices">
+  <div class="content">
+    <a (click)="backToList()" class="back-nav"><img src="/assets/arrow-left.svg"/></a>
+    <h2 class="inline-page-title">Document Signatures</h2>
+
+    <h4>{{entityTitle}}</h4>
+    <h5>{{documentDetails['title']}}</h5>
+
+    <table class="bordered">
+      <thead>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+      <th>Document Status</th>
+      <th class="center-align">Document Generated On</th>
+      <th class="center-align">Date Signed</th>
+      <th>URL</th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let document of documents; let i = index">
+        <td>{{ document.first_name }}</td>
+        <td>{{ document.last_name }}</td>
+        <td>{{ document.email }}</td>
+        <td>{{ document.document_status || '-' }}</td>
+        <td class="center-align">{{ (document.date_generated | friendlydatetime) || '-' }}</td>
+        <td class="center-align">{{ (document.date_signed | friendlydatetime) || '-' }}</td>
+        <td><a target="_blank" *ngIf="document.document_url" href="{{ document.document_url || '#' }}">View document</a></td>
+      </tr>
+      </tbody>
+    </table>
+
+
+  </div>
+</div>

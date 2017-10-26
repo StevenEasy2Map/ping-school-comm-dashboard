@@ -1,0 +1,28 @@
+<div class="container notices">
+  <div class="content">
+    <a routerLink="/" class="back-nav"><img src="/assets/arrow-left.svg"/></a>
+    <h2 class="inline-page-title">Notices</h2>
+
+    <div class="card">
+      <div class="row list-parent">
+        <div class="col s5 list-header">NOTICE NAME</div>
+        <div class="col s4 list-header">DATE PUBLISHED</div>
+        <div class="col s3 list-header">&nbsp;</div>
+      </div>
+
+      <div [ngStyle]="setLineStyle(notice)" class="row list-parent" *ngFor="let notice of notices; let i = index;">
+        <div class="col s5">
+          <a (click)="viewNoticeDetails(i)">
+            <h4>{{ notice.title | ellipsis:20 }}</h4>
+          </a>
+        </div>
+        <div class="col s4 small-text">{{ notice.show_date | friendlydate }}</div>
+        <div class="col s3">
+          <div class="row-actions">
+            <img class="view-icon" (click)="viewNoticeDetails(notice)" alt="view" src="/assets/view.svg"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

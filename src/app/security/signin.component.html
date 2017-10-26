@@ -1,0 +1,72 @@
+<div class="container row top-padding">
+  <h3 *ngIf="!forgotPassword" class="center-align">Welcome Back!</h3>
+  <h3 *ngIf="forgotPassword" class="center-align">Please enter your email address</h3>
+  <div class="signup-parent">
+    <form *ngIf="!forgotPassword" #loginForm="ngForm" class="col s12">
+      <div class="row">
+        <div role="alert" *ngIf="error" class="col s12">
+          <span class="red-text text-darken-4">{{ error }}</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="email" required [(ngModel)]="email"
+                 name="email" type="email" class="validate form-control">
+          <label for="email">Email</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="password" required type="password"
+                 [(ngModel)]="password"
+                 name="password" class="validate form-control">
+          <label for="password">Password</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s12 center-align top-padding">
+          <button [disabled]="!loginForm.form.valid" (click)="signIn()"
+                  class="btn waves-effect waves-light" type="submit" name="action">Submit
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+      </div>
+    </form>
+    <div *ngIf="!forgotPassword" class="right-aligned">
+      <a class="right" (click)="forgotPassword = true;">Forgotten Password?</a>
+    </div>
+    <form *ngIf="forgotPassword" #forgotPasswordForm="ngForm" class="col s12">
+      <div class="row">
+        <div role="alert" *ngIf="error" class="col s12">
+          <span class="red-text text-darken-4">{{ error }}</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="resetemail" required [(ngModel)]="resetemail"
+                 name="resetemail" type="email" class="validate form-control">
+          <label for="resetemail">Your email address</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s6 center-align top-padding">
+          <button (click)="forgotPassword = false;error = '';"
+                  class="btn waves-effect waves-light" type="button" name="cancel">Cancel
+            <i class="material-icons right">clear</i>
+          </button>
+        </div>
+        <div class="col s6 center-align top-padding">
+          <button [disabled]="!forgotPasswordForm.form.valid" (click)="resetPassword()"
+                  class="btn waves-effect waves-light" type="submit" name="action">Submit
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+      </div>
+    </form>
+    <h3 *ngIf="resetPasswordSent" class="title center-align">Thank you, please check your email</h3>
+  </div>
+</div>

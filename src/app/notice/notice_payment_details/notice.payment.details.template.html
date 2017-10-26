@@ -1,0 +1,67 @@
+<div class="container">
+  <a (click)="backToList()" class="back-nav"><img src="/assets/arrow-left.svg"/></a>
+  <h3 class="title top-padding">Payment Details</h3>
+
+  <table class="bordered">
+    <tr>
+      <th>Group</th>
+      <td>{{ payment.groupName }}</td>
+    </tr>
+    <tr>
+      <th>Notice</th>
+      <td>{{ payment.noticeTitle }}</td>
+    </tr>
+    <tr>
+      <th>Payer Name</th>
+      <td>{{ payment.first_name }} {{payment.last_name}}</td>
+    </tr>
+    <tr>
+      <th>Payer Email Address</th>
+      <td>{{ payment.email}}</td>
+    </tr>
+    <tr>
+      <th>Amount</th>
+      <td>{{ payment.currency}} {{payment.amount}}</td>
+    </tr>
+    <tr>
+      <th>Payment Reference</th>
+      <td>{{ payment.payment_reference}}</td>
+    </tr>
+    <tr>
+      <th>Payment Date</th>
+      <td>{{ payment.payment_date | friendlydatetime}}</td>
+    </tr>
+    <tr>
+      <th>Amount Refunded</th>
+      <td>{{ payment.currency}} {{payment.amount_refunded}}</td>
+    </tr>
+    <tr>
+      <th>Notes</th>
+      <td>
+      <textarea [(ngModel)]="payment.notes"
+                id="notes" style="max-width:500px;height:100px;"
+                name="notes" class="materialize-textarea"
+                data-length="512"></textarea>
+      </td>
+    </tr>
+    <tr>
+      <th>Mark as Processed</th>
+      <td>
+        <input [(ngModel)]="payment.processed" name="processed"
+               type="checkbox" id="processed"/>
+        <label class="description" for="processed">&nbsp;</label>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="center-align">
+
+        <button style="margin-top:10px;" (click)="editPayment()"
+                class="btn waves-effect waves-light" type="button" name="action">Save Changes
+          <i class="material-icons right">send</i>
+        </button>
+
+      </td>
+    </tr>
+  </table>
+
+</div>

@@ -1,0 +1,45 @@
+<div class="container content">
+
+  <div class="row">
+    <div role="alert" *ngIf="error" class="col s12">
+      <span class="red-text text-darken-4">{{ error }}</span>
+    </div>
+  </div>
+
+  <a class="add-new-wrapper" (click)="addNewGroup()">
+    <div class="btn-floating btn-large waves-effect waves-light red">
+      <i class="material-icons">add</i>
+    </div>
+    <span>Add a Group</span>
+  </a>
+
+  <h2 class="center-align">My Groups</h2>
+  <div class="row">
+    <div style="margin-left:auto;margin-right:auto;" class="col s12">
+      <div style="max-width:800px;margin-left:auto;margin-right:auto;" *ngFor="let group of myGroups; let i = index;"
+           class="card darken-1">
+        <div class="card-content">
+
+          <span class="card-title">{{ group.name }}</span>
+
+          <a (click)="editGroup(i)" class="edit-group btn-floating halfway-fab waves-effect waves-light red"><i
+            class="material-icons">edit</i></a>
+          <pre style="font-family:Lato;color:#444444;line-break: auto;word-wrap: normal;">{{group.description}}</pre>
+        </div>
+        <div class="card-action">
+          <p>{{group.schoolName}}</p>
+          <div class="row">
+            <div class="col m2 s6"></div>
+          </div>
+          <a (click)="viewGroupNotices(i)">See Notices</a>
+          <a (click)="createNotice(i)">Add Notice</a>
+          <a (click)="createEvent(i)">Add Event</a>
+          <a (click)="viewEventsCalendar(i)">View Events</a>
+          <a (click)="inviteUsersToGroup(i)">Invite Others to Group</a>
+          <div class="role">{{ group.role }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

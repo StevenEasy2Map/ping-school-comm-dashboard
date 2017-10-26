@@ -1,0 +1,85 @@
+@import "../../css/app.scss";
+
+li.doc-signing-new-parent {
+
+  p.documentExplanation {
+    font-size: 14px !important;
+    color: #666666;
+    padding: 0;
+  }
+
+  p {
+    color: #555555;
+    margin: 0;
+    padding: 0;
+  }
+
+  select, input[type=text]{
+    border:1px solid #bebebe;
+    border-radius:3px;
+    height:2.5rem;
+    color:#666666;
+  }
+
+  textarea.materialize-textarea{
+    border:1px solid #bebebe;
+    border-radius:3px;
+    color:#666666;
+    font-size:15px;
+  }
+
+  div.padded {
+    padding: 25px 10px;
+  }
+
+  div.doc-button-parent {
+    text-align: center;
+    padding: 20px;
+  }
+
+  span.bold{
+    font-weight: bold;
+  }
+
+  h5 {
+    font-size: 18px;
+    color: #555555;
+    padding: 10px 0;
+  }
+
+  table {
+    color: #555555;
+
+    td {
+      vertical-align: top;
+    }
+
+  }
+
+  pre.smallDocDescription {
+    font-family: Ubuntu, sans-serif;
+    color: #808080;
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+  }
+
+  p.docSectionExplanation {
+    font-size: 14px;
+    color: #777777;
+    font-style: italic;
+    padding: 10px 0;
+  }
+
+  p.title{
+    margin-top:30px;
+  }
+
+  td.auto-fill-off {
+    color: #888888;
+    font-weight: 300;
+    font-size: 13px;
+    font-style: italic;
+  }
+
+}

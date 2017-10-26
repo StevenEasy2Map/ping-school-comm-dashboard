@@ -1,0 +1,42 @@
+<div class="container" style="margin-top:20px;">
+
+  <!--<angular2-fullcalendar id="mycal" #mycal [options]="calendarOptions"></angular2-fullcalendar>-->
+
+  <a style="margin-top:20px;" class="add-new-wrapper" (click)="createEvent()">
+    <div class="btn-floating btn-large waves-effect waves-light red">
+      <i class="material-icons">add</i>
+    </div>
+    <span>Create new event</span>
+  </a>
+
+  <div class="clearfix"></div>
+
+  <div *ngIf="!!selectedEvent.title">
+    <div class="row">
+      <div class="col s12"><h3 class="title">{{selectedEvent.title}}</h3></div>
+    </div>
+    <div class="row">
+      <div class="col s12" [innerHTML]="selectedEvent.description">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12">{{selectedEvent.start_date | friendlydatetime}} - {{selectedEvent.end_date | friendlydatetime }}</div>
+    </div>
+    <div class="row">
+
+      <div class="s12">
+
+        <a (click)="showEventDetails()" class="waves-effect waves-light btn white-text">View Details</a>
+        <a *ngIf="!!selectedEvent.payment_applicable" (click)="viewEventPayments()" style="margin-left:15px;" class="waves-effect waves-light btn white-text">View Payments</a>
+        <a style="margin-left:15px;" (click)="editEvent()" class="waves-effect waves-light btn white-text">Edit</a>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+</div>
+
+

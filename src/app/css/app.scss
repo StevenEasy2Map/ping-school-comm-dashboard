@@ -1,0 +1,1017 @@
+@import "variables";
+@import "mixins";
+
+body {
+  background-color: $page-background;
+  font-family: Ubuntu, sans-serif;
+  font-size: 16px;
+  display: flex;
+  min-height: 100vh;
+  height: 100%;
+  flex-direction: column;
+  color: $copy-color;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+
+}
+
+h1, h2, h3 {
+  font-weight: normal;
+  font-family: Ubuntu, sans-serif;
+  color: $darkGrey;
+}
+
+h1 { /* headline */
+  font-size: 38px;
+  font-family: Ubuntu, sans-serif;
+  color: $darkGrey;
+}
+
+h2 { /* page title */
+  font-size: 25px;
+  margin-top: 0;
+  font-family: Ubuntu, sans-serif;
+  color: $darkGrey;
+}
+
+h3 { /* slightly bigger than copy size - like a sub heading */
+  font-size: 20px;
+  color: $darkGrey;
+}
+
+h4 {
+  font-size: 1em; /* copy size but bold */
+  font-weight: 500;
+  line-height: 1.4em;
+  color: $darkGrey;
+}
+
+h5 {
+  font-size: 0.98em;
+  font-weight: 500;
+  line-height: 1.3em;
+  color: $darkGrey;
+}
+
+a {
+  color: $cta-color;
+  cursor: pointer;
+}
+
+table{
+  color: $darkGrey;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+select, input[type=text], input[type=password], input[type=email],
+input[type=url], input[type=time], input[type=date], input[type=datetime-local],
+input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea,
+select, textarea {
+  //@include border-radius(3px);
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 1em;
+  box-sizing: border-box;
+  margin: 0;
+  font-family: Ubuntu, sans-serif;
+}
+
+select {
+  display: block;
+}
+
+pre {
+  white-space: pre-wrap; /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+
+select, input[type=text], input[type=password], input[type=email],
+input[type=url], input[type=time], input[type=date], input[type=datetime-local],
+input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea,
+select {
+  box-sizing: content-box;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  resize: vertical;
+  &:focus {
+    border-bottom: 1px solid $primary-accent-color;
+    box-shadow: 0 1px 0 0 $primary-accent-color;
+    outline: none;
+    //@include transition(0.3s);
+  }
+}
+
+input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+  border-bottom: 1px solid $cta-color;
+  box-shadow: 0 1px 0 0 $cta-color;
+}
+
+label.active {
+  color: $primary-accent-color !important;
+}
+
+textarea {
+  min-height: 86px;
+  box-sizing: content-box;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  resize: vertical;
+  &:focus {
+    border-bottom: 1px solid $primary-accent-color;
+    box-shadow: 0 1px 0 0 $primary-accent-color;
+    outline: none;
+    //@include transition(0.3s);
+  }
+}
+
+[type="checkbox"].filled-in:not(:checked) + label:after {
+  background-color: white;
+}
+
+[type="checkbox"]:checked + label:before {
+  border-right-color: $cta-color;
+  border-bottom-color: $cta-color;
+}
+
+[type="checkbox"].filled-in:checked + label:after {
+  border-color: $cta-color;
+  background-color: $cta-color;
+}
+
+label {
+  color: $copy-color;
+  line-height: 1.3em;
+  font-size: 1em;
+}
+
+input ~ label {
+  font-size: 1em !important;
+  line-height: 1.4em !important;
+}
+
+.small-text {
+  font-size: $small-text;
+  line-height: 1.4em;
+}
+
+.pale-text {
+  color: $pale-text-color;
+}
+
+nav {
+  background-color: $copy-color;
+  @include box-shadow;
+  height: 60px;
+  line-height: 60px;
+  a.brand-logo {
+    margin-left: 15px;
+    color: #FAFAFA;
+    img {
+      vertical-align: middle;
+    }
+  }
+}
+
+.content {
+  margin-top: 30px;
+  position: relative;
+  h2.inline-page-title {
+    display: inline-block;
+    & + .add-new-wrapper {
+      padding: 0;
+      margin: 0;
+      & + .multiple-fields-dropdown-prompt {
+        top: 40px;
+      }
+    }
+  }
+}
+
+.back-nav {
+  padding: 5px 10px;
+  float: left;
+  margin-right: 8px;
+  margin-left: -10px;
+  img {
+    vertical-align: middle;
+  }
+  &.cancel-link {
+    img {
+      width: 8px;
+      margin: -3px 10px 0 0;
+    }
+  }
+}
+
+.cancel-link {
+  margin-top: 4px;
+  color: $copy-color;
+}
+
+.btn {
+  @include box-shadow;
+  @include border-radius(4px);
+  background-color: $cta-color;
+  text-transform: none;
+  padding: 0 20px;
+  height: 44px;
+  line-height: 44px;
+  &:hover {
+    //@include box-shadow-hover;
+    background-color: $cta-color;
+  }
+}
+
+.btn-floating.add-new-action {
+  @include box-shadow;
+  background-color: $cta-color;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  z-index: 200;
+  i {
+    line-height: 40px;
+  }
+  &:hover {
+    @include box-shadow-hover;
+  }
+  &.action-close {
+    background-color: white;
+    //@include transition(1s);
+    //@include rotate(-45deg);
+    i {
+      color: $copy-color;
+    }
+    & + span {
+      display: none;
+    }
+  }
+}
+
+.card {
+  @include box-shadow;
+  @include border-radius(4px);
+  width: 100%;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+a.card-outer-link > .card {
+  &:hover {
+    @include box-shadow-hover;
+    @include transition(1s);
+  }
+}
+
+.file-field {
+  .btn,
+  .btn:hover {
+    text-align: left;
+    border: 2px dashed #60798A;
+    background: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -ms-box-shadow: none;
+    box-shadow: none;
+    padding-left: 7px;
+    padding-right: 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    .upload-icon {
+      @include border-radius(50%);
+      @include box-shadow;
+      margin: 6px 10px 0 0;
+      background-color: $cta-color;
+      width: 28px;
+      height: 28px;
+      float: left;
+      img {
+        vertical-align: top;
+        margin-left: 7px;
+        margin-top: 6px;
+      }
+    }
+    span {
+      color: $cta-color;
+    }
+  }
+  .file-path-wrapper {
+    padding-left: 0;
+    display: block;
+    clear: both;
+    position: relative;
+    overflow: visible;
+    input.file-path,
+    input.file-path:focus {
+      box-shadow: none;
+      border: 1px solid #D3D7DA;
+      background-color: transparent;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-right: 30px;
+    }
+    a.delete-upload {
+      @include border-radius(50%);
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background-color: white;
+      border: 2px solid #DA4553;
+      width: 28px;
+      height: 28px;
+      padding: 4px 5px;
+      display: block;
+      img {
+        height: 16px;
+      }
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+  }
+}
+
+a.add-new-wrapper,
+.add-new-field-prompt {
+  float: right;
+  color: $cta-color;
+  margin-top: -10px;
+  padding-bottom: 15px;
+  margin-right: 10px;
+  &:hover {
+    cursor: pointer;
+  }
+  span {
+    vertical-align: middle;
+    margin: 16px 10px 0 0;
+    font-size: 16px;
+    float: left;
+    color: #404040;
+  }
+}
+
+a.edit-group {
+  position: absolute;
+  right: -10px;
+  top: -10px;
+}
+
+.add-new-field-prompt {
+  height: 42px;
+  margin-bottom: 13px;
+  & > * {
+    display: inline-block;
+  }
+  input, .btn {
+    position: relative;
+  }
+  input,
+  input[type=text].valid {
+    @include border-radius(4px 0 0 4px);
+    color: $copy-color;
+    font-size: 1em;
+    height: 42px;
+    width: 300px;
+    box-shadow: none;
+  }
+  select {
+    color: $copy-color;
+  }
+  .btn {
+    @include border-radius(0 4px 4px 0);
+    height: 44px;
+    line-height: 44px;
+    width: 70px;
+    margin: -2px 0 0 -5px;
+  }
+}
+
+.multiple-fields-dropdown-prompt {
+  max-width: 500px;
+  position: absolute;
+  right: 0;
+  top: 35px;
+  z-index: 100;
+  .card {
+    z-index: 100;
+    padding: 15px 7px;
+    .row {
+      margin: 10px;
+    }
+    .col.s12 {
+      margin-top: 15px;
+    }
+    .row.action {
+      margin: 0;
+      margin-top: 10px;
+      text-align: right;
+    }
+    .assoc-list-col {
+      padding-left: 25px;
+      padding-right: 20px;
+      max-height: 300px;
+      overflow-y: auto;
+      h4 {
+        margin-top: 0;
+      }
+      .student-input-field {
+        margin-bottom: 5px;
+      }
+    }
+  }
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+  }
+  &:before {
+    top: -17px;
+    right: 4px;
+    border: 16px solid transparent;
+    border-bottom-color: #D1D4D7;
+    z-index: 98;
+  }
+  &:after {
+    top: -10px;
+    right: 10px;
+    border: 10px solid transparent;
+    border-bottom-color: white;
+    z-index: 101;
+  }
+}
+
+.row {
+  margin-bottom: 15px;
+}
+
+.chip {
+  @include border-radius(15px);
+  margin: 3px 3px 3px 0;
+  font-size: $small-text;
+  border: 1px solid #C3B4C8;
+  background-color: white;
+  color: $copy-color;
+  height: auto;
+  line-height: 25px;
+  font-weight: 400;
+  padding: 5px 10px;
+  p {
+    margin: 0;
+    line-height: 1.25em;
+  }
+}
+
+.checkbox-dark.survey-question-option {
+  padding-left: 45px;
+  border-width: 0px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  font-size: 0.9em;
+}
+
+.control__indicator {
+  position: absolute;
+  top: -2px;
+  left: 15px;
+  width: 28px;
+  height: 28px;
+  background: $lightGrey;
+}
+
+.control {
+  position: relative;
+  display: block;
+  margin-bottom: 15px;
+  padding-left: 45px;
+  cursor: pointer;
+}
+
+.control input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+
+.control--radio .control__indicator {
+  border-radius: 50%;
+}
+
+.control:hover input ~ .control__indicator,
+.control input:focus ~ .control__indicator {
+  background: #ccc;
+}
+
+/* Checked state */
+.control input:checked ~ .control__indicator {
+  background: $mainOrange;
+}
+
+/* Hover state whilst checked */
+.control:hover input:not([disabled]):checked ~ .control__indicator,
+.control input:checked:focus ~ .control__indicator {
+  background: $mainOrange;
+}
+
+/* Disabled state */
+.control input:disabled ~ .control__indicator {
+  pointer-events: none;
+  opacity: .6;
+  background: $lightGrey;
+}
+
+/* Check mark */
+.control__indicator:after {
+  position: absolute;
+  display: none;
+  content: '';
+}
+
+/* Show check mark */
+.control input:checked ~ .control__indicator:after {
+  display: block;
+}
+
+/* Radio button inner circle */
+.control--radio .control__indicator:after {
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 4px solid white;
+  background: $mainOrange;
+}
+
+/* Disabled circle colour */
+.control--radio input:disabled ~ .control__indicator:after {
+  background: #7b7b7b;
+}
+
+.control--checkbox .control__indicator:after {
+  top: 4px;
+  left: 10px;
+  width: 8px;
+  height: 15px;
+  transform: rotate(45deg);
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+}
+
+/* Disabled tick colour */
+.control--checkbox input:disabled ~ .control__indicator:after {
+  border-color: #7b7b7b;
+}
+
+span.checkbox-title {
+  font-size: 1.4em;
+  padding: 5px;
+}
+
+span.checkbox-small-title {
+  font-size: 1.3em;
+  padding: 5px;
+}
+
+span.checkbox-vsmall-title {
+  font-size: 1em;
+  padding: 5px;
+}
+
+p.form-field-title {
+  padding: 0px;
+  margin: 0px;
+  color: #828282;
+  margin-bottom: -5px;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.col.action-button-parent {
+  padding: 15px;
+  text-align: center;
+}
+
+.row.list-parent {
+  margin: 0;
+  padding: 10px 0;
+  position: relative;
+  &:nth-child(odd) {
+    background-color: $pale-gray-color;
+    border-top: 1px solid $pale-gray-border-color;
+    border-bottom: 1px solid $pale-gray-border-color;
+  }
+  &:first-child {
+    padding: 0;
+    border: 0;
+    background-color: $primary-accent-color;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+  &:last-child {
+    border-bottom: 0;
+  }
+  .col .row-actions {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    img {
+      padding: 5px 3px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    img:last-child {
+      margin-right: -5px;
+    }
+    img.view-icon,
+    img.edit-icon {
+      margin-bottom: 2px;
+    }
+  }
+  a {
+    color: $copy-color;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  h4 {
+    margin: 0;
+  }
+  .list-header {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    color: white;
+    font-size: $small-text;
+    font-weight: 200;
+    line-height: 1.2em;
+  }
+}
+
+.row.small-list-parent {
+  margin-top: 20px;
+}
+
+.row.border-bottom {
+  border-bottom: 1px solid $mediumGrey;
+}
+
+ul.collapsible {
+  border: 0;
+  background: none;
+  box-shadow: none;
+  li.card {
+    margin-bottom: 10px;
+    .collapsible-header {
+      border-bottom: 0;
+      position: relative;
+      padding-left: 50px;
+      img.collapsibe-header-icon {
+        position: absolute;
+        left: 15px;
+        top: 10px;
+      }
+      img.recipients {
+        top: 13px;
+        left: 13px;
+      }
+      img.payments {
+        top: 13px;
+        left: 12px;
+      }
+      img.message {
+        top: 8px;
+      }
+      .collapsible-arrow {
+        float: right;
+        @include transition(0.3s);
+      }
+    }
+    &.active .collapsible-header {
+      border-bottom: 1px solid $pale-gray-border-color;
+      .collapsible-arrow {
+        @include transition(0.3s);
+        @include rotate(-180deg);
+      }
+    }
+    .collapsible-body {
+      padding: 1rem;
+      .children-checkbox-group {
+        @include border-radius(3px);
+        position: relative;
+        background-color: $pale-gray-color;
+        border: 1px solid $pale-gray-border-color;
+        padding: 6px 7px 1px 7px;
+        margin: 0 0 3px 0;
+        &:before,
+        &:after {
+          content: '';
+          border: 6px solid transparent;
+          border-top-color: $pale-gray-color;
+          border-right-color: $pale-gray-color;
+          position: absolute;
+          left: -12px;
+          top: 7px;
+          z-index: 100;
+        }
+        &:before {
+          border-width: 7px;
+          border-top-width: 8px;
+          top: 6px;
+          left: -14px;
+          border-top-color: $pale-gray-border-color;
+          border-right-color: $pale-gray-border-color;
+          z-index: 99;
+        }
+      }
+    }
+  }
+}
+
+.center-align {
+  text-align: center;
+  padding: 10px;
+}
+
+.col.padding {
+  margin: 6px;
+}
+
+.view_description_text {
+  color: $veryDarkGrey;
+  font-size: 14px;
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-bottom: 6px;
+}
+
+a.event-details-link {
+
+  padding-left: 3px;
+  padding-top: 13px;
+  display: block;
+  font-size: 1.2em;
+  text-align: center;
+  margin: auto;
+
+}
+
+.dashboard-button {
+  width: 150px;
+  height: 150px;
+  vertical-align: middle;
+  padding-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.material-icons.edit-icons {
+  font-size: 1.4em;
+}
+
+.telegram-button {
+  background-color: $mainOrange !important;
+  border-color: $mainOrange !important;
+}
+
+a.default-link {
+  color: #39395c;
+  font-weight: 500;
+}
+
+.center-middle {
+  //@include centralise();
+}
+
+.survey-question-parent-wrapper {
+  margin-top: 10px;
+  border: 1px solid $lightWhite;
+  background-color: $lightWhite;
+  border-radius: 2px;
+  padding: 10px;
+  margin-bottom: 12px;
+  width: 96%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h4.question-title {
+  color: $darkGrey;
+  font-size: 20px;
+  margin-top: 0px;
+}
+
+.required-indicator {
+  font-size: 11px;
+  color: #9a9a9a;
+  font-style: italic;
+}
+
+span.survey-option-description {
+  color: $darkGrey;
+  padding: 8px;
+  font-size: 16px;
+}
+
+input.grey-border {
+  border: 1px solid $mediumGrey;
+  background-color: $lightWhite;
+  padding: 5px;
+  min-height: 36px;
+  color: $darkGrey;
+
+}
+
+input.grey-border:focus {
+  border-color: $orangeColor;
+}
+
+h5.surveyheading {
+  font-size: 1em;
+  color: $lightWhite;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+h4.left {
+  text-align: left;
+}
+
+div.payment-row-details-heading {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.right {
+  text-align: right;
+}
+
+.left {
+  text-align: left;
+}
+
+h4.notice-title {
+  text-align: center;
+  font-size: 28px;
+  padding: 10px 0 5px 0;
+}
+
+h5.notice-subtitle {
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 0;
+  color: $mediumGrey;
+  font-size: 13px
+}
+
+.white-text {
+  color: #FFFFFF;
+}
+
+ul.autocomplete-content {
+  margin-top: 0px !important;
+}
+
+div.round-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+h4.left {
+  text-align: left;
+}
+
+div.payment-row-details-heading {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.right {
+  text-align: right;
+}
+
+.left {
+  text-align: left;
+}
+
+h4.notice-title {
+  text-align: center;
+  font-size: 28px;
+  padding: 10px 0 5px 0;
+}
+
+h5.notice-subtitle {
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 0;
+  color: #a1a1a1;
+  font-size: 13px;
+}
+
+.round-image {
+  width: 150px;
+  height: 150px;
+  border: 2px solid #bababa;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.chips {
+  background-color: #fdfdfd;
+  padding: 0 10px;
+  max-width: 800px;
+  border-radius: 2px;
+}
+
+.chips.focus {
+  border-bottom: 1px solid #02263e;
+  box-shadow: 0 1px 0 0 #02263e;
+}
+
+.chips.input {
+  background: none;
+  border: 0;
+  color: rgba(0, 0, 0, 0.6);
+  display: inline-block;
+  width: 500px !important;
+  background-color: #FAFAFA;
+  font-size: 17px;
+  font-weight: 500;
+  height: 25px;
+  margin-right: 20px;
+  line-height: 25px;
+  outline: 0;
+  padding: 5px 0 0 0 !important;
+  width:160px !important;
+}
+
+.chips .input {
+  width: 162px !important;
+}
+
+.top-padding {
+  padding-top: 30px;
+}
+
+.progress.top {
+  margin-top: -10px;
+  height: 5px;
+  background-color: $copy-color;
+
+  .indeterminate {
+    background-color: #02a0ff;
+  }
+}
+
+.not-visible {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}
+
+div.signup-parent {
+  max-width: 600px;
+  margin: 20px auto;
+
+
+  a{
+    font-size:16px;
+  }
+
+}
+
+div.notices {
+  margin: 20px auto;
+  width: 90%;
+}
+
+input.short {
+  width: 80%;
+}
+
+div.wide-container{
+  width: 96%;
+  margin:auto;
+}
+
+

@@ -25,3 +25,29 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+https://github.com/angular/angularfire2/blob/master/docs/1-install-and-setup.md
+https://cli.angular.io/
+https://www.npmjs.com/package/angular2-materialize
+https://www.npmjs.com/package/ng2-ckeditor
+
+
+QuicklySign
+https://quicklysign.readme.io/
+https://quicklysign.readme.io/docs/url-endpoints
+https://quicklysign.readme.io/docs/use-cases
+
+sandbox:
+  https://sandbox.quicklysign.com/app/#profile
+
+live:
+  https://app.quicklysign.com/app/#profile
+  
+  
+//initiating SSH:
+//$ sudo ssh -i ~/.ssh/ping-aws-node-serverkeypair.pem ubuntu@ec2-54-202-47-145.us-west-2.compute.amazonaws.com
+
+//Copying files to server:
+//$ sudo scp -i ~/.ssh/ping-aws-node-serverkeypair.pem ~/Documents/development/projects/SchoolComm/school-comm-node/*.js ubuntu@ec2-54-202-47-145.us-west-2.compute.amazonaws.com:~/server/
+
+  
