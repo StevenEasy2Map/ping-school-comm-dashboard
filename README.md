@@ -37,6 +37,7 @@ https://mattlewis92.github.io/angular-calendar/docs
 
 DEPLOYING ON HEROKU:
 https://www.youtube.com/watch?v=0bOJjAUXjhI
+https://dashboard.heroku.com/apps/ping-dashboard/deploy/heroku-git
 
 
 QuicklySign
