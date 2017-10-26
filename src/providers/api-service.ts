@@ -7,7 +7,8 @@ import {AuthService} from './auth-service';
 @Injectable()
 export class APIService {
 
-  private apiUrl = `${AppSettings.IN_DEV_MODE ? AppSettings.NODE_SERVER_URL_TEST : AppSettings.NODE_SERVER_URL_LIVE}`;
+  //private apiUrl = `${AppSettings.IN_DEV_MODE ? AppSettings.NODE_SERVER_URL_TEST : AppSettings.NODE_SERVER_URL_LIVE}`;
+  private apiUrl = AppSettings.NODE_SERVER_URL_LIVE;
 
   constructor(public auth: AuthService, public http: Http) {
 
