@@ -21,7 +21,6 @@ import {NewGroupStep1Component} from './group/new.group.step1.component';
 import {NewGroupStep2Component} from './group/new.group.step2.component';
 import {EditGroupComponent} from './group/edit_group/edit.group.component';
 import {EventDetailsComponent} from './event/event_details/event.details.component';
-import {NewEventComponent} from 'app/event/event_new/event.new.component';
 import {MyEventListComponent} from './event/event_list/my.event.list.component';
 import {MyEventsCalendarComponent} from './event/events_calendar/my.events.calendar.component';
 import {HeaderComponent} from './common/header.component';
@@ -30,7 +29,6 @@ import {MaterializeModule} from 'angular2-materialize';
 import {FriendlyDatePipe} from './common/pipes/friendly.date.pipe';
 import {FriendlyDateTimePipe} from './common/pipes/friendly.date.time.pipe';
 import {EllipsisPipe} from './common/pipes/ellipsis.pipe';
-import {NumberPadPipe} from 'app/common/pipes/number.pad.pipe';
 import {DatePickerModule} from 'ng2-datepicker/lib-dist/ng2-datepicker.module';
 import {AuthService} from '../providers/auth-service';
 import {StorageService} from '../providers/storage-service';
@@ -44,10 +42,13 @@ import {CKEditorModule} from 'ng2-ckeditor';
 import {EventPaymentListComponent} from './event/event_payments_list/event.payment.list.component';
 import {EventPaymentDetailsComponent} from './event/event_payment_details/event.payment.details.component';
 import {GroupMemberDetailsComponent} from "./group/group_member_details/group.member.details.component";
+import {NewEventComponent} from "./event/event_new/event.new.component";
 import {EntityDocSignedListComponent} from "./document_signing/entity.doc.signed.list.component";
 import {EntityPaymentsListComponent} from "./payments/entity.payments.list.component";
-//import {CalendarComponent} from "../../node_modules/ap-angular2-fullcalendar/src/calendar/calendar";
 import {EventsCalendarComponent} from "./event/events_calendar/events.calendar.component";
+import {NumberPadPipe} from "./common/pipes/number.pad.pipe";
+import {CalendarModule} from "angular-calendar";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 
 const appRoutes: Routes = [
@@ -127,9 +128,7 @@ const appRoutes: Routes = [
     FriendlyDatePipe,
     FriendlyDateTimePipe,
     EllipsisPipe,
-    NumberPadPipe,
-
-    //CalendarComponent
+    NumberPadPipe
 
 
   ],
@@ -141,6 +140,8 @@ const appRoutes: Routes = [
     CKEditorModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
+    BrowserAnimationsModule,
+    CalendarModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [AppComponent, AuthService, AuthGuard, StorageService, APIService, HelperService, AngularFireAuth],

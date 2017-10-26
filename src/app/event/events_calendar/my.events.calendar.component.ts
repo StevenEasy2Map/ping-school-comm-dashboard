@@ -1,12 +1,8 @@
-import {Component, ChangeDetectionStrategy, ViewChild, TemplateRef} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
-import {Router, ActivatedRoute} from '@angular/router';
-import {AuthService} from '../../../providers/auth-service';
-import {FriendlyDatePipe} from '../../common/pipes/friendly.date.pipe';
-import {CalendarComponent} from 'ap-angular2-fullcalendar';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {EventService} from '../services/event.service';
 import {EventsCalendarComponent} from './events.calendar.component';
-import {HelperService} from "../../../providers/helper-service";
+import {HelperService} from '../../../providers/helper-service';
 
 
 @Component({
@@ -19,6 +15,8 @@ import {HelperService} from "../../../providers/helper-service";
 export class MyEventsCalendarComponent extends EventsCalendarComponent {
 
   groupId = '';
+  public viewDate: Date = new Date();
+  public events = [];
 
   constructor(public eventService: EventService,
               public router: Router,
@@ -39,11 +37,12 @@ export class MyEventsCalendarComponent extends EventsCalendarComponent {
         event.start_date = HelperService.timeZoneAdjustedDate(event.start_date, event.timezone_offset);
         event.end_date = HelperService.timeZoneAdjustedDate(event.end_date, event.timezone_offset);
 
-        this.calendarOptions['events'].push({
+        this.events.push({
 
+          id: event.id,
           title: event.title,
-          start: new Date(event.start_date),
-          end: new Date(event.end_date),
+          start: event.start_date,
+          end: event.end_date
         });
 
       });

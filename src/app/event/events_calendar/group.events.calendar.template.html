@@ -1,6 +1,30 @@
 <div class="container" style="margin-top:20px;">
 
-  <!--<angular2-fullcalendar id="mycal" #mycal [options]="calendarOptions"></angular2-fullcalendar>-->
+  <button class="waves-effect waves-light btn"
+    mwlCalendarPreviousView
+    [(viewDate)]="viewDate"
+    [view]="view">
+    Previous
+  </button>
+
+  <button class="waves-effect waves-light btn"
+    mwlCalendarToday
+    [(viewDate)]="viewDate">
+    Today
+  </button>
+
+  <button class="waves-effect waves-light btn"
+    mwlCalendarNextView
+    [(viewDate)]="viewDate"
+    [view]="view">
+    Next
+  </button>
+
+  <mwl-calendar-month-view
+    [viewDate]="viewDate"
+    [events]="events">
+  </mwl-calendar-month-view>
+
 
   <a style="margin-top:20px;" class="add-new-wrapper" (click)="createEvent()">
     <div class="btn-floating btn-large waves-effect waves-light red">

@@ -32,6 +32,13 @@ https://www.npmjs.com/package/angular2-materialize
 https://www.npmjs.com/package/ng2-ckeditor
 
 
+CALENDAR:
+https://mattlewis92.github.io/angular-calendar/docs
+
+DEPLOYING ON HEROKU:
+https://www.youtube.com/watch?v=0bOJjAUXjhI
+
+
 QuicklySign
 https://quicklysign.readme.io/
 https://quicklysign.readme.io/docs/url-endpoints
