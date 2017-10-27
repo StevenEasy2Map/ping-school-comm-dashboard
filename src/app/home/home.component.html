@@ -20,11 +20,17 @@
            class="card darken-1">
         <div class="card-content">
 
-          <span class="card-title">{{ group.name }}</span>
+          <div *ngIf="group.event_count" class="right"><i class="small material-icons stats">assignment</i><span class="stats-total">{{ group.event_count}}</span></div>
+          <div *ngIf="group.notice_count" class="right"><i class="small material-icons stats">event_note</i><span class="stats-total">{{ group.event_count}}</span></div>
+            <div *ngIf="group.member_count" class="right"><i class="small material-icons stats">group</i><span class="stats-total">{{ group.member_count}}</span></div>
+
+          <span style="clear: both" class="card-title">{{ group.name }}</span>
+
 
           <a (click)="editGroup(i)" class="edit-group btn-floating halfway-fab waves-effect waves-light red"><i
             class="material-icons">edit</i></a>
           <pre style="font-family:Lato;color:#444444;line-break: auto;word-wrap: normal;">{{group.description}}</pre>
+
         </div>
         <div class="card-action">
           <p>{{group.schoolName}}</p>

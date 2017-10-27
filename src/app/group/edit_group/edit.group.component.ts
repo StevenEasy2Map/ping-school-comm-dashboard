@@ -102,7 +102,8 @@ export class EditGroupComponent implements AfterViewInit {
   editGroup(): void {
 
     const group = new Group(this.group.id, this.schoolId, this.group.name, this.group.description, this.group.image,
-      this.group.is_private ? 1 : 0, 0, '', 1, (new Date()).toDateString(), 0, 0, 0, 0, 0, this.group.whatsapp_group_link);
+      this.group.is_private ? 1 : 0, 0, '', 1,
+      (new Date()).toDateString(), 0, 0, 0, 0, 0, this.group.whatsapp_group_link, this.group.new_members_must_be_vetted ? 1 : 0);
 
     this.auth.processing = true;
     this.groupService.editGroup(group).subscribe(

@@ -29,3 +29,18 @@ div.role {
   font-family: Ubuntu;
 
 }
+
+i.stats {
+  font-size: 1.5rem;
+  color: #555555;
+}
+
+span.stats-total {
+  color: #555555;
+  vertical-align: middle;
+  height: 37px;
+  display: inline-block;
+  padding: 0 25px 0 3px;
+  font-size: 15px;
+  font-weight: bold;
+}

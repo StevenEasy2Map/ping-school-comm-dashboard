@@ -30,6 +30,11 @@ export class HomeComponent implements AfterViewInit {
     this.groupService.getMyGroups().subscribe(
       response => {
         this.myGroups = response;
+
+        this.myGroups = this.myGroups.filter(group => {
+          return group.role !== 'member';
+        });
+
         console.log(this.myGroups);
         this.auth.processing = false;
 
@@ -75,7 +80,7 @@ export class HomeComponent implements AfterViewInit {
 
   viewEventsCalendar(i): void {
     const group = this.myGroups[i];
-    this.router.navigate(['/group-events-calendar', {group_id: group.id, school_id: group.school_id, group_name : group.name}]);
+    this.router.navigate(['/group-events-calendar', {group_id: group.id, school_id: group.school_id, group_name: group.name}]);
   }
 
   addNewGroup() {

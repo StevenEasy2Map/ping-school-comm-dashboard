@@ -18,6 +18,7 @@ export class Group implements IGroup {
   event_count: number;
   notice_count: number;
   whatsapp_group_link: string;
+  new_members_must_be_vetted: number;
 
   constructor(id: number,
               school_id: string,
@@ -34,7 +35,8 @@ export class Group implements IGroup {
               member_count: number,
               event_count: number,
               notice_count: number,
-              whatsapp_group_link: string) {
+              whatsapp_group_link: string,
+              new_members_must_be_vetted: number) {
 
     this.id = id;
     this.school_id = school_id;
@@ -52,6 +54,7 @@ export class Group implements IGroup {
     this.event_count = event_count;
     this.notice_count = notice_count;
     this.whatsapp_group_link = whatsapp_group_link;
+    this.new_members_must_be_vetted = new_members_must_be_vetted;
   }
 
 }
