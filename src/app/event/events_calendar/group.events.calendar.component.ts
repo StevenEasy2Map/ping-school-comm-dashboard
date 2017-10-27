@@ -4,6 +4,7 @@ import {AuthService} from '../../../providers/auth-service';
 import {EventService} from '../services/event.service';
 import {HelperService} from '../../../providers/helper-service';
 import {CalendarEvent} from 'angular-calendar';
+import {EventListComponent} from '../event_list/event.list.component';
 
 
 @Component({
@@ -12,35 +13,23 @@ import {CalendarEvent} from 'angular-calendar';
   providers: [EventService],
   styleUrls: ['./events.calendar.style.scss']
 })
-export class GroupEventsCalendarComponent implements AfterViewInit {
+export class GroupEventsCalendarComponent extends EventListComponent implements AfterViewInit {
 
   groupId = '';
   schoolId = '';
-  selectedEvent: any = {};
-  viewingEvent = false;
+  groupName = '';
   view = 'month';
   public viewDate: Date = new Date();
   group_events: any[] = [];
   public events: CalendarEvent[];
-
-  calendarOptions: Object = {
-    height: 500,
-    fixedWeekCount: false,
-    editable: false,
-    eventLimit: false, // allow 'more' link when too many events
-
-    eventClick: (event => {
-
-      console.log(event);
-      this.selectEvent(event.id);
-
-    }), events: []
-  };
+  selectedEvents: any[] = [];
 
   constructor(private auth: AuthService,
               public eventService: EventService,
               public router: Router,
               public route: ActivatedRoute) {
+
+    super(router);
 
   }
 
@@ -52,46 +41,18 @@ export class GroupEventsCalendarComponent implements AfterViewInit {
 
   }
 
-  selectEvent(id: number) {
-
-    this.group_events.forEach(event => {
-
-      if (event.id === id) {
-
-        this.selectedEvent = event;
-        this.viewingEvent = true;
-
-      }
-
-    });
-
-
-  }
-
-  showEventDetails(): void {
-
-    this.router.navigate(['/event-details', {
-      group_id: this.groupId,
-      school_id: this.schoolId,
-      event_id: this.selectedEvent.id
-    }]);
-
-  }
-
-  editEvent(): void {
-    this.router.navigate(['/new-event', {event_id: this.selectedEvent.id, group_id: this.groupId, school_id: this.schoolId}]);
-  }
-
-  viewEventPayments(): void {
-    this.router.navigate(['/event-payments-list', {event_id: this.selectedEvent.id, group_id: this.groupId, school_id: this.schoolId}]);
-  }
-
   createEvent(): void {
     this.router.navigate(['/new-event', {group_id: this.groupId, school_id: this.schoolId}]);
   }
 
-  handleDayClick({event}: { event: CalendarEvent }): void {
-    console.log('Event clicked', event);
+  public dayClicked({date, events}: { date: Date, events: CalendarEvent[] }): void {
+
+    console.log(events);
+    this.selectedEvents = events;
+  }
+
+  clearSelectedEvents(): void {
+    this.selectedEvents = [];
   }
 
   getEvents(): void {
@@ -100,6 +61,7 @@ export class GroupEventsCalendarComponent implements AfterViewInit {
     this.route.params.subscribe(params => {
         this.groupId = params['group_id'];
         this.schoolId = params['school_id'];
+        this.groupName = params['group_name'];
 
         this.eventService.getGroupEvents(parseInt(this.groupId, 10)).then(res => {
 
@@ -108,6 +70,7 @@ export class GroupEventsCalendarComponent implements AfterViewInit {
           console.log(this.group_events);
 
           const tempEvents = [];
+
           this.group_events.forEach(event => {
 
             event.start_date = HelperService.timeZoneAdjustedDate(event.start_date, event.timezone_offset);
@@ -115,6 +78,7 @@ export class GroupEventsCalendarComponent implements AfterViewInit {
 
             tempEvents.push({
 
+              id: event.id,
               title: event.title,
               start: event.start_date,
               end: event.end_date,

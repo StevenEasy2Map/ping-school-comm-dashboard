@@ -41,14 +41,14 @@ import {NoticePaymentDetailsComponent} from './notice/notice_payment_details/not
 import {CKEditorModule} from 'ng2-ckeditor';
 import {EventPaymentListComponent} from './event/event_payments_list/event.payment.list.component';
 import {EventPaymentDetailsComponent} from './event/event_payment_details/event.payment.details.component';
-import {GroupMemberDetailsComponent} from "./group/group_member_details/group.member.details.component";
-import {NewEventComponent} from "./event/event_new/event.new.component";
-import {EntityDocSignedListComponent} from "./document_signing/entity.doc.signed.list.component";
-import {EntityPaymentsListComponent} from "./payments/entity.payments.list.component";
-import {EventsCalendarComponent} from "./event/events_calendar/events.calendar.component";
-import {NumberPadPipe} from "./common/pipes/number.pad.pipe";
-import {CalendarModule} from "angular-calendar";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {GroupMemberDetailsComponent} from './group/group_member_details/group.member.details.component';
+import {NewEventComponent} from './event/event_new/event.new.component';
+import {EntityDocSignedListComponent} from './document_signing/entity.doc.signed.list.component';
+import {EntityPaymentsListComponent} from './payments/entity.payments.list.component';
+import {EventsCalendarComponent} from './event/events_calendar/events.calendar.component';
+import {NumberPadPipe} from './common/pipes/number.pad.pipe';
+import {CalendarModule} from 'angular-calendar';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 const appRoutes: Routes = [

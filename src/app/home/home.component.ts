@@ -75,7 +75,7 @@ export class HomeComponent implements AfterViewInit {
 
   viewEventsCalendar(i): void {
     const group = this.myGroups[i];
-    this.router.navigate(['/group-events-calendar', {group_id: group.id, school_id: group.school_id}]);
+    this.router.navigate(['/group-events-calendar', {group_id: group.id, school_id: group.school_id, group_name : group.name}]);
   }
 
   addNewGroup() {
