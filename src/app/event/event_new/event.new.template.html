@@ -231,8 +231,184 @@
         </div>
       </li>
 
+      <li class="card doc-signing-new-parent">
+        <div class="collapsible-header">
+          <img class="collapsibe-header-icon message" src="/assets/message.svg"/>
+          Document Signing
+          <div class="collapsible-arrow">
+            <img src="/assets/arrow-down.svg"/>
+          </div>
+        </div>
+        <div class="collapsible-body">
 
-      <!--<li class="card">
+          <div *ngIf="documentTemplateFields.length > 0 && documentTemplate && docSigningProcessStep3Completed"
+               class="row">
+            <div class="col s12">
+              <h5>Document Signing Setup Complete</h5>
+              <p>Document title: <span class="bold">{{ documentTemplate['title'] }}</span></p>
+            </div>
+            <div class="col s6 left-align padded">
+              <a (click)="cancelAddDocument()" class="waves-effect waves-light btn">Remove</a>
+            </div>
+            <div class="col s6 right-align padded">
+              <a (click)="docSigningProcessStep3Completed = false;" class="waves-effect waves-light btn">Edit</a>
+            </div>
+
+          </div>
+
+          <p *ngIf="!docSigningProcessStarted" class="documentExplanation">Praesent eleifend gravida luctus. Maecenas
+            non mi ac massa tincidunt lacinia.
+            Aliquam dignissim tristique mi quis ornare. Phasellus pretium magna tellus, non rhoncus dui vehicula et.
+            Praesent quis lectus sit amet felis dignissim molestie. Nunc ornare, felis maximus lacinia hendrerit, mi
+            mauris posuere enim, id faucibus diam leo ut mauris. Nunc id diam nec nisl mollis gravida. Proin egestas
+            dolor eget condimentum aliquet. Etiam massa mi, egestas ut ante a, tincidunt placerat libero. Ut consectetur
+            turpis quis magna dignissim tempor. Mauris eget lacus ipsum. Mauris dictum eros vitae dignissim convallis.
+            Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Morbi non purus
+            sit amet urna tristique bibendum vitae non magna. Sed porta nibh ipsum, eu luctus lacus tincidunt ut.
+
+            Vestibulum sapien sem, lacinia nec feugiat sit amet, sollicitudin nec massa. Aliquam at augue quis sapien
+            tincidunt rutrum. Vestibulum ut viverra velit, id maximus eros. Sed vel accumsan orci. Morbi vulputate
+            congue sem, sed mattis massa blandit vel. Vivamus tortor justo, consequat dapibus quam nec, cursus mattis
+            sapien. Sed vel nisl quis lacus vulputate ullamcorper in at ante. Duis faucibus est sed egestas feugiat.
+            Donec fermentum eros eu nunc consectetur, ut egestas tortor rhoncus.</p>
+
+          <div *ngIf="!docSigningProcessStarted" id="divIncludeDocumentYN" class="row">
+            <div class="col s12 doc-button-parent">
+              <a (click)="includeDocForSigning()" class="waves-effect waves-light btn">Include document for signing</a>
+            </div>
+          </div>
+
+          <div *ngIf="docSigningProcessStarted && !docSigningProcessStep1Completed"
+               id="divDocumentCategory" class="row">
+            <div class="col s12">
+              <h5>Step 1 : choose a document category</h5>
+              <select style="max-width:500px;" class="browser-default" [(ngModel)]="documentCategory">
+                <option *ngFor="let category of signingCategories" [ngValue]="category">{{category.name}}</option>
+              </select>
+            </div>
+            <div class="col s6 left-align padded">
+              <a (click)="cancelAddDocument()" class="waves-effect waves-light btn">Cancel</a>
+            </div>
+            <div class="col s6 right-align padded">
+              <a (click)="onDocumentCategorySelect(event, $event)" class="waves-effect waves-light btn">Next</a>
+            </div>
+          </div>
+
+          <div id="divDocumentTemplate"
+               *ngIf="docSigningProcessStep1Completed && !docSigningProcessStep2Completed && documentTemplates.length > 0"
+               class="row">
+            <div class="col s12">
+              <h5>Step 2 : choose the document template you wish to use</h5>
+              <table class="striped">
+                <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Example</th>
+                  <th>Select</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr *ngFor="let template of documentTemplates; let i = index;">
+                  <td>{{ template.name}}</td>
+                  <td>
+                    <pre class="smallDocDescription">{{ template.description}}</pre>
+                  </td>
+                  <td><a href="{{ template.example_url}}" target="_blank">View example</a></td>
+                  <td style="vertical-align: middle">
+                    <button class="waves-effect waves-light btn"
+                            (click)="selectDocumentTemplate(event, template)">select
+                    </button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col s6 left-align padding">
+              <a (click)="cancelSelectTemplate()" class="waves-effect waves-light btn">Back</a>
+            </div>
+          </div>
+
+          <div
+            *ngIf="documentTemplateFields.length > 0 && documentTemplate && docSigningProcessStep2Completed && !docSigningProcessStep3Completed"
+            class="row">
+
+            <div class="col s12">
+
+
+              <h5>Step 3 : set values for fields within the document</h5>
+              <table class="bordered">
+                <thead>
+                <tr>
+                  <th>Description</th>
+                  <th>Value</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr *ngFor="let field of documentTemplateFields; let i = index;">
+                  <td>{{ field.code_description}}</td>
+                  <td *ngIf="field.autofill === 1"><input type="text" [(ngModel)]="field.default_value"/></td>
+                  <td class="auto-fill-off" *ngIf="field.autofill === 0">{{ field.default_value }}</td>
+                </tr>
+                </tbody>
+              </table>
+
+            </div>
+
+            <div class="col s12">
+              <h5 style="margin-top:30px;">Specify your document's details</h5>
+
+              <div class="col s12">
+                <p class="title">Call To Action</p>
+                <p class="docSectionExplanation">
+                  This is the text displayed in the Ping app which prompts the user to sign. Typically something like
+                  'Click here to sign the indemnity form'.
+                </p>
+                <input style="max-width:500px" class="validate" [(ngModel)]="documentTemplate['call_to_action']"
+                       id="document_call_to_action" type="text"/>
+              </div>
+
+              <div class="col s12">
+                <p class="title">Title</p>
+                <p class="docSectionExplanation">
+                  This is the document title. Typically something like 'Indemnity Form'.
+                </p>
+                <input style="max-width:500px" class="validate" [(ngModel)]="documentTemplate['title']"
+                       id="document_title" type="text"/>
+              </div>
+
+              <div class="col s12">
+                <p class="title">Description (optional)</p>
+                <p class="docSectionExplanation">
+                  Allows you to include any specific instructions or details.
+                </p>
+                <textarea class="materialize-textarea"
+                          id="document_user_description"
+                          [(ngModel)]="documentTemplate['user_description']"
+                          style="width:90%;min-height:200px;"></textarea>
+
+              </div>
+
+
+              <div class="col s6 left-align padded">
+                <a (click)="cancelSpecifyDocDetails()" class="waves-effect waves-light btn">Back</a>
+              </div>
+              <div class="col s6 right-align padded">
+                <a (click)="onDocumentSelectCompleted($event)" class="waves-effect waves-light btn">Done</a>
+              </div>
+
+            </div>
+
+          </div>
+
+
+        </div>
+      </li>
+
+
+      <li class="card">
         <div class="collapsible-header main-color">
           <img class="collapsibe-header-icon payments" src="/assets/payment.svg"/>
           Payment details
@@ -304,7 +480,8 @@
 
               <input [(ngModel)]="appendPaymentRefUserLastName" name="lastname_ref"
                      type="checkbox" id="lastname_ref"/>
-              <label style="font-size:13px !important;margin-top:5px;" class="small-text" for="lastname_ref">Append user's lastname to reference</label>
+              <label style="font-size:13px !important;margin-top:5px;" class="small-text" for="lastname_ref">Append
+                user's lastname to reference</label>
 
 
             </div>
@@ -325,7 +502,7 @@
 
         </div>
 
-      </li>-->
+      </li>
 
 
     </ul>

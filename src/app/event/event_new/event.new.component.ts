@@ -1,17 +1,16 @@
-import {Component, Input, ElementRef, OnInit, ViewEncapsulation, AfterViewInit} from '@angular/core';
-import {Router, ActivatedRoute, Params} from '@angular/router';
+import {AfterViewInit, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import 'rxjs/add/operator/switchMap';
-import {Observable} from 'rxjs/Observable';
 import {Event} from '../models/event';
 import {StorageService} from '../../../providers/storage-service';
 import {EventService} from '../services/event.service';
-import {FriendlyDatePipe} from '../../common/pipes/friendly.date.pipe';
 import {HelperService} from '../../../providers/helper-service';
 import {AuthService} from '../../../providers/auth-service';
-import {DatePickerOptions, DateModel} from 'ng2-datepicker';
+import {DateModel, DatePickerOptions} from 'ng2-datepicker';
 import {GroupService} from '../../group/group.service';
-import {Group} from '../../group/models/group';
 import * as moment from 'moment';
+import {DocSigningSetupComponent} from '../../document_signing/doc.signing.setup.component';
+import {DocumentSigningService} from '../../document_signing/services/document.signing.service';
 
 
 // https://www.npmjs.com/package/ng2-datepicker
@@ -19,11 +18,11 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-event-new-component',
   templateUrl: 'event.new.template.html',
-  styleUrls: ['event.new.style.scss'],
-  providers: [EventService, GroupService],
+  styleUrls: ['../../notice/notice_new/notice.new.style.scss'],
+  providers: [EventService, GroupService, DocumentSigningService],
   encapsulation: ViewEncapsulation.None
 })
-export class NewEventComponent implements OnInit, AfterViewInit {
+export class NewEventComponent extends DocSigningSetupComponent implements OnInit, AfterViewInit {
 
   event: Event = this.initiateNewEvent();
   groupId = 0;
@@ -57,8 +56,11 @@ export class NewEventComponent implements OnInit, AfterViewInit {
               public eventService: EventService,
               public groupService: GroupService,
               public storageService: StorageService,
+              public documentSigningService: DocumentSigningService,
               public router: Router,
               public route: ActivatedRoute) {
+
+    super(documentSigningService);
 
   }
 
@@ -130,6 +132,7 @@ export class NewEventComponent implements OnInit, AfterViewInit {
         }
 
         this.getGroupSummary();
+        this.getSigningCategories();
 
         if (this.eventId) {
 
@@ -190,6 +193,10 @@ export class NewEventComponent implements OnInit, AfterViewInit {
         if (this.event.end_date) {
           this.endTimeHours = this.padNumber(endDate.getHours());
           this.endTimeMinutes = this.padNumber(endDate.getMinutes());
+        }
+
+        if (this.event['signature_document_id'] && this.event['signature_template_id']) {
+          this.getEntityDocumentForSigning(this.event, this.schoolId, this.eventId, 'event');
         }
 
       },
@@ -299,19 +306,78 @@ export class NewEventComponent implements OnInit, AfterViewInit {
     postValue['group_ids'] = [this.groupId];
     postValue['school_id'] = this.schoolId;
 
+    let templateDetails = {};
+    if (this.documentTemplate) {
+      templateDetails = this.retrieveDocumentTemplateDetails(this.schoolId);
+    }
+
+    if (this.documentTemplate && !templateDetails) {
+
+      alert('Please ensure all document fields are completed');
+      return;
+    }
+
     if (!!this.eventId) {
 
       this.eventService.editEvent(postValue).subscribe(
         () => {
-          this.backToList();
+          if (this.documentTemplate && templateDetails['template_id']) {
+
+            templateDetails['entity_id'] = this.eventId;
+
+            if (this.event['signature_template_id'] && this.event['signature_document_id'] &&
+              parseInt(this.event['signature_template_id'], 10) === parseInt(templateDetails['template_id'], 10)) {
+
+              // this event already had a digital document attached and it WASN'T changed
+              templateDetails['document_id'] = this.event['signature_document_id'];
+              this.updateDocument(templateDetails).subscribe(
+                response => {
+                  this.backToList();
+                }
+              );
+
+            } else {
+              this.createDocument(templateDetails).subscribe(
+                response => {
+                  this.backToList();
+                }
+              );
+            }
+
+
+          } else {
+
+            if (this.event['signature_template_id'] && this.event['signature_document_id']) {
+
+              // this event already had a digital document attached and it's BEEN REMOVED
+              templateDetails['document_id'] = this.event['signature_document_id'];
+              this.removeDocument(templateDetails).subscribe(
+                response => {
+                  this.backToList();
+                }
+              );
+
+            } else {
+              this.backToList();
+            }
+
+          }
         },
         error => this.error = <any>error);
 
     } else {
 
       this.eventService.createEvent(postValue).subscribe(
-        () => {
-          this.backToList();
+        (result) => {
+          if (this.documentTemplate) {
+            templateDetails['entity_id'] = result.event_id;
+            this.createDocument(templateDetails).subscribe(
+              res => {
+                this.backToList();
+              });
+          } else {
+            this.backToList();
+          }
         },
         error => this.error = <any>error);
 

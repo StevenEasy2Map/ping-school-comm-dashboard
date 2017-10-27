@@ -47,7 +47,7 @@ export abstract class DocSigningSetupComponent {
 
           this.documentTemplates.forEach(template => {
 
-            if (template.id === parseInt(entity['signature_template_id'])) {
+            if (template.id === parseInt(entity['signature_template_id'], 10)) {
 
               this.documentTemplate = template;
 
@@ -77,12 +77,12 @@ export abstract class DocSigningSetupComponent {
         this.documentTemplateFields = response.fields;
 
         if (initiate && entity && entity['signature_template_id']
-          && parseInt(entity['signature_template_id']) == templateId
+          && parseInt(entity['signature_template_id']) === templateId
           && this.docSigningDetails) {
 
           this.documentTemplateFields.forEach(templateField => {
             this.docSigningFields.forEach(field => {
-              if (parseInt(templateField['id']) === parseInt(field['field_id'])) {
+              if (parseInt(templateField['id']) === parseInt(field['field_id'], 10)) {
                 templateField['default_value'] = field['value'];
               }
             });
@@ -121,10 +121,10 @@ export abstract class DocSigningSetupComponent {
 
   retrieveDocumentTemplateDetails(schoolId: number): object {
 
-    let fields = [];
+    const fields = [];
     for (let i = 0; i < this.documentTemplateFields.length; i++) {
 
-      let field = this.documentTemplateFields[i];
+      const field = this.documentTemplateFields[i];
       if (field.autofill === 1 && field.default_value.trim() === '') {
         return;
       } else if (field.autofill === 1) {

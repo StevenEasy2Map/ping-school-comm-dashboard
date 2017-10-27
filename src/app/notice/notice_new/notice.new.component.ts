@@ -7,10 +7,10 @@ import {NoticeService} from '../services/notice.service';
 import {AuthService} from '../../../providers/auth-service';
 import {DateModel, DatePickerOptions} from 'ng2-datepicker';
 import {GroupService} from '../../group/group.service';
-import {DocumentSigningService} from "../../document_signing/services/document.signing.service";
-import {DocSigningSetupComponent} from "../../document_signing/doc.signing.setup.component";
+import {DocumentSigningService} from '../../document_signing/services/document.signing.service';
+import {DocSigningSetupComponent} from '../../document_signing/doc.signing.setup.component';
 
-//https://www.npmjs.com/package/ng2-datepicker
+//  https://www.npmjs.com/package/ng2-datepicker
 
 @Component({
   selector: 'app-notice-new-component',
@@ -54,7 +54,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
   ngOnInit() {
 
     const showDate = new Date();
-    let hideDate = new Date();
+    const hideDate = new Date();
     hideDate.setMonth(hideDate.getMonth() + 1);
 
     this.showDateOptions = new DatePickerOptions({
@@ -78,7 +78,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
   initiateNewNotice(): Notice {
 
     const showDate = new Date();
-    let hideDate = new Date();
+    const hideDate = new Date();
     hideDate.setMonth(hideDate.getMonth() + 1);
 
     return new Notice(0, showDate.toString(),
@@ -225,8 +225,8 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
     this.notice.payment_ref_append_lastname = this.appendPaymentRefUserLastName ? 1 : 0;
     this.notice.payment_applicable = this.paymentApplicable ? 1 : 1;
 
-    let postValue = {};
-    for (let item in this.notice) {
+    const postValue = {};
+    for (const item in this.notice) {
       postValue[item] = this.notice[item];
     }
 
@@ -254,9 +254,9 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
             templateDetails['entity_id'] = this.noticeId;
 
             if (this.notice['signature_template_id'] && this.notice['signature_document_id'] &&
-              parseInt(this.notice['signature_template_id']) === parseInt(templateDetails['template_id'])) {
+              parseInt(this.notice['signature_template_id'], 10) === parseInt(templateDetails['template_id'], 10)) {
 
-              //this notice already had a digital document attached and it WASN'T changed
+              // this notice already had a digital document attached and it WASN'T changed
               templateDetails['document_id'] = this.notice['signature_document_id'];
               this.updateDocument(templateDetails).subscribe(
                 response => {
@@ -277,7 +277,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
 
             if (this.notice['signature_template_id'] && this.notice['signature_document_id']) {
 
-              //this notice already had a digital document attached and it's BEEN REMOVED
+              // this notice already had a digital document attached and it's BEEN REMOVED
               templateDetails['document_id'] = this.notice['signature_document_id'];
               this.removeDocument(templateDetails).subscribe(
                 response => {
@@ -302,7 +302,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
           if (this.documentTemplate) {
             templateDetails['entity_id'] = result.notice_id;
             this.createDocument(templateDetails).subscribe(
-              result => {
+              res => {
                 this.backToList();
               });
           } else {
