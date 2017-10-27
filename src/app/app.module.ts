@@ -22,7 +22,6 @@ import {NewGroupStep2Component} from './group/new.group.step2.component';
 import {EditGroupComponent} from './group/edit_group/edit.group.component';
 import {EventDetailsComponent} from './event/event_details/event.details.component';
 import {MyEventListComponent} from './event/event_list/my.event.list.component';
-import {MyEventsCalendarComponent} from './event/events_calendar/my.events.calendar.component';
 import {HeaderComponent} from './common/header.component';
 import {FooterComponent} from './common/footer.component';
 import {MaterializeModule} from 'angular2-materialize';
@@ -45,7 +44,6 @@ import {GroupMemberDetailsComponent} from './group/group_member_details/group.me
 import {NewEventComponent} from './event/event_new/event.new.component';
 import {EntityDocSignedListComponent} from './document_signing/entity.doc.signed.list.component';
 import {EntityPaymentsListComponent} from './payments/entity.payments.list.component';
-import {EventsCalendarComponent} from './event/events_calendar/events.calendar.component';
 import {NumberPadPipe} from './common/pipes/number.pad.pipe';
 import {CalendarModule} from 'angular-calendar';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -76,7 +74,6 @@ const appRoutes: Routes = [
   {path: 'event-details', component: EventDetailsComponent, canActivate: [AuthGuard]},
   {path: 'new-event', component: NewEventComponent, canActivate: [AuthGuard]},
   {path: 'my-events-list', component: MyEventListComponent, canActivate: [AuthGuard]},
-  {path: 'my-events-calendar', component: MyEventsCalendarComponent, canActivate: [AuthGuard]},
   {path: 'event-payments-list', component: EventPaymentListComponent, canActivate: [AuthGuard]},
   {path: 'event-payment-details', component: EventPaymentDetailsComponent, canActivate: [AuthGuard]},
 
@@ -114,7 +111,6 @@ const appRoutes: Routes = [
     NewEventComponent,
     MyEventListComponent,
     GroupEventListComponent,
-    MyEventsCalendarComponent,
     GroupEventsCalendarComponent,
     EditGroupComponent,
     EventPaymentListComponent,
@@ -122,8 +118,6 @@ const appRoutes: Routes = [
 
     EntityDocSignedListComponent,
     EntityPaymentsListComponent,
-
-    EventsCalendarComponent,
 
     FriendlyDatePipe,
     FriendlyDateTimePipe,

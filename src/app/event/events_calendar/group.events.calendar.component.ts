@@ -7,6 +7,9 @@ import {CalendarEvent} from 'angular-calendar';
 import {EventListComponent} from '../event_list/event.list.component';
 
 
+//  https://mattlewis92.github.io/angular-calendar/docs
+// https://github.com/mattlewis92/angular-calendar/issues/68
+
 @Component({
   selector: 'app-group-events-calendar-component',
   templateUrl: './group.events.calendar.template.html',
