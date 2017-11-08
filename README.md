@@ -52,6 +52,10 @@ live:
   https://app.quicklysign.com/app/#profile
   
   
+autocomplete:
+  https://github.com/ng2-ui/auto-complete  
+  
+  
 //initiating SSH:
 //$ sudo ssh -i ~/.ssh/ping-aws-node-serverkeypair.pem ubuntu@ec2-54-202-47-145.us-west-2.compute.amazonaws.com
 

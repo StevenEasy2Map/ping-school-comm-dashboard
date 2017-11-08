@@ -47,6 +47,7 @@ import {EntityPaymentsListComponent} from './payments/entity.payments.list.compo
 import {NumberPadPipe} from './common/pipes/number.pad.pipe';
 import {CalendarModule} from 'angular-calendar';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NguiAutoCompleteModule} from '@ngui/auto-complete';
 
 
 const appRoutes: Routes = [
@@ -133,6 +134,7 @@ const appRoutes: Routes = [
     FormsModule,
     CKEditorModule,
     HttpModule,
+    NguiAutoCompleteModule,
     RouterModule.forRoot(appRoutes),
     BrowserAnimationsModule,
     CalendarModule.forRoot(),

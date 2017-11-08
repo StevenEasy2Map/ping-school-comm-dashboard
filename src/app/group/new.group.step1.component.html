@@ -13,11 +13,19 @@
         <div class="row">
           <div class="input-field col s12">
             <h6>What school does this group belong to?</h6>
-            <input autocomplete="off" style="margin-bottom: 15px;width:500px;" name="school" id="school"
-                   required [(ngModel)]="schoolName" placeholder="Enter school's name"
-                   materialize="autocomplete" type="text" id="autocomplete-input"
-                   class="validate form-control autocomplete">
-            <label style="display: none" for="autocomplete-input">Choose / Create School</label>
+
+            <input name="school" no-match-found-text="&nbsp;"
+
+                   (valueChanged)="schoolSelected($event)"
+
+                   open-on-focus="false" id="school"
+                   auto-complete [(ngModel)]="schoolName"
+                   [source]="arrayOfSchools"
+                    value-property-name="id"
+                    display-property-name="name"
+                   [list-formatter]="autocompleListFormatter"
+                  />
+
           </div>
         </div>
       </div>

@@ -16,13 +16,12 @@ import {AuthService} from "../../providers/auth-service";
 export class NewGroupStep1Component implements AfterViewInit {
 
   error = '';
-  schoolName = '';
+  schoolName: any = '';
   schoolImage = '';
   schoolDetails: any = {};
   schoolsList: any = [];
-  autoCompleteSchoolsList: any = [];
-  autoCompleteSchoolFind: any = [];
   selectedSchool: any = null;
+  arrayOfSchools = [];
 
   constructor(private auth: AuthService,
               private userService: UserService,
@@ -35,6 +34,25 @@ export class NewGroupStep1Component implements AfterViewInit {
     this.getAllSchools();
 
   }
+
+  schoolSelected(): void {
+
+    if (!this.schoolName['id']) {
+      return;
+    }
+
+    console.log(this.schoolName);
+    const selectedSchool = this.schoolName;
+
+    localStorage.setItem('newGroupSchoolId', selectedSchool['id']);
+    this.router.navigate(['/new-group-step-2', {school_id: selectedSchool['id'], school_name : selectedSchool['name']}]);
+
+  }
+
+  autocompleListFormatter = (data: any) => {
+    const html = `<span style='color:red'>${data.name} </span>`;
+    return html;
+  };
 
   createSchool(): void {
 
@@ -49,43 +67,11 @@ export class NewGroupStep1Component implements AfterViewInit {
           this.schoolDetails = res.school;
           this.auth.processing = false;
           localStorage.setItem('newGroupSchoolId', this.schoolDetails.id);
-          this.router.navigate(['/new-group-step-2', {school_id: this.schoolDetails.id}]);
+          this.router.navigate(['/new-group-step-2', {school_id: this.schoolDetails.id, school_name : this.schoolDetails.name}]);
         },
         error => this.error = <any>error);
 
     });
-
-  }
-
-  selectSchool(): void {
-
-    localStorage.setItem('newGroupSchoolId', this.selectedSchool.id);
-    this.router.navigate(['/new-group-step-2', {school_id: this.selectedSchool.id}]);
-
-  }
-
-  cancelSelectSchool(): void {
-
-    this.selectedSchool = null;
-    this.schoolName = '';
-    this.schoolImage = '';
-    this.instantiateAutoComplete();
-
-  }
-
-  instantiateAutoComplete(): void {
-
-    const _instance = this;
-
-    // $('input.autocomplete').autocomplete({
-    //   data: this.autoCompleteSchoolsList,
-    //   limit: 50, // The max amount of results that can be shown at once. Default: Infinity.
-    //   onAutocomplete: function (val) {
-    //     _instance.selectedSchool = _instance.autoCompleteSchoolFind[val];
-    //     _instance.schoolImage = _instance.selectedSchool.logo;
-    //   },
-    //   minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
-    // });
 
   }
 
@@ -96,10 +82,13 @@ export class NewGroupStep1Component implements AfterViewInit {
       schools => {
         this.schoolsList = schools;
         this.schoolsList.forEach(school => {
-          this.autoCompleteSchoolsList[school.name] = school.logo;
-          this.autoCompleteSchoolFind[school.name] = school;
+
+          this.arrayOfSchools.push({
+            id: school.id,
+            name: school.name
+          });
+
         });
-        this.instantiateAutoComplete();
         this.auth.processing = false;
 
       },

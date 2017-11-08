@@ -25,6 +25,7 @@
     "@angular/platform-browser": "^4.2.4",
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
+    "@ngui/auto-complete": "^0.16.0",
     "angular-calendar": "^0.21.3",
     "angular2-materialize": "^15.0.4",
     "angularfire2": "^5.0.0-rc.3",

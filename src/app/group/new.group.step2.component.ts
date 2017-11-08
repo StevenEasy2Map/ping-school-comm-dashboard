@@ -18,6 +18,7 @@ export class NewGroupStep2Component implements AfterViewInit {
 
   error = '';
   schoolId = '';
+  schoolName = '';
   groupName = '';
   groupImage = '';
   whatsApp = '';
@@ -48,6 +49,7 @@ export class NewGroupStep2Component implements AfterViewInit {
 
       this.route.params.subscribe(params => {
         this.schoolId = params['school_id'];
+        this.schoolName = params['school_name'];
       });
 
     });
@@ -71,6 +73,7 @@ export class NewGroupStep2Component implements AfterViewInit {
 
           if (!!this.questions) {
 
+            // https://www.metaltoad.com/blog/angular-2-http-observables-and-concurrent-data-loading
             const observables = [];
             this.questions.forEach(question => {
               question.group_id = this.groupId;
