@@ -1,3 +1,19 @@
+<div *ngIf="loading" class="ping-loading-parent">
+  <div class="ping-loading preloader-wrapper active">
+    <div class="spinner-layer spinner-red-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div materialize class="wide-container">
 
   <div class="content">
@@ -38,7 +54,7 @@
         </div>
       </li>-->
       <li class="card">
-        <div class="collapsible-header"><img class="collapsibe-header-icon" src="/assets/event-details.svg"/>
+        <div class="collapsible-header active"><img class="collapsibe-header-icon" src="/assets/event-details.svg"/>
           Notice details
           <div class="collapsible-arrow">
 
@@ -50,21 +66,21 @@
 
           <div class="row">
             <div class="col s12">
-              <label for="noticetitle">Notice Title</label>
+              <h6>The title of your notice</h6>
               <input style="max-width:500px" class="validate" [(ngModel)]="notice.title" id="noticetitle" type="text"/>
             </div>
           </div>
 
           <div class="row">
             <div class="col s6">
-              <label for="livedate">Publish date</label>
+              <label for="livedate">The date this notice will be published</label>
 
               <ng2-datepicker name="livedate" id="livedate" [options]="showDateOptions"
                               [(ngModel)]="showDateModel"></ng2-datepicker>
 
             </div>
             <div class="col s6">
-              <label for="enddate">Un-publish date</label>
+              <label for="enddate">The date this notice will be un-published</label>
 
               <ng2-datepicker id="enddate" [options]="hideDateOptions"
                               [(ngModel)]="hideDateModel"></ng2-datepicker>
@@ -118,42 +134,38 @@
 
           <div class="row">
             <div class="col s12">
-              <h5>External links</h5>
+              <h5 class="external-links-title">External links</h5>
               <div class="row">
                 <div class="col s6">
-                  <label for="link1_url">Link 1 - URL</label>
+                  <h6>Link 1 - URL</h6>
                   <input style="max-width:300px" class="validate" [(ngModel)]="notice.link1_url"
                          id="link1_url"
                          type="text"/>
                 </div>
                 <div class="col s6">
-                  <label for="link1_title">Link 1 - Title</label>
+                  <h6>Link 1 - Title</h6>
                   <input style="max-width:300px" class="validate" [(ngModel)]="notice.link1_title"
                          id="link1_title" type="text"/>
                 </div>
-              </div>
-              <div class="row">
                 <div class="col s6">
-                  <label for="link2_url">Link 2 - URL</label>
+                  <h6>Link 2 - URL</h6>
                   <input style="max-width:300px" class="validate" [(ngModel)]="notice.link2_url"
                          id="link2_url"
                          type="text"/>
                 </div>
                 <div class="col s6">
-                  <label for="link2_title">Link 2 - Title</label>
+                  <h6>Link 2 - Title</h6>
                   <input style="max-width:300px" class="validate" [(ngModel)]="notice.link2_title"
                          id="link2_title" type="text"/>
                 </div>
-              </div>
-              <div class="row">
                 <div class="col s6">
-                  <label for="link3_url">Link 3 - URL</label>
+                  <h6>Link 3 - URL</h6>
                   <input style="max-width:300px" class="validate" [(ngModel)]="notice.link3_url"
                          id="link3_url"
                          type="text"/>
                 </div>
                 <div class="col s6">
-                  <label for="link3_title">Link 3 - Title</label>
+                  <h6>Link 3 - Title</h6>
                   <input style="max-width:300px" class="validate" [(ngModel)]="notice.link3_title"
                          id="link3_title" type="text"/>
                 </div>
@@ -173,7 +185,7 @@
             <img src="/assets/arrow-down.svg"/>
           </div>
         </div>
-        <div class="collapsible-body">
+        <div class="collapsible-body entity-description-parent">
           <!--<ckeditor [(ngModel)]="notice.description" debounce="500"></ckeditor>-->
 
           <textarea [(ngModel)]="notice.description" style="width:90%;min-height:300px;"></textarea>
@@ -267,7 +279,7 @@
                     <pre class="smallDocDescription">{{ template.description}}</pre>
                   </td>
                   <td><a href="{{ template.example_url}}" target="_blank">View example</a></td>
-                  <td style="vertical-align: middle">
+                  <td style="vertical-align: middle;min-width:120px;">
                     <button class="waves-effect waves-light btn"
                             (click)="selectDocumentTemplate(notice, template)">select
                     </button>
@@ -288,7 +300,7 @@
             <div class="col s12">
 
 
-              <h5>Step 3 : set values for fields within the document</h5>
+              <h5>Step 3 : complete document fields</h5>
               <table class="bordered">
                 <thead>
                 <tr>
@@ -389,8 +401,8 @@
 
           <div *ngIf="paymentApplicable" class="row">
             <div class="col s6">
-              <label *ngIf="allowUsersToSetPaymentAmount" for="paymentamount">Default payment amount (R)</label>
-              <label *ngIf="!allowUsersToSetPaymentAmount" for="paymentamount">Payment amount (R)</label>
+              <h6 *ngIf="allowUsersToSetPaymentAmount" for="paymentamount">Default payment amount (R)</h6>
+              <h6 *ngIf="!allowUsersToSetPaymentAmount" for="paymentamount">Payment amount (R)</h6>
               <input class="validate short"
                      [(ngModel)]="notice.payment_amount"
                      placeholder="Payment Amount"
@@ -399,7 +411,7 @@
 
             </div>
             <div class="col s6">
-              <label *ngIf="allowUsersToSetPaymentAmount" for="minpaymentamount">Minimum payment amount (R)</label>
+              <h6 *ngIf="allowUsersToSetPaymentAmount" for="minpaymentamount">Minimum payment amount (R)</h6>
               <input *ngIf="allowUsersToSetPaymentAmount" class="validate short"
                      [(ngModel)]="notice.min_payment_amount"
                      placeholder="Minimum Payment Amount"
@@ -408,7 +420,7 @@
           </div>
           <div *ngIf="paymentApplicable" class="row">
             <div class="col s6">
-              <label *ngIf="allowUsersToSetPaymentAmount" for="maxpaymentamount">Maximum payment amount (R)</label>
+              <h6 *ngIf="allowUsersToSetPaymentAmount" for="maxpaymentamount">Maximum payment amount (R)</h6>
               <input *ngIf="allowUsersToSetPaymentAmount" class="validate short"
                      [(ngModel)]="notice.max_payment_amount"
                      placeholder="Maximum Payment Amount"
@@ -424,9 +436,10 @@
             <div class="col s12">
 
 
-              <label for="ref">Payment Reference</label>
-              <input id="ref" type="text" class="validate short" placeholder="Payment Reference"
+              <h6 for="ref">Payment Reference</h6>
+              <input id="ref" type="text" class="validate short" style="max-width:300px;" placeholder="Payment Reference"
                      [(ngModel)]="notice.payment_reference">
+              <br>
 
               <input [(ngModel)]="appendPaymentRefUserLastName" name="lastname_ref"
                      type="checkbox" id="lastname_ref"/>

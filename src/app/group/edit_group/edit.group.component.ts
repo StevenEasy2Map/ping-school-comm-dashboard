@@ -24,6 +24,7 @@ export class EditGroupComponent implements AfterViewInit {
   questions: any = [];
   question: any = {};
   questionProcessing = false;
+  loading = true;
   modalActions = new EventEmitter<string | MaterializeAction>();
 
 
@@ -83,10 +84,12 @@ export class EditGroupComponent implements AfterViewInit {
         this.group.active = !!this.group.active;
         this.setupImageUploadLogic();
         this.auth.processing = false;
+        this.loading = false;
 
       }, rejection => {
         console.log(rejection);
         this.auth.processing = false;
+        this.loading = false;
       }
     );
 
@@ -101,6 +104,8 @@ export class EditGroupComponent implements AfterViewInit {
 
   editGroup(): void {
 
+    this.loading = true;
+
     const group = new Group(this.group.id, this.schoolId, this.group.name, this.group.description, this.group.image,
       this.group.is_private ? 1 : 0, 0, '', 1,
       (new Date()).toDateString(), 0, 0, 0, 0, 0, this.group.whatsapp_group_link, this.group.new_members_must_be_vetted ? 1 : 0);
@@ -110,19 +115,21 @@ export class EditGroupComponent implements AfterViewInit {
       response => {
         console.log(response);
         this.auth.processing = false;
+        this.loading = false;
         this.router.navigate(['/']);
 
       },
       error => {
-        this.error = <any>error
+        this.error = <any>error;
+        this.loading = false;
         this.auth.processing = false;
       });
 
   }
 
-  editQuestion(i): void {
+  editQuestion(question): void {
     this.questionProcessing = true;
-    this.question = <GroupMembershipQuestion>this.questions[i];
+    this.question = question;
   }
 
   cancelAddEditQuestion(): void {
@@ -130,9 +137,9 @@ export class EditGroupComponent implements AfterViewInit {
     this.question = null;
   }
 
-  deleteQuestion(i): void {
+  deleteQuestion(question): void {
 
-    this.question = <GroupMembershipQuestion>this.questions[i];
+    this.question = question;
 
     this.auth.processing = true;
     this.groupService.deleteQuestion(this.question).subscribe(
@@ -201,6 +208,7 @@ export class EditGroupComponent implements AfterViewInit {
       this.groupService.addQuestion(this.question).subscribe(
         response => {
           console.log(response);
+          this.question.id = response.questionId;
           this.questions.push(this.question);
           this.question = null;
           this.questionProcessing = false;
@@ -238,7 +246,7 @@ export class EditGroupComponent implements AfterViewInit {
 
     const imageUpload = document.getElementById('logoUpload');
     imageUpload.addEventListener('change', (e) => {
-      let file = e.target['files'][0];
+      const file = e.target['files'][0];
       this.auth.processing = true;
       this.storageService.uploadFileToCloudStorage('/group_images/', file).then(
         storageInfo => {

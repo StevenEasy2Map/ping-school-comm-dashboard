@@ -13,6 +13,7 @@ export class HomeComponent implements AfterViewInit {
 
   myGroups: any[] = [];
   error = '';
+  loading = true;
 
   constructor(private auth: AuthService, private groupService: GroupService, private router: Router) {
   }
@@ -37,9 +38,13 @@ export class HomeComponent implements AfterViewInit {
 
         console.log(this.myGroups);
         this.auth.processing = false;
+        this.loading = false;
 
       },
-      error => this.error = <any>error);
+      error => {
+        this.error = <any>error;
+        this.loading = false;
+      });
 
 
   }

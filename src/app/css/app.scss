@@ -59,7 +59,7 @@ a {
   cursor: pointer;
 }
 
-table{
+table {
   color: $darkGrey;
 }
 
@@ -71,13 +71,57 @@ select, input[type=text], input[type=password], input[type=email],
 input[type=url], input[type=time], input[type=date], input[type=datetime-local],
 input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea,
 select, textarea {
-  //@include border-radius(3px);
-  padding-left: 10px;
-  padding-right: 10px;
-  font-size: 1em;
-  box-sizing: border-box;
-  margin: 0;
+  ////@include border-radius(3px);
+  //padding-left: 10px;
+  //padding-right: 10px;
+  //font-size: 1em;
+  //box-sizing: border-box;
+  //margin: 0;
+  //font-family: Ubuntu, sans-serif;
+
   font-family: Ubuntu, sans-serif;
+  margin-bottom: 15px;
+  width: 500px;
+  border: 1px solid #a7a7a7;
+  font-size: 16px;
+  color: #4e4e4e;
+  font-weight: 500;
+  background-color: #f9f9f9;
+  padding: 0 10px !important;
+  border-radius: 3px;
+}
+
+h5.external-links-title {
+  padding-top: 0;
+  margin-top: 0;
+  margin-left: 10px;
+  margin-bottom: 15px;
+  color: #6d6d6d;
+}
+
+div.entity-description-parent {
+  text-align: center;
+  margin-top: 20px;
+}
+
+div.ping-loading-parent {
+  background-color: #FFFFFF;
+  position: absolute;
+  left: 0;
+  top: 66px;
+  width: 100%;
+  bottom: 0;
+  right: 0;
+  opacity: 0.9;
+  z-index: 9999;
+}
+
+.ping-loading {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  margin-left: -20px;
+  margin-top: -50px;
 }
 
 select {
@@ -960,7 +1004,7 @@ h5.notice-subtitle {
   line-height: 25px;
   outline: 0;
   padding: 5px 0 0 0 !important;
-  width:160px !important;
+  width: 160px !important;
 }
 
 .chips .input {
@@ -993,9 +1037,8 @@ div.signup-parent {
   max-width: 600px;
   margin: 20px auto;
 
-
-  a{
-    font-size:16px;
+  a {
+    font-size: 16px;
   }
 
 }
@@ -1009,9 +1052,9 @@ input.short {
   width: 80%;
 }
 
-div.wide-container{
+div.wide-container {
   width: 96%;
-  margin:auto;
+  margin: auto;
 }
 
 

@@ -21,6 +21,7 @@ export class GroupNoticeListComponent extends NoticeListComponent {
   notices: any[] = [];
   groupId: string = '';
   schoolId: string = '';
+  loading = true;
 
   constructor(private auth: AuthService,
               public noticeService: NoticeService,
@@ -46,9 +47,15 @@ export class GroupNoticeListComponent extends NoticeListComponent {
             return b.show_date - a.show_date;
           });
 
+          this.loading = false;
+
         });
 
       });
+
+    }).catch(error => {
+
+      this.loading = false;
 
     });
 

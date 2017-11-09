@@ -1,3 +1,19 @@
+<div *ngIf="loading" class="ping-loading-parent">
+  <div class="ping-loading preloader-wrapper active">
+    <div class="spinner-layer spinner-red-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container row top-padding">
   <form #loginForm="ngForm" class="col s12">
     <div class="row">
@@ -12,7 +28,7 @@
 
     <div class="row">
       <div class="input-field col s12">
-        <h6>Your group a name</h6>
+        <h6>The name of your group</h6>
         <input autocomplete="off" style="margin-bottom: 15px;width:500px;"
                id="groupName" required [(ngModel)]="group.name"
                name="groupName" type="text" class="validate form-control">
@@ -22,7 +38,7 @@
 
     <div class="row">
       <div class="input-field col s12">
-        <h6>Link to Group's WhatsApp group (optional)</h6>
+        <h6>Link to group's WhatsApp group (optional)</h6>
         <input autocomplete="off" style="margin-bottom: 15px;width:500px;"
                id="whatsApp" [(ngModel)]="group.whatsapp_group_link"
                name="whatsApp" type="text" class="validate form-control">
@@ -32,7 +48,7 @@
 
     <div class="row">
       <div class="input-field col s12">
-        <h6>Give your group a description</h6>
+        <h6>A description of this group</h6>
         <textarea [(ngModel)]="group.description"
                   id="groupDescription" style="max-width:500px;height:100px;"
                   name="groupDescription" class="materialize-textarea"
@@ -83,14 +99,12 @@
 
     <div ngif="!!questions && questions.length > 0 && !question" class="row">
 
-      <h6>Group Questions
-
-        <a (click)="addQuestion()" class="btn-floating halfway-fab waves-effect waves-light red"><i
-          class="material-icons">add</i></a>
+      <h6>Group Questions&nbsp;&nbsp;&nbsp;&nbsp;<a (click)="addQuestion()" class="btn-floating halfway-fab waves-effect waves-light orange"><i
+        class="material-icons">add</i></a>
 
 
       </h6>
-      <div class="input-field col s12">
+      <div *ngIf="!questionProcessing && questions && questions.length > 0" class="input-field col s12">
 
         <table class="bordered">
           <thead>
@@ -103,39 +117,36 @@
           <tr *ngFor="let item of questions; let i = index;">
             <td style="width:80%">{{ item.question_title }}</td>
             <td>{{ !!item.required ? 'yes' : 'no' }}</td>
-            <td class="right-align"><a (click)="deleteQuestion(i);">
+            <td class="right-align"><a (click)="deleteQuestion(item);">
               <i class="material-icons">mode_delete</i></a></td>
             <td class="right-align">
-              <a (click)="editQuestion(i);"><i class="material-icons">mode_edit</i></a></td>
+              <a (click)="editQuestion(item);"><i class="material-icons">mode_edit</i></a></td>
           </tr>
           </thead>
         </table>
       </div>
     </div>
 
-    <div *ngIf="questionProcessing" style="background-color: #DADADA;padding:10px;">
-
+    <div *ngIf="questionProcessing" class="question-process-parent">
       <div class="row">
-
         <h6 *ngIf="!!question && question.id !== -1">Edit Question</h6>
-        <h6 *ngIf="!!question && question.id === -1">Add Question</h6>
+        <h6 *ngIf="!!question && question.id === -1">Add a question (for new members to complete when joining your group)</h6>
         <div class="input-field col s12">
           <h6>Question</h6>
           <input *ngIf="!!question" autocomplete="off"
                  style="margin-bottom: 15px;width:500px;"
                  id="questionTitle" required [(ngModel)]="question.question_title"
                  name="questionTitle" type="text" class="validate form-control">
-          <label style="display: none" for="questionTitle">Question</label>
+          <label style="display: none" for="questionTitle">Question title</label>
         </div>
         <div class="input-field col s12">
           <input *ngIf="!!question"
                  [(ngModel)]="question.required"
                  name="questionRequired"
                  type="checkbox" id="questionRequired"/>
-          <label class="description" for="questionRequired">This question is mandatory (cannot be left empty)</label>
+          <label class="description" for="questionRequired">This question is mandatory (it cannot be left empty)</label>
         </div>
       </div>
-
 
       <div class="row">
         <div class="col s12 submit-button-parent">
@@ -171,7 +182,7 @@
     </div>
 
 
-    <div class="row">
+    <!--<div class="row">
 
       <h6>Group Members
 
@@ -197,7 +208,7 @@
           </thead>
         </table>
       </div>
-    </div>
+    </div>-->
 
   </form>
 

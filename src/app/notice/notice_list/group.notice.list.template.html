@@ -1,18 +1,34 @@
+<div *ngIf="loading" class="ping-loading-parent">
+  <div class="ping-loading preloader-wrapper active">
+    <div class="spinner-layer spinner-red-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container notices">
   <div class="content">
     <a routerLink="/" class="back-nav"><img src="/assets/arrow-left.svg"/></a>
     <h2 class="inline-page-title">Notices</h2>
 
     <a class="add-new-wrapper" (click)="addNewNotice()">
-      <div class="btn-floating btn-large waves-effect waves-light red">
+      <div class="btn-floating btn-large waves-effect waves-light orange">
         <i class="material-icons">add</i>
       </div>
       <span>Add a Notice</span>
     </a>
 
-    <div class="card">
+    <div class="card" style="margin-top:30px;">
       <div class="row list-parent">
-        <div class="col s5 list-header">NOTICE NAME</div>
+        <div class="col s5 list-header">NOTICE TITLE</div>
         <div class="col s4 list-header">DATE PUBLISHED</div>
         <div class="col s3 list-header">&nbsp;</div>
       </div>

@@ -31,6 +31,7 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
   eventGroups: any[] = [];
   groups: any[] = [];
   groupSummary: any = {};
+  loading = true;
 
   error = '';
   startDateModel: DateModel;
@@ -139,6 +140,8 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
           this.getEventDetails();
           this.getEventGroups();
 
+        } else {
+          this.loading = false;
         }
 
       });
@@ -155,6 +158,8 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
         this.auth.processing = false;
         this.event = response;
         console.log(this.event);
+
+        this.loading = false;
 
         const startDate: Date = HelperService.timeZoneAdjustedDate(this.event.start_date, this.event.timezone_offset);
         const endDate: Date = HelperService.timeZoneAdjustedDate(this.event.end_date, this.event.timezone_offset);
@@ -203,6 +208,7 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
       error => {
         this.error = <any>error;
         this.auth.processing = false;
+        this.loading = true;
       });
 
 

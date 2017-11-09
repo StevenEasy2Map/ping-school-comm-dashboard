@@ -28,6 +28,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
   noticeGroups: any[] = [];
   groups: any[] = [];
   groupSummary: any = {};
+  loading = true;
 
   showDateModel: DateModel;
   showDateOptions: DatePickerOptions;
@@ -117,6 +118,8 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
           this.getNoticeDetails();
           this.getNoticeGroups();
 
+        } else {
+          this.loading = false;
         }
 
       });
@@ -129,6 +132,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
       response => {
         this.notice = response;
         console.log(this.notice);
+        this.loading = false;
 
         this.allowUsersToSetPaymentAmount = !!this.notice.payment_allow_user_to_set;
         this.appendPaymentRefUserLastName = !!this.notice.payment_ref_append_lastname;
@@ -149,7 +153,10 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
         }
 
       },
-      error => this.error = <any>error);
+      error => {
+        this.error = <any>error;
+        this.loading = false;
+      });
 
   }
 
@@ -314,7 +321,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
 
     }
 
-  };
+  }
 
 
 }
