@@ -299,7 +299,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
       this.noticeService.createNotice(postValue).subscribe(
         result => {
 
-          if (this.documentTemplate) {
+          if (this.documentTemplate && templateDetails['template_id']) {
             templateDetails['entity_id'] = result.notice_id;
             this.createDocument(templateDetails).subscribe(
               res => {

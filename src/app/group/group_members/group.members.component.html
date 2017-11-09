@@ -1,0 +1,39 @@
+<div class="container row top-padding">
+  <form #loginForm="ngForm" class="col s12">
+    <div class="row">
+      <div role="alert" *ngIf="error" class="col s12">
+        <span class="red-text text-darken-4">{{ error }}</span>
+      </div>
+    </div>
+
+    <a routerLink="/" class="back-nav"><img src="/assets/arrow-left.svg"/></a>
+    <h2 class="inline-page-title">{{ group.name }} - Group Members</h2>
+
+    <div class="row">
+
+      <div class="input-field col s12">
+
+        <table class="bordered">
+          <thead>
+          <tr>
+            <th style="width:30%">Name</th>
+            <th style="width:40%">Email</th>
+            <th style="width:10%">Role</th>
+            <th style="width:15%">Status</th>
+            <th style="width:5%" class="right-align">View</th>
+          </tr>
+          <tr *ngFor="let member of members; let i = index;">
+            <td>{{ member.first_name }} {{member.last_name}}</td>
+            <td>{{ member.email }}</td>
+            <td>{{ member.role }}</td>
+            <td>{{ member.validated ? 'validated' : 'not validated' }}</td>
+            <td><img class="view-icon" (click)="viewMemberDetails(member)" alt="view" src="/assets/view.svg"/></td>
+          </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+
+  </form>
+
+</div>

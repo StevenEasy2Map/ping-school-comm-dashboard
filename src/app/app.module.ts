@@ -49,6 +49,7 @@ import {CalendarModule} from 'angular-calendar';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NguiAutoCompleteModule} from '@ngui/auto-complete';
 import {TagInputModule} from "ngx-chips"
+import {GroupMembersComponent} from "./group/group_members/group.members.component";
 
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
@@ -71,6 +72,7 @@ const appRoutes: Routes = [
   {path: 'new-group-step-2', component: NewGroupStep2Component, canActivate: [AuthGuard]},
   {path: 'edit-group', component: EditGroupComponent, canActivate: [AuthGuard]},
   {path: 'group-member-details', component: GroupMemberDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'group-members', component: GroupMembersComponent, canActivate: [AuthGuard]},
 
   {path: 'event-details', component: EventDetailsComponent, canActivate: [AuthGuard]},
   {path: 'new-event', component: NewEventComponent, canActivate: [AuthGuard]},
@@ -107,6 +109,7 @@ const appRoutes: Routes = [
     NoticePaymentDetailsComponent,
     GroupNoticeListComponent,
     GroupMemberDetailsComponent,
+    GroupMembersComponent,
 
     EventDetailsComponent,
     NewEventComponent,

@@ -20,9 +20,9 @@
            class="card darken-1">
         <div class="card-content">
 
-          <div *ngIf="group.event_count" class="right"><i class="small material-icons stats">assignment</i><span class="stats-total">{{ group.event_count}}</span></div>
-          <div *ngIf="group.notice_count" class="right"><i class="small material-icons stats">event_note</i><span class="stats-total">{{ group.event_count}}</span></div>
-            <div *ngIf="group.member_count" class="right"><i class="small material-icons stats">group</i><span class="stats-total">{{ group.member_count}}</span></div>
+          <div *ngIf="group.event_count" class="right"><a (click)="viewEventsCalendar(i)"><i class="small material-icons stats">event_note</i><span class="stats-total">{{ group.event_count}}</span></a></div>
+          <div *ngIf="group.notice_count" class="right"><a (click)="viewGroupNotices(i)"><i class="small material-icons stats">assignment</i><span class="stats-total">{{ group.notice_count}}</span></a></div>
+            <div *ngIf="group.member_count" class="right"><a (click)="viewGroupMembers(i)"><i class="small material-icons stats">group</i><span class="stats-total">{{ group.member_count}}</span></a></div>
 
           <span style="clear: both" class="card-title">{{ group.name }}</span>
 

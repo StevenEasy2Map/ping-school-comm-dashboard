@@ -66,6 +66,11 @@ export class HomeComponent implements AfterViewInit {
 
   }
 
+  viewGroupMembers(i): void {
+    const group = this.myGroups[i];
+    this.router.navigate(['/group-members', {group_id: group.id, school_id: group.school_id}]);
+  }
+
   inviteUsersToGroup(i): void {
     const group = this.myGroups[i];
 
