@@ -53,7 +53,13 @@ live:
   
   
 autocomplete:
-  https://github.com/ng2-ui/auto-complete  
+  https://github.com/ng2-ui/auto-complete
+  
+chips:
+http://www.buompris.co/ng2-tag-input/
+https://github.com/Gbuomprisco/ngx-chips/blob/master/demo/home/home.ts
+https://github.com/Gbuomprisco/ngx-chips/blob/master/demo/home/home.html
+  
   
   
 //initiating SSH:

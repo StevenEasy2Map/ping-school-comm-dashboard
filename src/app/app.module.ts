@@ -48,7 +48,7 @@ import {NumberPadPipe} from './common/pipes/number.pad.pipe';
 import {CalendarModule} from 'angular-calendar';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NguiAutoCompleteModule} from '@ngui/auto-complete';
-
+import {TagInputModule} from "ngx-chips"
 
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
@@ -135,6 +135,8 @@ const appRoutes: Routes = [
     CKEditorModule,
     HttpModule,
     NguiAutoCompleteModule,
+    TagInputModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(appRoutes),
     BrowserAnimationsModule,
     CalendarModule.forRoot(),

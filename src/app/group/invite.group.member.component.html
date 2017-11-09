@@ -3,7 +3,7 @@
   <div class="col s12">
     <h4 *ngIf="!inviteUsers" class="group-created">Congratulations, your group has been created!</h4>
     <h5>Your Group's invite token is <span style="font-weight:bold">{{token}}</span></h5>
-    <p class="group-invite-token-explain">when logged into the SchoolComm application, users can use this token to join
+    <p class="group-invite-token-explain">In the SchoolComm smartphone app, users can use this token to join
       your group</p>
   </div>
   <div *ngIf="!inviteUsers" class="col s6" style="text-align: center;margin-top:30px;">
@@ -32,14 +32,24 @@
     <div class="row">
       <div class="input-field col s12">
         <h6>Invite users to your group via email <span class="small-text">(press the <b>'Enter'</b> key after typing each email address)</span></h6>
-        <div style="max-width:800px;"
+
+        <tag-input [(ngModel)]="emailAddresses" name="emailAddresses"
+                   [modelAsStrings]="true"
+                   (onAdd)="onAdd($event)"
+                   (onRemove)="onRemove($event)"
+                   [separatorKeyCodes]="[32, 188]"
+                   secondaryPlaceholder="Enter email address"
+                   placeholder="Enter email address">
+        </tag-input>
+
+        <!--div style="max-width:800px;"
              autocomplete="off"
-             class="chips chips-placeholder"
+             class="chips chips-placeholder email-invite"
              materialize="material_chip"
              [materializeParams]="[autocompleteInit]"
              (chip.add)="add($event.detail)"
              (chip.delete)="delete($event.detail)"
-             (chip.select)="select($event.detail)"></div>
+             (chip.select)="select($event.detail)"></div>-->
 
       </div>
     </div>

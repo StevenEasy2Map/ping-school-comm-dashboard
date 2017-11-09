@@ -7,7 +7,7 @@ import {School} from './models/school';
 import {HelperService} from '../../providers/helper-service';
 import {Observable} from 'rxjs';
 import {Invitation} from './models/invitation';
-import {AuthService} from "../../providers/auth-service";
+import {AuthService} from '../../providers/auth-service';
 
 @Component({
   selector: 'app-invite-group-member-component',
@@ -18,6 +18,7 @@ import {AuthService} from "../../providers/auth-service";
 export class InviteGroupMemberComponent implements AfterViewInit {
 
   emailAddresses: string[] = [];
+  emailAddressesToSend = [];
   schoolId = '';
   groupId = '';
   token = '';
@@ -27,14 +28,13 @@ export class InviteGroupMemberComponent implements AfterViewInit {
 
   autocompleteInit = {
     placeholder: 'Add another address',
-    secondaryPlaceholder: 'Start typing...'
+    secondaryPlaceholder: 'Start typing addresses...'
   };
 
   constructor(private auth: AuthService,
               private router: Router,
               private route: ActivatedRoute,
               private groupService: GroupService) {
-
   }
 
   ngAfterViewInit(): void {
@@ -53,16 +53,17 @@ export class InviteGroupMemberComponent implements AfterViewInit {
 
   inviteGroupMembers(): void {
 
-    if (!this.role || !this.emailAddresses) {
+    if (!this.role || !this.emailAddressesToSend) {
+      this.router.navigateByUrl('/home');
       return;
     }
 
     const observables = [];
     this.auth.processing = true;
-    this.emailAddresses.forEach(email => {
+    this.emailAddressesToSend.forEach(email => {
 
-      observables.push(this.groupService.inviteGroupMember(new Invitation(parseInt(this.schoolId),
-        parseInt(this.groupId),
+      observables.push(this.groupService.inviteGroupMember(new Invitation(parseInt(this.schoolId, 10),
+        parseInt(this.groupId, 10),
         this.role, email, this.motivation)));
     });
 
@@ -75,50 +76,47 @@ export class InviteGroupMemberComponent implements AfterViewInit {
 
   }
 
-  goHome() {
-    this.router.navigate(['/']);
-  }
+  public onAdd(tag): void {
 
-  inviteUsersViaEmail() {
-    this.inviteUsers = true;
-  }
-
-  add(chip) {
-    console.log('Chip added: ' + chip.tag);
-    if (HelperService.isValidMailFormat(chip.tag)) {
+    console.log('Chip added: ' + tag);
+    if (HelperService.isValidMailFormat(tag.display)) {
 
       let emailAddressAlreadyAdded = false;
-      for (let i = 0; i < this.emailAddresses.length; i++) {
+      for (let i = 0; i < this.emailAddressesToSend.length; i++) {
 
-        if (this.emailAddresses[i] === chip.tag) {
+        if (this.emailAddressesToSend[i] === tag.display) {
           emailAddressAlreadyAdded = true;
           break;
         }
 
       }
       if (!emailAddressAlreadyAdded) {
-        this.emailAddresses.push(chip.tag);
+        this.emailAddressesToSend.push(tag.display);
       }
 
     }
+
   }
 
-  delete(chip) {
-    console.log('Chip deleted: ' + chip.tag);
+  public onRemove(tag): void {
+    console.log('Chip deleted: ' + tag.display);
 
     for (let i = 0; i < this.emailAddresses.length; i++) {
 
-      if (this.emailAddresses[i] === chip.tag) {
-        this.emailAddresses.splice(i, 1);
+      if (this.emailAddressesToSend[i] === tag.display) {
+        this.emailAddressesToSend.splice(i, 1);
         break;
       }
 
     }
-
   }
 
-  select(chip) {
-    console.log('Chip selected: ' + chip.tag);
+  goHome() {
+    this.router.navigate(['/']);
+  }
+
+  inviteUsersViaEmail() {
+    this.inviteUsers = true;
   }
 
 }

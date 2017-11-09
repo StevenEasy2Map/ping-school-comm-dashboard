@@ -45,14 +45,14 @@ export class NewGroupStep1Component implements AfterViewInit {
     const selectedSchool = this.schoolName;
 
     localStorage.setItem('newGroupSchoolId', selectedSchool['id']);
-    this.router.navigate(['/new-group-step-2', {school_id: selectedSchool['id'], school_name : selectedSchool['name']}]);
+    this.router.navigate(['/new-group-step-2', {school_id: selectedSchool['id'], school_name: selectedSchool['name']}]);
 
   }
 
   autocompleListFormatter = (data: any) => {
     const html = `<span style='color:red'>${data.name} </span>`;
     return html;
-  };
+  }
 
   createSchool(): void {
 
@@ -67,7 +67,7 @@ export class NewGroupStep1Component implements AfterViewInit {
           this.schoolDetails = res.school;
           this.auth.processing = false;
           localStorage.setItem('newGroupSchoolId', this.schoolDetails.id);
-          this.router.navigate(['/new-group-step-2', {school_id: this.schoolDetails.id, school_name : this.schoolDetails.name}]);
+          this.router.navigate(['/new-group-step-2', {school_id: this.schoolDetails.id, school_name: this.schoolDetails.name}]);
         },
         error => this.error = <any>error);
 

@@ -6,7 +6,8 @@ import {GroupService} from './group.service';
 import {Group} from './models/group';
 import {GroupMembershipQuestion} from './models/question';
 import {AuthService} from '../../providers/auth-service';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
+import 'rxjs/add/observable/throw';
 
 @Component({
   selector: 'app-new-group-step2-component',
