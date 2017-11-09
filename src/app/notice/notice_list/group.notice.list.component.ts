@@ -39,7 +39,7 @@ export class GroupNoticeListComponent extends NoticeListComponent {
         this.groupId = params['group_id'];
         this.schoolId = params['school_id'];
 
-        this.noticeService.getGroupNotices(parseInt(this.groupId)).subscribe(res => {
+        this.noticeService.getGroupNotices(parseInt(this.groupId, 10)).subscribe(res => {
           this.notices = res;
 
           this.notices.sort((a, b) => {

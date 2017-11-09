@@ -19,7 +19,7 @@
 
       <div [ngStyle]="setLineStyle(notice)" class="row list-parent" *ngFor="let notice of notices; let i = index;">
         <div class="col s5">
-          <a (click)="viewNoticeDetails(i)">
+          <a (click)="viewNoticeDetails(notice)">
             <h4>{{ notice.title | ellipsis:20 }}</h4>
           </a>
         </div>
