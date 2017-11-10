@@ -18,6 +18,7 @@ import {GroupMembershipQuestionResponse} from '../models/response';
 export class GroupMemberDetailsComponent implements AfterViewInit {
 
   error = '';
+  loading = true;
   schoolId: any = 0;
   groupId: any = 0;
   userId: any = 0;
@@ -84,10 +85,12 @@ export class GroupMemberDetailsComponent implements AfterViewInit {
         });
 
         this.auth.processing = false;
+        this.loading = false;
 
       }, rejection => {
         console.log(rejection);
         this.auth.processing = false;
+        this.loading = false;
       }
     );
 
@@ -95,7 +98,8 @@ export class GroupMemberDetailsComponent implements AfterViewInit {
 
   backToList(): void {
 
-    this.router.navigate(['/edit-group', {group_id: this.groupId, school_id: this.schoolId}]);
+    window.history.back();
+    // this.router.navigate(['/edit-group', {group_id: this.groupId, school_id: this.schoolId}]);
 
   }
 

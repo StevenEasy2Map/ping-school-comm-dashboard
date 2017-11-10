@@ -1,8 +1,24 @@
-<div class="container" style="margin-top:20px;">
+<div *ngIf="loading" class="ping-loading-parent">
+  <div class="ping-loading preloader-wrapper active">
+    <div class="spinner-layer spinner-red-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <h2 class="center-align">
-    <a routerLink="/" class="back-nav"><img src="/assets/arrow-left.svg"/></a>
-    {{ groupName }}</h2>
+<div *ngIf="!loading" class="container" style="margin-top:20px;">
+
+  <h2 class="inline-page-title center-align">
+    <a routerLink="/" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Back</a>
+    {{groupName}} Events</h2>
 
   <div class="right-align calendar-view-parent">
 
@@ -11,6 +27,7 @@
             (click)="clearSelectedEvents()"
             [(viewDate)]="viewDate"
             [view]="view">
+      <i class="material-icons left">chevron_left</i>
       Previous
     </button>
 
@@ -26,10 +43,13 @@
             mwlCalendarNextView
             [(viewDate)]="viewDate"
             [view]="view">
+      <i class="material-icons right">chevron_right</i>
       Next
     </button>
 
   </div>
+
+  <h3 class="center-align">{{selectedMonth }}</h3>
 
   <mwl-calendar-month-view
     [viewDate]="viewDate"
@@ -37,33 +57,44 @@
     [events]="events">
   </mwl-calendar-month-view>
 
+  <table *ngIf="selectedEvents.length > 0" style="margin-top:30px;" class="bordered">
+    <thead>
+    <th>Event Title</th>
+    <th class="center-align">Event Date</th>
+    <th class="center-align">Signatures</th>
+    <th class="center-align">Payments</th>
+    <th class="center-align">Edit</th>
+    <th class="center-align">Delete</th>
+    </thead>
+    <tbody>
+    <tr *ngFor="let event of selectedEvents; let i = index;">
+      <td><a (click)="viewEventDetails(i)">{{ event.title | ellipsis:20 }}</a></td>
+      <td class="center-align">{{ event.start | friendlydatetime }} - {{ event.end | friendlydatetime }}</td>
+      <td class="center-align">
 
-  <div *ngIf="selectedEvents.length > 0" class="card selected-date-events">
-    <div class="row list-parent">
-      <div class="col s5 list-header">TITLE</div>
-      <div class="col s4 list-header">EVENT DATE</div>
-      <div class="col s3 list-header">&nbsp;</div>
-    </div>
+        <a *ngIf="event.signature_document_id && event.signature_document_template_id" (click)="viewEventSignedDocs(event);">
+          <i class="material-icons">border_color</i></a>
+      </td>
+      <td class="center-align">
 
-    <div [ngStyle]="setLineStyle(event)" class="row list-parent"
-         *ngFor="let event of selectedEvents; let i = index;">
-      <div class="col s5">
-        <a (click)="viewEventDetails(i)">
-          <h4>{{ event.title | ellipsis:20 }}</h4>
-        </a>
-      </div>
-      <div class="col s4 small-text">{{ event.start | friendlydatetime }} - {{ event.end | friendlydatetime }}</div>
-      <div class="col s3">
-        <div class="row-actions">
-          <img class="view-icon" (click)="viewEventDetails(event)" alt="view" src="/assets/view.svg"/>
-          <img (click)="editEvent(event, groupId)" class="edit-icon" alt="edit" src="/assets/edit.svg"/>
-        </div>
-      </div>
-    </div>
-  </div>
+        <a *ngIf="event.payment_applicable"
+           (click)="viewEventPayments(event);"><i class="material-icons">payment</i></a>
+
+      </td>
+      <td class="center-align">
+        <a (click)="editEvent(event, groupId)"><i class="material-icons">create</i></a>
+
+      </td>
+      <td class="center-align">
+        <a (click)="deleteEvent(event, i)"><i class="material-icons">delete</i></a>
+      </td>
+
+    </tr>
+    </tbody>
+  </table>
 
   <a style="margin-top:20px;" class="add-new-wrapper" (click)="createEvent()">
-    <div class="btn-floating btn-large waves-effect waves-light red">
+    <div class="btn-floating btn-large waves-effect waves-light orange">
       <i class="material-icons">add</i>
     </div>
     <span>Create new event</span>

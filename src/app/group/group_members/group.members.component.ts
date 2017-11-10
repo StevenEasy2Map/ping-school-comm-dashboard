@@ -21,7 +21,7 @@ export class GroupMembersComponent implements AfterViewInit {
   questions: any = [];
   question: any = {};
   modalActions = new EventEmitter<string | MaterializeAction>();
-
+  loading = true;
 
   constructor(private auth: AuthService,
               private router: Router,
@@ -67,6 +67,7 @@ export class GroupMembersComponent implements AfterViewInit {
         this.group.is_private = !!this.group.is_private;
         this.group.active = !!this.group.active;
         this.auth.processing = false;
+        this.loading = false;
 
       }, rejection => {
         console.log(rejection);
@@ -74,6 +75,10 @@ export class GroupMembersComponent implements AfterViewInit {
       }
     );
 
+  }
+
+  goBack() {
+    window.history.back();
   }
 
   viewMemberDetails(member): void {

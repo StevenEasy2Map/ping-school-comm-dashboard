@@ -1,4 +1,20 @@
-<div class="container row top-padding">
+<div *ngIf="loading" class="ping-loading-parent">
+  <div class="ping-loading preloader-wrapper active">
+    <div class="spinner-layer spinner-red-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!loading" class="container row top-padding">
   <form #loginForm="ngForm" class="col s12">
     <div class="row">
       <div role="alert" *ngIf="error" class="col s12">
@@ -6,8 +22,10 @@
       </div>
     </div>
 
-    <a routerLink="/" class="back-nav"><img src="/assets/arrow-left.svg"/></a>
-    <h2 class="inline-page-title">{{ group.name }} - Group Members</h2>
+    <h2 class="inline-page-title center-align">
+      <a (click)="goBack()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Back</a>
+
+      {{ group.name }} - Group Members</h2>
 
     <div class="row">
 
@@ -20,14 +38,14 @@
             <th style="width:40%">Email</th>
             <th style="width:10%">Role</th>
             <th style="width:15%">Status</th>
-            <th style="width:5%" class="right-align">View</th>
+            <th style="width:5%" class="center-align">Settings</th>
           </tr>
           <tr *ngFor="let member of members; let i = index;">
             <td>{{ member.first_name }} {{member.last_name}}</td>
             <td>{{ member.email }}</td>
             <td>{{ member.role }}</td>
             <td>{{ member.validated ? 'validated' : 'not validated' }}</td>
-            <td><img class="view-icon" (click)="viewMemberDetails(member)" alt="view" src="/assets/view.svg"/></td>
+            <td class="center-align"><a (click)="viewMemberDetails(member)"><i class="material-icons">settings</i></a></td>
           </tr>
           </thead>
         </table>

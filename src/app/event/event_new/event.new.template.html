@@ -17,7 +17,9 @@
 <div materialize class="container events-and-events">
 
   <div class="content">
-    <h2 class="inline-page-title">Create new event</h2>
+    <h2 class="inline-page-title center-align">
+      <a (click)="backToList()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Cancel</a>
+      {{title}}</h2>
     <ul materialize="collapsible" class="collapsible" data-collapsible="accordion">
       <!--<li class="card">
         <div class="collapsible-header"><img class="collapsibe-header-icon recipients"
@@ -65,16 +67,15 @@
 
           <div class="row">
             <div class="col s12">
-              <label for="eventtitle">Event Title</label>
+              <h6 for="eventtitle">Event Title</h6>
               <input style="max-width:500px" class="validate" [(ngModel)]="event.title" id="eventtitle" type="text"/>
             </div>
           </div>
 
           <div class="row">
             <div class="col s6">
-              <label for="startdate">Start date</label>
-              <ng2-datepicker id="startdate" [options]="startDateOptions"
-                              [(ngModel)]="startDateModel"></ng2-datepicker>
+              <h6 for="startdate">Start date</h6>
+              <ng2-datepicker id="startdate" [options]="startDateOptions" [(ngModel)]="startDateModel"></ng2-datepicker>
             </div>
             <div class="col s6">
 
@@ -105,7 +106,7 @@
           <div class="row">
             <div class="col s6">
 
-              <label for="enddate">End Date</label>
+              <h6 for="enddate">End Date</h6>
 
               <ng2-datepicker id="enddate" [options]="endDateOptions"
                               [(ngModel)]="endDateModel"></ng2-datepicker>
@@ -182,42 +183,38 @@
 
           <div class="row">
             <div class="col s12">
-              <h5>External links</h5>
+              <h5 class="external-links-title">External links</h5>
               <div class="row">
                 <div class="col s6">
-                  <label for="link1_url">Link 1 - URL</label>
+                  <h6>Link 1 - URL</h6>
                   <input style="max-width:300px" class="validate" [(ngModel)]="event.link1_url"
                          id="link1_url"
                          type="text"/>
                 </div>
                 <div class="col s6">
-                  <label for="link1_title">Link 1 - Title</label>
+                  <h6>Link 1 - Title</h6>
                   <input style="max-width:300px" class="validate" [(ngModel)]="event.link1_title"
                          id="link1_title" type="text"/>
                 </div>
-              </div>
-              <div class="row">
                 <div class="col s6">
-                  <label for="link2_url">Link 2 - URL</label>
+                  <h6>Link 2 - URL</h6>
                   <input style="max-width:300px" class="validate" [(ngModel)]="event.link2_url"
                          id="link2_url"
                          type="text"/>
                 </div>
                 <div class="col s6">
-                  <label for="link2_title">Link 2 - Title</label>
+                  <h6>Link 2 - Title</h6>
                   <input style="max-width:300px" class="validate" [(ngModel)]="event.link2_title"
                          id="link2_title" type="text"/>
                 </div>
-              </div>
-              <div class="row">
                 <div class="col s6">
-                  <label for="link3_url">Link 3 - URL</label>
+                  <h6>Link 3 - URL</h6>
                   <input style="max-width:300px" class="validate" [(ngModel)]="event.link3_url"
                          id="link3_url"
                          type="text"/>
                 </div>
                 <div class="col s6">
-                  <label for="link3_title">Link 3 - Title</label>
+                  <h6>Link 3 - Title</h6>
                   <input style="max-width:300px" class="validate" [(ngModel)]="event.link3_title"
                          id="link3_title" type="text"/>
                 </div>
@@ -238,7 +235,7 @@
             <img src="/assets/arrow-down.svg"/>
           </div>
         </div>
-        <div class="collapsible-body">
+        <div class="collapsible-body entity-description-parent">
 
           <!--<ckeditor [(ngModel)]="event.description" debounce="500"></ckeditor>-->
 
@@ -332,7 +329,7 @@
                     <pre class="smallDocDescription">{{ template.description}}</pre>
                   </td>
                   <td><a href="{{ template.example_url}}" target="_blank">View example</a></td>
-                  <td style="vertical-align: middle">
+                  <td style="vertical-align: middle;min-width:120px;">
                     <button class="waves-effect waves-light btn"
                             (click)="selectDocumentTemplate(event, template)">select
                     </button>
@@ -524,11 +521,8 @@
     </ul>
 
     <div class="row">
-      <div class="col s6">
-        <a (click)="backToList()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Cancel</a>
-      </div>
-      <div class="col s6 right-align">
-        <a (click)="createEvent()" class="waves-effect waves-light btn">Done</a>
+      <div class="col s12 right-align">
+        <a (click)="createEvent()" class="waves-effect waves-light btn">Save Event Details</a>
       </div>
     </div>
 

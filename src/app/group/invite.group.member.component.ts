@@ -25,6 +25,7 @@ export class InviteGroupMemberComponent implements AfterViewInit {
   role = '';
   motivation = '';
   inviteUsers = false;
+  loading = true;
 
   autocompleteInit = {
     placeholder: 'Add another address',
@@ -45,6 +46,7 @@ export class InviteGroupMemberComponent implements AfterViewInit {
         this.groupId = params['group_id'];
         this.token = params['token'];
         this.inviteUsers = !!params['invite_others'];
+        this.loading = false;
       });
 
     });

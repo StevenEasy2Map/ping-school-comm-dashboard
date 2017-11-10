@@ -1,4 +1,20 @@
-<div class="container row top-padding">
+<div *ngIf="loading" class="ping-loading-parent">
+  <div class="ping-loading preloader-wrapper active">
+    <div class="spinner-layer spinner-red-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!loading" class="container row top-padding">
   <form #loginForm="ngForm" class="col s12">
     <div class="row">
       <div role="alert" *ngIf="error" class="col s12">
@@ -6,22 +22,23 @@
       </div>
     </div>
 
-    <a (click)="backToList()" class="back-nav"><img src="/assets/arrow-left.svg"/></a>
-    <h2 class="inline-page-title">Group Member Details</h2>
+    <h2 class="inline-page-title center-align">
+      <a (click)="backToList()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Cancel</a>
+      {{memberDetails.first_name}} {{ memberDetails.last_name }}
+    </h2>
+
     <div class="row">
       <div class="input-field col s12">
-        <h4>{{memberDetails.first_name}} {{ memberDetails.last_name }}</h4>
-        <h5>{{memberDetails.email }}</h5>
-        <h6>{{memberDetails.group_name }}</h6>
-
+        <p>Email: {{memberDetails.email }}</p>
+        <p>Date joined : {{ memberDetails.date_joined | friendlydate }}</p>
+        <p>Role: {{ memberDetails.role }}</p>
       </div>
     </div>
 
-    <div ngif="!!responses && responses.length >" class="row">
+    <div *ngIf="responses && responses.length > 0" class="row">
 
-      <h6>Group Questions & Responses
+      <h6>Group Questions & Responses</h6>
 
-      </h6>
       <div class="input-field col s12">
 
         <div *ngFor="let item of responses; let i = index;">
@@ -64,7 +81,7 @@
         <button (click)="removeGroupMember()"
                 class="btn waves-effect waves-light"
                 style="" type="button" name="action">
-          Remove User From Group
+          Remove From Group
           <i class="material-icons right">delete</i>
         </button>
 

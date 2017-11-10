@@ -16,8 +16,9 @@
 
 <div class="container notices">
   <div class="content">
-    <a routerLink="/" class="back-nav"><img src="/assets/arrow-left.svg"/></a>
-    <h2 class="inline-page-title">Notices</h2>
+    <h2 class="inline-page-title center-align">
+      <a routerLink="/" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Back</a>
+      Notices</h2>
 
     <a class="add-new-wrapper" (click)="addNewNotice()">
       <div class="btn-floating btn-large waves-effect waves-light orange">
@@ -26,33 +27,44 @@
       <span>Add a Notice</span>
     </a>
 
-    <div class="card" style="margin-top:30px;">
-      <div class="row list-parent">
-        <div class="col s5 list-header">NOTICE TITLE</div>
-        <div class="col s4 list-header">DATE PUBLISHED</div>
-        <div class="col s3 list-header">&nbsp;</div>
-      </div>
+    <table style="margin-top:30px;" class="bordered">
+      <thead>
+      <th>Notice Title</th>
+      <th class="center-align">Date Published</th>
+      <th>Status</th>
+      <th class="center-align">Signatures</th>
+      <th class="center-align">Payments</th>
+      <th class="center-align">Edit</th>
+      <th class="center-align">Delete</th>
+      </thead>
+      <tbody>
+      <tr ngClass="noticeStatusClass(notice)" *ngFor="let notice of notices; let i = index">
+        <td><a (click)="viewNoticeDetails(notice)">{{ notice.title | ellipsis:20 }}</a></td>
+        <td class="center-align">{{ notice.show_date | friendlydate }}</td>
+        <td>{{ noticeActiveStatus(notice) ? 'Active' : 'Inactive' }}</td>
+        <td class="center-align">
 
-      <div [ngStyle]="setLineStyle(notice)" class="row list-parent" *ngFor="let notice of notices; let i = index;">
-        <div class="col s5">
-          <a (click)="viewNoticeDetails(notice)">
-            <h4>{{ notice.title | ellipsis:20 }}</h4>
-          </a>
-        </div>
-        <div class="col s4 small-text">{{ notice.show_date | friendlydate }}</div>
-        <div class="col s3">
-          <div class="row-actions">
-            <a *ngIf="notice.signature_document_id && notice.signature_document_template_id"
-               (click)="viewNoticeSignedDocs(notice);">
-              <i class="material-icons">border_color</i></a>
-            <a *ngIf="notice.payment_applicable"
-               (click)="viewNoticePayments(notice);"><i class="material-icons">payment</i></a>
-            <!--<img class="view-icon" (click)="viewNoticeDetails(notice)" alt="view" src="/assets/view.svg"/>-->
-            <img (click)="editNotice(notice)" class="edit-icon" alt="edit" src="/assets/edit.svg"/>
-            <img (click)="deleteNotice(notice, i)" alt="delete" src="/assets/delete.svg"/>
-          </div>
-        </div>
-      </div>
-    </div>
+          <a *ngIf="notice.signature_document_id && notice.signature_document_template_id" (click)="viewNoticeSignedDocs(notice);">
+            <i class="material-icons">border_color</i></a>
+        </td>
+        <td class="center-align">
+
+          <a *ngIf="notice.payment_applicable"
+             (click)="viewNoticePayments(notice);"><i class="material-icons">payment</i></a>
+
+        </td>
+        <td class="center-align">
+          <a (click)="editNotice(notice)"><i class="material-icons">create</i></a>
+
+        </td>
+        <td class="center-align">
+          <a (click)="deleteNotice(notice, i)"><i class="material-icons">delete</i></a>
+        </td>
+
+      </tr>
+      </tbody>
+    </table>
+
+
   </div>
 </div>

@@ -29,6 +29,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
   groups: any[] = [];
   groupSummary: any = {};
   loading = true;
+  title = 'Create new notice';
 
   showDateModel: DateModel;
   showDateOptions: DatePickerOptions;
@@ -133,6 +134,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
         this.notice = response;
         console.log(this.notice);
         this.loading = false;
+        this.title = 'Edit notice';
 
         this.allowUsersToSetPaymentAmount = !!this.notice.payment_allow_user_to_set;
         this.appendPaymentRefUserLastName = !!this.notice.payment_ref_append_lastname;
@@ -220,7 +222,8 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
   }
 
   backToList(): void {
-    this.router.navigate(['/group-notices-list', {group_id: this.groupId, school_id: this.schoolId}]);
+    window.history.back();
+    // this.router.navigate(['/group-notices-list', {group_id: this.groupId, school_id: this.schoolId}]);
   }
 
   createNotice(): void {

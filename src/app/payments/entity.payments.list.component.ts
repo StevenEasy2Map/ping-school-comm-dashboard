@@ -58,7 +58,8 @@ export class EntityPaymentsListComponent {
   }
 
   backToList(): void {
-    this.router.navigate(['/group-notices-list', {group_id: this.groupId, school_id: this.schoolId}]);
+    window.history.back();
+    // this.router.navigate(['/group-notices-list', {group_id: this.groupId, school_id: this.schoolId}]);
   }
 
   // getEntityDocuments(): void {

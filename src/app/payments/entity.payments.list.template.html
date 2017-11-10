@@ -35,7 +35,7 @@
         <td>{{ payment.payment_reference }}</td>
         <td class="right-align">{{payment.currency}} {{ payment.amount | number: '1.2-2' }}</td>
         <td class="center-align">{{ (payment.payment_date | friendlydatetime) || '-' }}</td>
-        <td class="center-align"> {{ payment.processed ? 'Yes' : 'No' }} </td>
+        <td class="center-align"> {{ payment.processed ? 'Yes' : 'No' }}</td>
         <td class="right-align"><a href="#">Refund payment</a></td>
         <!--<td>{{ document.first_name }}</td>
         <td>{{ document.last_name }}</td>

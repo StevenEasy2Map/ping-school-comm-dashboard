@@ -32,6 +32,7 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
   groups: any[] = [];
   groupSummary: any = {};
   loading = true;
+  title = 'Create new event';
 
   error = '';
   startDateModel: DateModel;
@@ -41,13 +42,13 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
   endDateOptions: DatePickerOptions;
 
   startTimeHours = this.padNumber((new Date()).getHours());
-  startTimeMinutes = this.padNumber((new Date()).getMinutes());
+  startTimeMinutes = '00';
 
   endTimeHours = this.padNumber((new Date()).getHours());
-  endTimeMinutes = this.padNumber((new Date()).getMinutes());
+  endTimeMinutes = '00'; // this.padNumber((new Date()).getMinutes());
 
   hours = Array.from({length: 24}, (v, i) => i);
-  minutes = Array.from({length: 60}, (v, i) => i);
+  minutes = [0, 15, 30, 45]; // Array.from({length: 60}, (v, i) => i);
 
   paymentApplicable = false;
   allowUsersToSetPaymentAmount = false;
@@ -158,6 +159,7 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
         this.auth.processing = false;
         this.event = response;
         console.log(this.event);
+        this.title = 'Edit event details';
 
         this.loading = false;
 
@@ -278,7 +280,8 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
   }
 
   backToList(): void {
-    this.router.navigate(['/group-events-calendar', {group_id: this.groupId, school_id: this.schoolId}]);
+    window.history.back();
+    //  this.router.navigate(['/group-events-calendar', {group_id: this.groupId, school_id: this.schoolId}]);
   }
 
   createEvent(): void {
@@ -323,6 +326,8 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
       return;
     }
 
+    this.loading = true;
+
     if (!!this.eventId) {
 
       this.eventService.editEvent(postValue).subscribe(
@@ -338,6 +343,7 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
               templateDetails['document_id'] = this.event['signature_document_id'];
               this.updateDocument(templateDetails).subscribe(
                 response => {
+                  this.loading = false;
                   this.backToList();
                 }
               );
@@ -345,6 +351,7 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
             } else {
               this.createDocument(templateDetails).subscribe(
                 response => {
+                  this.loading = false;
                   this.backToList();
                 }
               );
@@ -359,17 +366,22 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
               templateDetails['document_id'] = this.event['signature_document_id'];
               this.removeDocument(templateDetails).subscribe(
                 response => {
+                  this.loading = false;
                   this.backToList();
                 }
               );
 
             } else {
+              this.loading = false;
               this.backToList();
             }
 
           }
         },
-        error => this.error = <any>error);
+        error => {
+          this.error = <any>error;
+          this.loading = false;
+        });
 
     } else {
 
@@ -379,13 +391,18 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
             templateDetails['entity_id'] = result.event_id;
             this.createDocument(templateDetails).subscribe(
               res => {
+                this.loading = false;
                 this.backToList();
               });
           } else {
+            this.loading = false;
             this.backToList();
           }
         },
-        error => this.error = <any>error);
+        error => {
+          this.error = <any>error;
+          this.loading = false;
+        });
 
     }
 
