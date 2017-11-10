@@ -50,6 +50,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NguiAutoCompleteModule} from '@ngui/auto-complete';
 import {TagInputModule} from "ngx-chips"
 import {GroupMembersComponent} from "./group/group_members/group.members.component";
+import {UploadSignedDocComponent} from "./document_signing/upload.signed.doc.component";
 
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
@@ -82,6 +83,7 @@ const appRoutes: Routes = [
 
   {path: 'entity-doc-signed-list', component: EntityDocSignedListComponent, canActivate: [AuthGuard]},
   {path: 'entity-payments-list', component: EntityPaymentsListComponent, canActivate: [AuthGuard]},
+  {path: 'upload-signed-doc', component: UploadSignedDocComponent, canActivate: [AuthGuard]},
 
   {path: '', component: HomeComponent, canActivate: [AuthGuard]}
 
@@ -122,6 +124,8 @@ const appRoutes: Routes = [
 
     EntityDocSignedListComponent,
     EntityPaymentsListComponent,
+
+    UploadSignedDocComponent,
 
     FriendlyDatePipe,
     FriendlyDateTimePipe,
