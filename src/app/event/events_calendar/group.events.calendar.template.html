@@ -68,7 +68,7 @@
     </thead>
     <tbody>
     <tr *ngFor="let event of selectedEvents; let i = index;">
-      <td><a (click)="viewEventDetails(i)">{{ event.title | ellipsis:20 }}</a></td>
+      <td><a (click)="viewEventDetails(event)">{{ event.title | ellipsis:20 }}</a></td>
       <td class="center-align">{{ event.start | friendlydatetime }} - {{ event.end | friendlydatetime }}</td>
       <td class="center-align">
 

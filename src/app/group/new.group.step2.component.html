@@ -1,3 +1,19 @@
+<div *ngIf="loading" class="ping-loading-parent">
+  <div class="ping-loading preloader-wrapper active">
+    <div class="spinner-layer spinner-red-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container row">
   <form #loginForm="ngForm" class="col s12">
     <div class="row">
@@ -6,7 +22,11 @@
       </div>
     </div>
 
-    <h3 class="title">{{ schoolName }} : Create a Group - Step 2</h3>
+    <h2 class="inline-page-title center-align">
+      <a (click)="goBack()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>back</a>
+      Create a Group - Step 2</h2>
+
+    <h6><strong>School: </strong>{{ schoolName }}</h6>
 
     <div class="row">
       <div class="input-field col s12">
@@ -71,7 +91,7 @@
         <input [(ngModel)]="groupPrivate" name="groupPrivate"
                type="checkbox" id="groupPrivate"/>
         <label class="description" for="groupPrivate">This is a private group</label>
-        <p class="description_hint">(if true, users can only join private groups with an invite token, or by being invited directly by you or another group administrator)</p>
+        <p class="description_hint">If true, users can only join private groups with an invite token, or by being invited directly by you or another group administrator.</p>
       </div>
     </div>
 
@@ -81,30 +101,23 @@
         <input [(ngModel)]="newMembersVetted" name="newMembersVetted"
                type="checkbox" id="newMembersVetted"/>
         <label class="description" for="newMembersVetted">New group members must be vetted by the group owner or admin</label>
-        <p class="description_hint">(if true, all new members who join the group must be vetted by you or another group administrator, in order to activate their group membership.
-          The vetting process is done within this admin console)</p>
+        <p class="description_hint">if true, all new members who join the group must be vetted by you or another group administrator in order to activate their group
+          membership.<br>
+          The vetting process is done within this admin console.</p>
       </div>
     </div>
 
-    <div class="row">
-      <div class="input-field col s12">
-        <input [(ngModel)]="childNames" name="childNames"
-               type="checkbox" id="childNames"/>
-        <label class="description" for="childNames">Group members must indicate their child's name when joining</label>
-      </div>
-    </div>
+    <div class="row group-meta-parent">
 
+      <h6>Membership questions
 
-    <div class="row">
-
-      <h6>Group Questions
-
-        <a (click)="addQuestion()" class="btn-floating halfway-fab waves-effect waves-light red"><i
+        <a (click)="addQuestion()" class="btn-floating halfway-fab waves-effect waves-light orange"><i
           class="material-icons">add</i></a>
 
+        <p *ngIf="questions && questions.length == 0" class="description_hint">Ask new members questions when joining this group.<br>For example, what is your child's name etc.</p>
 
       </h6>
-      <div class="input-field col s12">
+      <div *ngIf="questions && questions.length > 0" class="input-field col s12">
 
         <table class="bordered">
           <thead>
@@ -131,8 +144,8 @@
 
       <div class="row">
 
-        <h6 *ngIf="!!question && question.id !== -1">Edit Question</h6>
-        <h6 *ngIf="!!question && question.id === -1">Add Question</h6>
+        <h6 style="margin-left:12px;" *ngIf="!!question && question.id !== -1">Edit Question</h6>
+        <h6 style="margin-left:12px;" *ngIf="!!question && question.id === -1">Add Question</h6>
         <div class="input-field col s12">
           <h6>Question</h6>
           <input *ngIf="!!question" autocomplete="off"
@@ -146,7 +159,7 @@
                  [(ngModel)]="question.required"
                  name="questionRequired"
                  type="checkbox" id="questionRequired"/>
-          <label class="description" for="questionRequired">This question is mandatory (cannot be left empty)</label>
+          <label class="description" for="questionRequired">This question is required (cannot be left empty)</label>
         </div>
       </div>
 

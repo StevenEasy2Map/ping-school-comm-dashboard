@@ -43,8 +43,8 @@
           <tr *ngFor="let member of members; let i = index;">
             <td>{{ member.first_name }} {{member.last_name}}</td>
             <td>{{ member.email }}</td>
-            <td>{{ member.role }}</td>
-            <td>{{ member.validated ? 'validated' : 'not validated' }}</td>
+            <td [ngClass]="{'bold-text' : member.role === 'admin' || member.role === 'owner'}">{{ member.role }}</td>
+            <td [ngClass]="{'red-text' : !member.validated, 'bold-text' : !member.validated}">{{ member.validated ? 'validated' : 'not validated' }}</td>
             <td class="center-align"><a (click)="viewMemberDetails(member)"><i class="material-icons">settings</i></a></td>
           </tr>
           </thead>

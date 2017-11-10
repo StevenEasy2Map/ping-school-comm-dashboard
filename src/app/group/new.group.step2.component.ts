@@ -25,7 +25,6 @@ export class NewGroupStep2Component implements AfterViewInit {
   whatsApp = '';
   groupDescription = '';
   groupPrivate = false;
-  childNames = false;
   groupId: any = 0;
   token = '';
   questionId: any = 0;
@@ -33,6 +32,7 @@ export class NewGroupStep2Component implements AfterViewInit {
   question: any = {};
   questionProcessing = false;
   newMembersVetted = false;
+  loading = true;
 
   constructor(private auth: AuthService,
               private userService: UserService,
@@ -53,6 +53,8 @@ export class NewGroupStep2Component implements AfterViewInit {
         this.schoolName = params['school_name'];
       });
 
+      this.loading = false;
+
     });
 
   }
@@ -64,6 +66,7 @@ export class NewGroupStep2Component implements AfterViewInit {
       this.newMembersVetted ? 1 : 0);
 
     this.auth.processing = true;
+    this.loading = true;
     this.auth.getFirebaseTokenAsPromise().then(() => {
 
       this.groupService.createGroup(group).subscribe(
@@ -84,6 +87,7 @@ export class NewGroupStep2Component implements AfterViewInit {
             Observable.forkJoin(observables).subscribe(t => {
 
               this.auth.processing = false;
+              this.loading = false;
               this.router.navigate(['/invite-group-member',
                 {
                   school_id: this.schoolId,
@@ -97,6 +101,7 @@ export class NewGroupStep2Component implements AfterViewInit {
           } else {
 
             this.auth.processing = false;
+            this.loading = false;
             this.router.navigate(['/invite-group-member',
               {
                 school_id: this.schoolId,
@@ -109,10 +114,17 @@ export class NewGroupStep2Component implements AfterViewInit {
 
 
         },
-        error => this.error = <any>error);
+        error => {
+          this.error = <any>error;
+          this.loading = false;
+        });
 
     });
 
+  }
+
+  goBack() {
+    window.history.back();
   }
 
 

@@ -1,12 +1,7 @@
 import {AfterViewInit, Component} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NoticeService} from '../services/notice.service';
-import {FriendlyDatePipe} from '../../common/pipes/friendly.date.pipe';
-import {FriendlyDateTimePipe} from '../../common/pipes/friendly.date.time.pipe';
-import {Notice} from '../models/notice';
 import {AuthService} from '../../../providers/auth-service';
-import {AppSettings} from '../../app.settings';
-import {HelperService} from '../../../providers/helper-service';
 
 @Component({
   selector: 'app-notice-details-component',
@@ -14,7 +9,7 @@ import {HelperService} from '../../../providers/helper-service';
   providers: [NoticeService],
   styleUrls: ['./notice.details.style.scss']
 })
-export class NoticeDetailsComponent implements AfterViewInit{
+export class NoticeDetailsComponent implements AfterViewInit {
 
   schoolId = 0;
   groupId = 0;
@@ -22,6 +17,7 @@ export class NoticeDetailsComponent implements AfterViewInit{
   notice: any = {};
   noticeGroups: any[] = [];
   error = '';
+  loading = true;
 
   constructor(private auth: AuthService,
               public noticeService: NoticeService,
@@ -46,15 +42,23 @@ export class NoticeDetailsComponent implements AfterViewInit{
 
   }
 
+  goBack() {
+    window.history.back();
+  }
+
   getNoticeDetails(): void {
 
     this.noticeService.getNoticeDetails(this.noticeId).subscribe(
       response => {
         this.notice = response;
         console.log(this.notice);
+        this.loading = false;
 
       },
-      error => this.error = <any>error);
+      error => {
+        this.error = <any>error;
+        this.loading = true;
+      });
 
 
   }

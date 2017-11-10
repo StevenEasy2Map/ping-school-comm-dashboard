@@ -21,6 +21,7 @@ export class EventDetailsComponent implements AfterViewInit {
   event: any;
   eventGroups: any[] = [];
   error = '';
+  loading = true;
 
   constructor(private auth: AuthService,
               public eventService: EventService,
@@ -54,6 +55,7 @@ export class EventDetailsComponent implements AfterViewInit {
         this.event.end_date = HelperService.timeZoneAdjustedDate(this.event.end_date, this.event.timezone_offset);
 
         console.log(this.event);
+        this.loading = false;
 
       },
       error => {
@@ -62,6 +64,10 @@ export class EventDetailsComponent implements AfterViewInit {
       });
 
 
+  }
+
+  goBack() {
+    window.history.back();
   }
 
   getEventGroups(): void {

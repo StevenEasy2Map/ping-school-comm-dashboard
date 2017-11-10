@@ -1,31 +1,32 @@
-import {Component} from '@angular/core';
+import {AfterViewInit, Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AuthService} from "../../providers/auth-service";
-import {PaymentsService} from "./services/payments.service";
+import {AuthService} from '../../providers/auth-service';
+import {PaymentsService} from './services/payments.service';
 
 @Component({
-  selector: 'entity-payments-list-list-component',
+  selector: 'app-entity-payments-list-list-component',
   templateUrl: 'entity.payments.list.template.html',
   providers: [PaymentsService],
   styleUrls: ['payments.style.scss']
 })
-export class EntityPaymentsListComponent {
+export class EntityPaymentsListComponent implements AfterViewInit {
 
   payments: any[] = [];
   paymentTotal = 0;
   paymentCurrency = '';
   paymentDetails = {};
-  entityId: string = '';
-  schoolId: string = '';
+  entityId = '';
+  schoolId = '';
   groupId = '';
-  paymentId: string = '';
+  paymentId = '';
   entityType = '';
   entityTitle = '';
+  loading = true;
 
   constructor(private auth: AuthService,
               public paymentsService: PaymentsService,
               public router: Router,
-              public route: ActivatedRoute) {
+              public route: ActivatedRoute)  {
 
 
   }
@@ -52,7 +53,8 @@ export class EntityPaymentsListComponent {
       this.payments.forEach(payment => {
         this.paymentTotal += payment.amount || 0;
         this.paymentCurrency = payment.currency;
-      })
+      });
+      this.loading = false;
     });
 
   }

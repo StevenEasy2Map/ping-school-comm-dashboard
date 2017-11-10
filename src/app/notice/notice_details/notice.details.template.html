@@ -1,15 +1,33 @@
-<div class="container notice">
-  <a (click)="backToList()" class="back-nav"><img src="/assets/arrow-left.svg"/></a>
-  <h2 class="inline-page-title">
-    {{ notice.title }}<br/>
-    <span class="publish-date small-text">Published {{ notice.show_date | friendlydate }}</span>
+<div *ngIf="loading" class="ping-loading-parent">
+  <div class="ping-loading preloader-wrapper active">
+    <div class="spinner-layer spinner-red-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!loading" class="container notice">
+  <h2 class="inline-page-title center-align">
+    <a (click)="goBack()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Back</a>
+    {{ notice.title }}
+
   </h2>
+
+  <p>Published {{ notice.show_date | friendlydate }}</p>
 
   <div class="content">
 
     <div class="row">
       <div class="col s12">
-        <div class="card">
+
           <div class="notice-image" *ngIf="notice.image">
             <img src="{{ notice.image }}" style="max-width:600px;max-height:600px;">
           </div>
@@ -18,13 +36,13 @@
           </div>
           <div *ngIf="notice.attachment_link" class="card-action">
             <hr>
-            <a class="event-details-link">Show Document</a>
+            <a target="_blank" href="{{notice.attachment_link}}" class="event-details-link">Show Document</a>
           </div>
-        </div>
+
       </div>
 
     </div>
-    <div class="row">
+    <!--<div class="row">
 
       <div class="col s12">
         <div class="card">
@@ -37,7 +55,7 @@
         </div>
       </div>
 
-    </div>
+    </div>-->
 
 
     <!--<div class="row">

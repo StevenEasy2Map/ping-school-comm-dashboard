@@ -1,9 +1,25 @@
+<div *ngIf="loading" class="ping-loading-parent">
+  <div class="ping-loading preloader-wrapper active">
+    <div class="spinner-layer spinner-red-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container notices">
   <div class="content">
-    <a (click)="backToList()" class="back-nav"><img src="/assets/arrow-left.svg"/></a>
-    <h2 class="inline-page-title">Payments Made</h2>
 
-    <h4>{{entityTitle}}</h4>
+    <h2 class="inline-page-title center-align">
+      <a (click)="backToList()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Back</a>
+      "{{entityTitle}}" - Payments Made</h2>
 
     <div class="row">
       <div class="col s6">
@@ -14,7 +30,6 @@
         <a class=" rightwaves-effect waves-light btn white-text">Export payments list</a>
       </div>
     </div>
-
 
     <table class="bordered">
       <thead>

@@ -1,29 +1,48 @@
-<div *ngIf="event" class="container event">
-  <h2 class="inline-page-title">
-    {{ event.title }}<br/>
-    <span class="publish-date small-text">Published {{ event.start_date | friendlydate }}</span>
+<div *ngIf="loading" class="ping-loading-parent">
+  <div class="ping-loading preloader-wrapper active">
+    <div class="spinner-layer spinner-red-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="event && !loading" class="container event">
+  <h2 class="inline-page-title center-align">
+
+    <a (click)="goBack()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Back</a>
+    {{ event.title }}
+
   </h2>
+
+  <p>{{ event.start_date | friendlydate }}</p>
 
   <div class="content">
 
     <div class="row">
       <div class="col s12">
-        <div class="card">
-          <div class="event-image" *ngIf="event && event.image">
-            <img src="{{ event.image }}" style="max-width:600px;max-height:600px;">
-          </div>
-          <div class="view_description_text">
-            <pre>{{ event.description }}</pre>
-          </div>
-          <div *ngIf="event && event.attachment_link" class="card-action">
-            <hr>
-            <a href="{{ event.attachment_link }}" target="_blank" class="event-details-link">Show Document</a>
-          </div>
+        <div class="event-image" *ngIf="event && event.image">
+          <img src="{{ event.image }}" style="max-width:600px;max-height:600px;">
         </div>
+        <div class="view_description_text">
+          <pre>{{ event.description }}</pre>
+        </div>
+        <div *ngIf="event && event.attachment_link" class="card-action">
+          <hr>
+          <a href="{{ event.attachment_link }}" target="_blank" class="event-details-link">Show Document</a>
+        </div>
+
       </div>
 
     </div>
-    <div class="row">
+    <!--<div class="row">
 
       <div class="col s12">
         <div class="card">
@@ -36,7 +55,7 @@
         </div>
       </div>
 
-    </div>
+    </div>-->
 
 
     <!--<div class="row">

@@ -23,7 +23,7 @@
     </div>
 
     <h2 class="inline-page-title center-align">
-      <a (click)="backToList()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Cancel</a>
+      <a (click)="backToList()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Back</a>
       {{memberDetails.first_name}} {{ memberDetails.last_name }}
     </h2>
 
@@ -32,30 +32,17 @@
         <p>Email: {{memberDetails.email }}</p>
         <p>Date joined : {{ memberDetails.date_joined | friendlydate }}</p>
         <p>Role: {{ memberDetails.role }}</p>
+        <p>Validated: {{ memberDetails.validated ? 'Yes' : 'No' }}</p>
       </div>
     </div>
 
     <div *ngIf="responses && responses.length > 0" class="row">
 
-      <h6>Group Questions & Responses</h6>
-
       <div class="input-field col s12">
 
-        <div *ngFor="let item of responses; let i = index;">
-          <h2>{{i + 1}}: {{ item.question.question_title }} {{ !!item.question.required ? '*' : '*' }}</h2>
-
-          <table class="bordered">
-            <thead>
-            <tr>
-              <th>Response</th>
-              <th class="center-align">Date Responded</th>
-            </tr>
-            <tr>
-              <td>{{item.response}}</td>
-              <td class="center-align">{{ item.date_responded }}</td>
-            </tr>
-            </thead>
-          </table>
+        <div style="margin-top:30px;" *ngFor="let item of responses; let i = index;">
+          <h4>{{i + 1}}: {{ item.question.question_title }} {{ !!item.question.required ? '*' : '*' }}</h4>
+          <p>{{item.response}}</p>
 
         </div>
 
