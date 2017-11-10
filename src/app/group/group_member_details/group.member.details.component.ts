@@ -108,6 +108,7 @@ export class GroupMemberDetailsComponent implements AfterViewInit {
     // TODO: request confirmation via model
 
     this.auth.processing = true;
+    this.loading = true;
 
     this.groupService.adminValidateGroupMember({
       group_id: this.groupId,
@@ -116,10 +117,12 @@ export class GroupMemberDetailsComponent implements AfterViewInit {
     }).subscribe(result => {
 
       this.auth.processing = false;
+      this.loading = false;
       this.memberDetails.validated = true;
       this.backToList();
 
     }, error => {
+      this.loading = false;
       this.error = <any>error
       this.auth.processing = false;
     });

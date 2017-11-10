@@ -1,0 +1,53 @@
+<div class="container notices">
+  <div class="content">
+    <a (click)="goBack()" class="back-nav"><img src="/assets/arrow-left.svg"/></a>
+    <h2 class="inline-page-title">Upload Signed Document</h2>
+
+    <h4>{{userEmail}}</h4>
+    <h5>{{documentDetails['title']}}</h5>
+
+    <div class="row">
+      <div class="col s12">
+        <h6 for="livedate">Date of signing</h6>
+        <ng2-datepicker name="signed" id="signed" [options]="signedDateOptions"
+                        [(ngModel)]="signedDateModel"></ng2-datepicker>
+
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col s12">
+
+        <div class="file-field input-field">
+          <div class="btn">
+            <div class="upload-icon">
+              <img src="/assets/upload.svg"/>
+            </div>
+            <span>Upload signed document</span>
+            <input id="docUpload" type="file">
+          </div>
+          <div class="file-path-wrapper center-align">
+            <input style="display: none" class="file-path" type="text">
+            <a *ngIf="!!documentUrl" target="_blank"
+               href="{{ documentUrl }}">View Document</a>
+            <a *ngIf="!!documentUrl" (click)="documentUrl = null;"
+               class="delete-upload">
+              <img src="/assets/delete.svg"/>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col s12 right-align">
+        <a (click)="saveDocument()" class="waves-effect waves-light btn">Save Document Details</a>
+      </div>
+    </div>
+
+
+  </div>
+</div>
