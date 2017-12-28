@@ -7,7 +7,7 @@ import {StorageService} from '../../providers/storage-service';
 
 @Component({
   selector: 'app-upload-signed-doc-component',
-  templateUrl: 'upload.signed.doc.component.template.html',
+  templateUrl: 'upload.signed.document.template.html',
   providers: [DocumentSigningService],
   styleUrls: ['doc.signed.style.scss']
 })

@@ -48,9 +48,11 @@ import {NumberPadPipe} from './common/pipes/number.pad.pipe';
 import {CalendarModule} from 'angular-calendar';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NguiAutoCompleteModule} from '@ngui/auto-complete';
-import {TagInputModule} from "ngx-chips"
-import {GroupMembersComponent} from "./group/group_members/group.members.component";
-import {UploadSignedDocComponent} from "./document_signing/upload.signed.doc.component";
+import {TagInputModule} from 'ngx-chips';
+import {GroupMembersComponent} from './group/group_members/group.members.component';
+import {UploadSignedDocComponent} from './document_signing/upload.signed.doc.component';
+import {ModalModule} from 'ngx-modialog';
+import {BootstrapModalModule} from 'ngx-modialog/plugins/bootstrap';
 
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
@@ -147,6 +149,10 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     BrowserAnimationsModule,
     CalendarModule.forRoot(),
+
+    ModalModule.forRoot(),
+    BootstrapModalModule,
+
     AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [AppComponent, AuthService, AuthGuard, StorageService, APIService, HelperService, AngularFireAuth],

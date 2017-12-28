@@ -67,7 +67,7 @@ a:hover {
   text-decoration: underline;
 }
 
-tr.inactive{
+tr.inactive {
   background-color: #EBEBEB;
 }
 
@@ -132,8 +132,14 @@ select {
   display: block;
 }
 
-.bold-text{
+.bold-text {
   font-weight: bold;
+}
+
+.error-message-header-parent {
+  padding: 30px;
+  text-align: center;
+  font-size: 17px;
 }
 
 pre {

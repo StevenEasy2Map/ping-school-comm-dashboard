@@ -59,6 +59,12 @@ chips:
 http://www.buompris.co/ng2-tag-input/
 https://github.com/Gbuomprisco/ngx-chips/blob/master/demo/home/home.ts
 https://github.com/Gbuomprisco/ngx-chips/blob/master/demo/home/home.html
+
+
+modal dialog:
+https://github.com/shlomiassaf/ngx-modialog
+http://shlomiassaf.github.io/ngx-modialog/#/documentation
+
   
   
   

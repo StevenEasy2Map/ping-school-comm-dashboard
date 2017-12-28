@@ -1,4 +1,4 @@
-import {AfterViewInit, Component} from '@angular/core';
+import {AfterViewInit, Component, ViewContainerRef} from '@angular/core';
 import {UserService} from '../security/user.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {StorageService} from '../../providers/storage-service';
@@ -8,6 +8,11 @@ import {GroupMembershipQuestion} from './models/question';
 import {AuthService} from '../../providers/auth-service';
 import {Observable} from 'rxjs';
 import 'rxjs/add/observable/throw';
+import {ModalModule} from 'ngx-modialog';
+import {BootstrapModalModule, Modal, bootstrap4Mode} from 'ngx-modialog/plugins/bootstrap';
+
+
+bootstrap4Mode();
 
 @Component({
   selector: 'app-new-group-step2-component',
@@ -39,6 +44,7 @@ export class NewGroupStep2Component implements AfterViewInit {
               private router: Router,
               private route: ActivatedRoute,
               private storageService: StorageService,
+              private modal: Modal,
               private groupService: GroupService) {
   }
 
@@ -75,7 +81,7 @@ export class NewGroupStep2Component implements AfterViewInit {
           this.token = response.token;
           console.log(this.groupId);
 
-          if (!!this.questions) {
+          if (this.questions && Array.isArray(this.questions) && this.questions.length > 0) {
 
             // https://www.metaltoad.com/blog/angular-2-http-observables-and-concurrent-data-loading
             const observables = [];
@@ -115,8 +121,30 @@ export class NewGroupStep2Component implements AfterViewInit {
 
         },
         error => {
-          this.error = <any>error;
+
+          error = error.replace('500 - Internal Server Error ', '');
+          error = JSON.parse(error);
+
+          this.error = error.message;
           this.loading = false;
+          this.auth.processing = false;
+
+          console.log(this.error);
+
+          const dialogRef = this.modal.alert()
+            .showClose(false)
+            .title('')
+            .body(`
+            <h5>An error has occurred</h5>
+            ${this.error}`)
+            .open();
+
+          dialogRef
+            .then(ref => {
+              // ref.result.then(result => alert(`The result is: ${result}`));
+            });
+
+
         });
 
     });
@@ -126,7 +154,6 @@ export class NewGroupStep2Component implements AfterViewInit {
   goBack() {
     window.history.back();
   }
-
 
   editQuestion(i): void {
     this.questionProcessing = true;
