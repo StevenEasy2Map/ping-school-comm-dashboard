@@ -1,0 +1,94 @@
+<div *ngIf="loading" class="ping-loading-parent">
+  <div class="ping-loading preloader-wrapper active">
+    <div class="spinner-layer spinner-red-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!loading" class="container row" style=" margin-top:20px;">
+
+    <h3>Own My School</h3>
+
+  <div class="row container">
+    <form #submitForm="ngForm" class="col s12">
+      <div class="row">
+        <div role="alert" *ngIf="error" class="col s12">
+          <span class="red-text text-darken-4">{{ error }}</span>
+        </div>
+      </div>
+
+      <div class="row">
+
+        <div class="col s12">
+          <p class="title">Please select the school you wish to take ownership of</p>
+          <select style="max-width:500px;" name="selectedSchool" class="browser-default" [(ngModel)]="selectedSchool">
+            <option *ngFor="let school of schoolsList" [ngValue]="school">{{school.name}}</option>
+          </select>
+        </div>
+
+
+        <div class="top-padding col s12">
+
+          <p class="title">Please enter the email address of the primary school administrator</p>
+          <p class="explanation">
+            Further administrators can be added once this process is complete
+          </p>
+          <input style="max-width:500px" class="validate" [(ngModel)]="email" name="email"
+                 id="email" type="email"/>
+        </div>
+
+
+      </div>
+
+      <div class="row">
+        <div class="col s12 top-padding">
+          <input class="filled-in"
+                 id="vet-new-events"
+                 type="checkbox"
+                 name="vet-new-events"
+                 [(ngModel)]="vetNewEvents"/>
+          <label for="vet-new-events">School administrators must vet all new events created by groups within this school</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s12 top-padding">
+          <input class="filled-in"
+                 id="vet-new-notices"
+                 type="checkbox"
+                 name="vet-new-notices"
+                 [(ngModel)]="vetNewNotices"/>
+          <label for="vet-new-notices">School administrators must vet all new notices created by groups within this school</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 top-padding">
+          <input class="filled-in"
+                 id="new-groups"
+                 type="checkbox"
+                 name="new-groups"
+                 [(ngModel)]="allowNewGroupsNonAdmin"/>
+          <label for="new-groups">Allow users who are <span class="bold-text">NOT</span> school administrators to create groups within this school.</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s12 submit-button-parent center-align">
+
+          <button [disabled]="!submitForm.form.valid" (click)="ownMySchool()"
+                  class="btn waves-effect waves-light" style="float:right;margin-right:80px;" type="submit" name="action">Submit
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
