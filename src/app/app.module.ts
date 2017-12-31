@@ -54,6 +54,7 @@ import {UploadSignedDocComponent} from './document_signing/upload.signed.doc.com
 import {ModalModule} from 'ngx-modialog';
 import {BootstrapModalModule} from 'ngx-modialog/plugins/bootstrap';
 import {OwnMySchoolComponent} from './school/own.my.school.component';
+import {UpdateMySchoolComponent} from './school/update.my.school.component';
 
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
@@ -88,6 +89,7 @@ const appRoutes: Routes = [
   {path: 'entity-payments-list', component: EntityPaymentsListComponent, canActivate: [AuthGuard]},
   {path: 'upload-signed-doc', component: UploadSignedDocComponent, canActivate: [AuthGuard]},
   {path: 'own-my-own-school', component: OwnMySchoolComponent, canActivate: [AuthGuard]},
+  {path: 'update-my-school', component: UpdateMySchoolComponent, canActivate: [AuthGuard]},
 
   {path: '', component: HomeComponent, canActivate: [AuthGuard]}
 
@@ -132,6 +134,7 @@ const appRoutes: Routes = [
     UploadSignedDocComponent,
 
     OwnMySchoolComponent,
+    UpdateMySchoolComponent,
 
     FriendlyDatePipe,
     FriendlyDateTimePipe,

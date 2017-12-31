@@ -2,26 +2,31 @@ import {AfterViewInit, Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {GroupService} from '../group/group.service';
 import {AuthService} from '../../providers/auth-service';
+import {SchoolService} from '../school/school.service';
 
 @Component({
-  selector: 'home-component',
+  selector: 'app-home-component',
   templateUrl: 'home.component.html',
   styleUrls: ['./home.style.scss'],
-  providers: [GroupService],
+  providers: [GroupService, SchoolService],
 })
 export class HomeComponent implements AfterViewInit {
 
   myGroups: any[] = [];
+  mySchools: any[] = [];
   error = '';
   loading = true;
 
-  constructor(private auth: AuthService, private groupService: GroupService, private router: Router) {
+  constructor(private auth: AuthService, private groupService: GroupService,
+              private schoolService: SchoolService,
+              private router: Router) {
   }
 
   ngAfterViewInit(): void {
 
     this.auth.getFirebaseTokenAsPromise().then(() => {
       this.getMyGroups();
+      this.getAllSchoolsIAdminister();
     });
 
   }
@@ -37,6 +42,23 @@ export class HomeComponent implements AfterViewInit {
         });
 
         console.log(this.myGroups);
+        this.auth.processing = false;
+        this.loading = false;
+
+      },
+      error => {
+        this.error = <any>error;
+        this.loading = false;
+      });
+
+
+  }
+
+  getAllSchoolsIAdminister() {
+
+    this.schoolService.getAllPrivateSchoolsIAdminister().subscribe(
+      response => {
+        this.mySchools = response || [];
         this.auth.processing = false;
         this.loading = false;
 
@@ -66,9 +88,12 @@ export class HomeComponent implements AfterViewInit {
 
   editGroup(i): void {
     const group = this.myGroups[i];
-
     this.router.navigate(['/edit-group', {group_id: group.id, school_id: group.school_id}]);
+  }
 
+  editSchool(i): void {
+    const school = this.mySchools[i];
+    this.router.navigate(['/update-my-school', {school_id: school.id}]);
   }
 
   viewGroupMembers(i): void {

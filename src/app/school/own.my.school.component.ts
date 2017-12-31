@@ -57,7 +57,10 @@ export class OwnMySchoolComponent implements AfterViewInit {
         res => {
           this.router.navigateByUrl('/home');
         },
-        error => this.error = <any>error);
+        error => {
+          this.error = <any>error;
+          this.auth.processing = false;
+        });
 
     });
 

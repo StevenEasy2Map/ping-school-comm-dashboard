@@ -1,0 +1,109 @@
+<div *ngIf="loading" class="ping-loading-parent">
+  <div class="ping-loading preloader-wrapper active">
+    <div class="spinner-layer spinner-red-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!loading" class="container row" style=" margin-top:20px;">
+
+  <h3>Update School Details</h3>
+
+  <div class="row container">
+    <form #submitForm="ngForm" class="col s12">
+      <div class="row">
+        <div role="alert" *ngIf="error" class="col s12">
+          <span class="red-text text-darken-4">{{ error }}</span>
+        </div>
+      </div>
+
+      <div class="row">
+
+        <div class="col s12">
+          <p class="title">School Name</p>
+          <input style="max-width:500px" class="validate" [(ngModel)]="schoolDetails.name"
+                 name="schoolName" required id="schoolName" type="text"/>
+        </div>
+
+
+        <div class="col s12">
+          <p class="title">School Description</p>
+          <textarea name="description" [(ngModel)]="schoolDetails.description" style="width:90%;min-height:300px;"></textarea>
+        </div>
+
+
+        <div class="col s12">
+          <div class="file-field input-field">
+            <div class="btn">
+              <div class="upload-icon">
+                <img src="/assets/upload.svg"/>
+              </div>
+              <span>Upload a banner image</span>
+              <input id="imageUpload" type="file">
+            </div>
+            <div class="file-path-wrapper center-align">
+              <img *ngIf="!!schoolDetails.logo" src="{{ schoolDetails.logo }}"
+                   style="max-width:90%;border:1px solid #EBEBEB;"/>
+              <input style="display: none" class="file-path" type="text">
+              <a *ngIf="!!schoolDetails.logo" (click)="schoolDetails.logo = null;" class="delete-upload">
+                <img src="/assets/delete.svg"/>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col s12 top-padding">
+          <input class="filled-in"
+                 id="vet-new-events"
+                 type="checkbox"
+                 name="vet-new-events"
+                 [(ngModel)]="schoolDetails.vet_new_events"/>
+          <label for="vet-new-events">School administrators must vet all new events created by groups within this school</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s12 top-padding">
+          <input class="filled-in"
+                 id="vet-new-notices"
+                 type="checkbox"
+                 name="vet-new-notices"
+                 [(ngModel)]="schoolDetails.vet_new_notices"/>
+          <label for="vet-new-notices">School administrators must vet all new notices created by groups within this school</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 top-padding">
+          <input class="filled-in"
+                 id="new-groups"
+                 type="checkbox"
+                 name="new-groups"
+                 [(ngModel)]="schoolDetails.allow_new_groups_non_admin"/>
+          <label for="new-groups">Allow users who are <span class="bold-text">NOT</span> school administrators to create groups within this school.</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s12 submit-button-parent center-align">
+
+          <button [disabled]="!submitForm.form.valid" (click)="editMySchool()"
+                  class="btn waves-effect waves-light" style="float:right;margin-right:80px;" type="submit" name="action">Update Details
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

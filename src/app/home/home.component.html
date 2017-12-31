@@ -17,11 +17,34 @@
 <div *ngIf="!loading" class="container content">
 
   <div class="center-align" style="padding-bottom:0;">
+    <img src="/assets/ping_logo_01.png" style="width:100px;margin-bottom:20px;"/>
+  </div>
 
-    <img src="/assets/ping_logo_01.png" style="width:100px;margin-bottom:20px;" />
-    <h2 class="center-align" style="padding-bottom:0;">My Groups</h2>
+  <div *ngIf="mySchools && mySchools.length > 0" class="center-align" style="padding-bottom:10px;padding-top:10px;">
+
+    <h2 class="center-align" style="padding-bottom:0;">My Schools</h2>
+
+    <div class="row">
+      <div style="margin-left:auto;margin-right:auto;" class="col s12">
+        <div style="max-width:800px;margin-left:auto;margin-right:auto;" *ngFor="let school of mySchools; let i = index;"
+             class="card darken-1">
+          <div class="card-content">
+
+            <span style="clear: both" class="card-title">{{ school.name }}</span>
+
+            <a (click)="editSchool(i)" class="edit-group btn-floating halfway-fab waves-effect waves-light orange"><i
+              class="material-icons">edit</i></a>
+            <pre style="font-family:Lato;color:#444444;line-break: auto;word-wrap: normal;">{{school.description}}</pre>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
 
   </div>
+
+  <h2 class="center-align" style="padding-bottom:0;">My Groups</h2>
 
   <div class="row">
     <div role="alert" *ngIf="error" class="col s12">
