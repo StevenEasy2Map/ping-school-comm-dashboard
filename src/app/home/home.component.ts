@@ -96,6 +96,15 @@ export class HomeComponent implements AfterViewInit {
     this.router.navigate(['/update-my-school', {school_id: school.id}]);
   }
 
+  inviteUsersToSchool(i): void {
+    const school = this.mySchools[i];
+
+    this.router.navigate(['/invite-school-member',
+      {
+        school_id: school.id
+      }]);
+  }
+
   viewGroupMembers(i): void {
     const group = this.myGroups[i];
     this.router.navigate(['/group-members', {group_id: group.id, school_id: group.school_id}]);

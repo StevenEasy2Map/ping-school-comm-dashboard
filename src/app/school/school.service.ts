@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {APIService} from '../../providers/api-service';
 import {Observable} from 'rxjs';
+import {Invitation} from "../group/models/invitation";
 
 @Injectable()
 export class SchoolService extends APIService {
@@ -29,6 +30,10 @@ export class SchoolService extends APIService {
 
   updateMySchool(details: any): Observable<any> {
     return this.post(details, '/api/school/update_school');
+  }
+
+  inviteSchoolMember(invitation: Invitation): Observable<any> {
+    return this.post(invitation, '/api/school/invite_school_member');
   }
 
 
