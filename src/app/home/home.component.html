@@ -39,8 +39,13 @@
           </div>
 
           <div class="card-action">
-          <a (click)="inviteUsersToSchool(i)">Invite Others to School</a>
-        </div>
+            <a (click)="inviteUsersToSchool(i)">Invite Others to School</a>
+            <a (click)="viewSchoolAdministrators(i)">School Administrators</a>
+            <a (click)="viewSchoolWideNotices(i)">See School-Wide Notices</a>
+          <a (click)="viewSchoolWideEventsCalendar(i)">See School-Wide Events</a>
+          <a (click)="createSchoolWideNotice(i)">Add School-Wide Notice</a>
+          <a (click)="createSchoolWideEvent(i)">Add School-Wide Event</a>
+          </div>
 
         </div>
       </div>

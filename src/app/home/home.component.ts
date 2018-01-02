@@ -105,6 +105,36 @@ export class HomeComponent implements AfterViewInit {
       }]);
   }
 
+  viewSchoolAdministrators(i): void {
+    const school = this.mySchools[i];
+
+    this.router.navigate(['/school-administrators',
+      {
+        school_id: school.id,
+        school_name: school.name
+      }]);
+  }
+
+  viewSchoolWideNotices(i): void {
+    const school = this.mySchools[i];
+    this.router.navigate(['/group-notices-list', {group_id: school.group_id, school_id: school.id}]);
+  }
+
+  viewSchoolWideEventsCalendar(i): void {
+    const school = this.mySchools[i];
+    this.router.navigate(['/group-events-calendar', {group_id: school.group_id, school_id: school.id, group_name: school.name}]);
+  }
+
+  createSchoolWideNotice(i): void {
+    const school = this.mySchools[i];
+    this.router.navigate(['/new-notice', {group_id: school.group_id, school_id: school.id}]);
+  }
+
+  createSchoolWideEvent(i): void {
+    const school = this.mySchools[i];
+    this.router.navigate(['/new-event', {group_id: school.group_id, school_id: school.id}]);
+  }
+
   viewGroupMembers(i): void {
     const group = this.myGroups[i];
     this.router.navigate(['/group-members', {group_id: group.id, school_id: group.school_id}]);

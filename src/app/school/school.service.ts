@@ -28,12 +28,24 @@ export class SchoolService extends APIService {
     return this.get(`/api/school/get_all_private_schools_i_own`);
   }
 
+  getAllPrivateSchoolAdministrators(schoolId): Observable<any> {
+    return this.get(`/api/school/get_all_private_school_administrators/${schoolId}`);
+  }
+
   updateMySchool(details: any): Observable<any> {
     return this.post(details, '/api/school/update_school');
   }
 
   inviteSchoolMember(invitation: Invitation): Observable<any> {
     return this.post(invitation, '/api/school/invite_school_member');
+  }
+
+  removeSchoolAdministrator(payload: any): Observable<any> {
+    return this.post(payload, '/api/school/remove_school_administrator');
+  }
+
+  uninviteSchoolAdministrator(payload: any): Observable<any> {
+    return this.post(payload, '/api/school/uninvite_school_administrator');
   }
 
 

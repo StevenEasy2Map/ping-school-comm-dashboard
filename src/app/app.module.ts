@@ -56,6 +56,7 @@ import {BootstrapModalModule} from 'ngx-modialog/plugins/bootstrap';
 import {OwnMySchoolComponent} from './school/own.my.school.component';
 import {UpdateMySchoolComponent} from './school/update.my.school.component';
 import {InviteSchoolMemberComponent} from "./school/invite.school.member.component";
+import {SchoolAdministratorsComponent} from "./school/school_administrators/school.administrators.component";
 
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
@@ -92,6 +93,7 @@ const appRoutes: Routes = [
   {path: 'own-my-own-school', component: OwnMySchoolComponent, canActivate: [AuthGuard]},
   {path: 'update-my-school', component: UpdateMySchoolComponent, canActivate: [AuthGuard]},
   {path: 'invite-school-member', component: InviteSchoolMemberComponent, canActivate: [AuthGuard]},
+  {path: 'school-administrators', component: SchoolAdministratorsComponent, canActivate: [AuthGuard]},
 
   {path: '', component: HomeComponent, canActivate: [AuthGuard]}
 
@@ -138,6 +140,7 @@ const appRoutes: Routes = [
     OwnMySchoolComponent,
     UpdateMySchoolComponent,
     InviteSchoolMemberComponent,
+    SchoolAdministratorsComponent,
 
     FriendlyDatePipe,
     FriendlyDateTimePipe,

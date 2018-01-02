@@ -1,0 +1,58 @@
+<div *ngIf="loading" class="ping-loading-parent">
+  <div class="ping-loading preloader-wrapper active">
+    <div class="spinner-layer spinner-red-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!loading" class="container row top-padding">
+  <form #loginForm="ngForm" class="col s12">
+    <div class="row">
+      <div role="alert" *ngIf="error" class="col s12">
+        <span class="red-text text-darken-4">{{ error }}</span>
+      </div>
+    </div>
+
+    <h2 class="inline-page-title center-align">
+      <a (click)="goBack()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Back</a>
+
+      {{ schoolName }}<br>School Administrators</h2>
+
+    <div class="row">
+
+      <div class="input-field col s12">
+
+        <table class="bordered">
+          <thead>
+          <tr>
+            <th style="width:30%">Name</th>
+            <th style="width:40%">Email</th>
+            <th style="width:10%">Role</th>
+            <th style="width:5%" class="center-align">Remove</th>
+          </tr>
+          <tr *ngFor="let member of administrators; let i = index;">
+            <td>{{ member.first_name }} {{member.last_name}}</td>
+            <td>{{ member.email }}</td>
+            <td [ngClass]="{'bold-text' : member.role === 'admin' || member.role === 'owner'}">{{ member.role }}</td>
+            <td class="center-align">
+              <a *ngIf="member.firebase_user_id !== '__invitation__'" (click)="removeSchoolAdmin(member)"><i class="material-icons">delete</i></a>
+              <a *ngIf="member.firebase_user_id === '__invitation__'" (click)="uninviteSchoolAdministrator(member)"><i class="material-icons">delete</i></a>
+            </td>
+          </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+
+  </form>
+
+</div>
