@@ -101,7 +101,8 @@ export class HomeComponent implements AfterViewInit {
 
     this.router.navigate(['/invite-school-member',
       {
-        school_id: school.id
+        school_id: school.id,
+        school_name: school.name
       }]);
   }
 

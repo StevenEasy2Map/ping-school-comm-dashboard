@@ -14,6 +14,14 @@
           <div class="input-field col s12">
             <h6>What school does this group belong to?</h6>
 
+            <div *ngIf="mySchools && mySchools.length > 0" style="padding:20px 0;">
+
+              <div style="padding:10px;" *ngFor="let school of mySchools; let i = index;">
+                <a style="font-size:20px" (click)="selectMySchool(school)">{{school.name}}</a>
+              </div>
+
+            </div>
+
             <input name="school" no-match-found-text="&nbsp;"
 
                    (valueChanged)="schoolSelected($event)"

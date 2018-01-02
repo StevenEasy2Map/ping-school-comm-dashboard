@@ -18,6 +18,7 @@ export class InviteSchoolMemberComponent implements AfterViewInit {
   emailAddresses: string[] = [];
   emailAddressesToSend = [];
   schoolId = '';
+  schoolName = '';
   token = '';
   role = 'member';
   motivation = '';
@@ -41,6 +42,7 @@ export class InviteSchoolMemberComponent implements AfterViewInit {
     this.auth.getFirebaseTokenAsPromise().then(() => {
       this.route.params.subscribe(params => {
         this.schoolId = params['school_id'];
+        this.schoolName = params['school_name'];
         this.token = params['token'];
         this.loading = false;
       });
@@ -144,6 +146,10 @@ export class InviteSchoolMemberComponent implements AfterViewInit {
       }
 
     }
+  }
+
+  backToList(): void {
+    window.history.back();
   }
 
   goHome() {

@@ -23,9 +23,13 @@
       </div>
     </div>
 
+
+    <h2 class="inline-page-title center-align">
+      <a (click)="backToList()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Cancel</a> Invite users to {{schoolName}}</h2>
+
     <div class="row">
       <div class="input-field col s12">
-        <h6>Invite users to your school via email <span class="small-text">(press the <b>'Enter'</b> key after typing each email address)</span></h6>
+        <h6>Invite users via email <span class="small-text">(press the <b>'Enter'</b> key after typing each email address)</span></h6>
 
         <tag-input [(ngModel)]="emailAddresses" name="emailAddresses"
                    [modelAsStrings]="true"

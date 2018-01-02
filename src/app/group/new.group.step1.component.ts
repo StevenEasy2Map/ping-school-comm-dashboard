@@ -6,12 +6,13 @@ import {GroupService} from './group.service';
 import {School} from './models/school';
 import * as $ from 'jquery';
 import {AuthService} from "../../providers/auth-service";
+import {SchoolService} from "../school/school.service";
 
 @Component({
   selector: 'new-group-step1-component',
   templateUrl: 'new.group.step1.component.html',
   styleUrls: ['./group.style.scss'],
-  providers: [GroupService],
+  providers: [GroupService, SchoolService],
 })
 export class NewGroupStep1Component implements AfterViewInit {
 
@@ -22,17 +23,22 @@ export class NewGroupStep1Component implements AfterViewInit {
   schoolsList: any = [];
   selectedSchool: any = null;
   arrayOfSchools = [];
+  mySchools = [];
 
   constructor(private auth: AuthService,
               private userService: UserService,
-              private router: Router, private storageService: StorageService,
-              private groupService: GroupService) {
+              private router: Router,
+              private storageService: StorageService,
+              private groupService: GroupService,
+              private schoolService: SchoolService) {
   }
 
   ngAfterViewInit(): void {
-    this.setupImageUploadLogic();
-    this.getAllSchools();
-
+    this.auth.getFirebaseTokenAsPromise().then(() => {
+      this.setupImageUploadLogic();
+      this.getAllSchools();
+      this.getAllSchoolsIAdminister();
+    });
   }
 
   schoolSelected(): void {
@@ -46,6 +52,13 @@ export class NewGroupStep1Component implements AfterViewInit {
 
     localStorage.setItem('newGroupSchoolId', selectedSchool['id']);
     this.router.navigate(['/new-group-step-2', {school_id: selectedSchool['id'], school_name: selectedSchool['name']}]);
+
+  }
+
+  selectMySchool(school) {
+
+    localStorage.setItem('newGroupSchoolId', school.id);
+    this.router.navigate(['/new-group-step-2', {school_id: school.id, school_name: school.name}]);
 
   }
 
@@ -78,7 +91,7 @@ export class NewGroupStep1Component implements AfterViewInit {
   getAllSchools(): void {
 
     this.auth.processing = true;
-    this.groupService.getAllSchools().subscribe(
+    this.schoolService.getAllNonPrivateSchools().subscribe(
       schools => {
         this.schoolsList = schools;
         this.schoolsList.forEach(school => {
@@ -96,6 +109,24 @@ export class NewGroupStep1Component implements AfterViewInit {
         this.error = <any>error;
         this.auth.processing = false;
       });
+  }
+
+  getAllSchoolsIAdminister() {
+
+    this.auth.processing = true;
+    this.schoolService.getAllPrivateSchoolsIAdminister().subscribe(
+      response => {
+        this.mySchools = response || [];
+        this.auth.processing = false;
+        this.auth.processing = false;
+
+      },
+      error => {
+        this.error = <any>error;
+        this.auth.processing = false;
+      });
+
+
   }
 
   setupImageUploadLogic(): void {
