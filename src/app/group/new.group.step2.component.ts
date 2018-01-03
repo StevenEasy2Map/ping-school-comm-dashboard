@@ -9,7 +9,7 @@ import {AuthService} from '../../providers/auth-service';
 import {Observable} from 'rxjs';
 import 'rxjs/add/observable/throw';
 import {ModalModule} from 'ngx-modialog';
-import {BootstrapModalModule, Modal, bootstrap4Mode} from 'ngx-modialog/plugins/bootstrap';
+import {BootstrapModalModule, Modal, bootstrap4Mode} from '../../../node_modules/ngx-modialog/plugins/bootstrap';
 
 
 bootstrap4Mode();

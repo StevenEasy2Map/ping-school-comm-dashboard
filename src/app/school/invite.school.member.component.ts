@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {HelperService} from '../../providers/helper-service';
 import {Invitation} from '../group/models/invitation';
 import {AuthService} from '../../providers/auth-service';
-import {Modal} from 'ngx-modialog/plugins/bootstrap';
+import {Modal} from '../../../node_modules/ngx-modialog/plugins/bootstrap';
 import {SchoolService} from './school.service';
 import {Observable} from 'rxjs';
 

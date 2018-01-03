@@ -52,7 +52,7 @@ import {TagInputModule} from 'ngx-chips';
 import {GroupMembersComponent} from './group/group_members/group.members.component';
 import {UploadSignedDocComponent} from './document_signing/upload.signed.doc.component';
 import {ModalModule} from 'ngx-modialog';
-import {BootstrapModalModule} from 'ngx-modialog/plugins/bootstrap';
+import {BootstrapModalModule} from '../../node_modules/ngx-modialog/plugins/bootstrap';
 import {OwnMySchoolComponent} from './school/own.my.school.component';
 import {UpdateMySchoolComponent} from './school/update.my.school.component';
 import {InviteSchoolMemberComponent} from "./school/invite.school.member.component";

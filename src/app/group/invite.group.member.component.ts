@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 import {Invitation} from './models/invitation';
 import {AuthService} from '../../providers/auth-service';
 import {ModalModule} from 'ngx-modialog';
-import {BootstrapModalModule, Modal, bootstrap4Mode} from 'ngx-modialog/plugins/bootstrap';
+import {BootstrapModalModule, Modal, bootstrap4Mode} from '../../../node_modules/ngx-modialog/plugins/bootstrap';
 
 @Component({
   selector: 'app-invite-group-member-component',
@@ -64,59 +64,63 @@ export class InviteGroupMemberComponent implements AfterViewInit {
       return;
     }
 
-    const observables = [];
-    this.auth.processing = true;
-    this.emailAddressesToSend.forEach(email => {
+    this.auth.getFirebaseTokenAsPromise().then(() => {
 
-      observables.push(this.groupService.inviteGroupMember(new Invitation(parseInt(this.schoolId, 10),
-        parseInt(this.groupId, 10),
-        this.role, email, this.motivation)));
-    });
+      const observables = [];
+      this.auth.processing = true;
+      this.emailAddressesToSend.forEach(email => {
 
-    Observable.forkJoin(observables).subscribe(t => {
+        observables.push(this.groupService.inviteGroupMember(new Invitation(parseInt(this.schoolId, 10),
+          parseInt(this.groupId, 10),
+          this.role, email, this.motivation)));
+      });
 
-        console.log(t);
+      Observable.forkJoin(observables).subscribe(t => {
 
-        const dialogRef = this.modal.alert()
-          .showClose(false)
-          .title('')
-          .body(`
+          console.log(t);
+
+          const dialogRef = this.modal.alert()
+            .showClose(false)
+            .title('')
+            .body(`
             <h5>Your group invitations have successfully been processed!</h5>
             ${this.error}`)
-          .open();
+            .open();
 
-        dialogRef
-          .then(ref => {
-            this.router.navigateByUrl('/home');
-          });
+          dialogRef
+            .then(ref => {
+              this.router.navigateByUrl('/home');
+            });
 
-      },
-      error => {
+        },
+        error => {
 
-        error = error.replace('500 - Internal Server Error ', '');
-        error = JSON.parse(error);
+          error = error.replace('500 - Internal Server Error ', '');
+          error = JSON.parse(error);
 
-        this.error = error.message;
-        this.loading = false;
-        this.auth.processing = false;
+          this.error = error.message;
+          this.loading = false;
+          this.auth.processing = false;
 
-        console.log(this.error);
+          console.log(this.error);
 
-        const dialogRef = this.modal.alert()
-          .showClose(false)
-          .title('')
-          .body(`
+          const dialogRef = this.modal.alert()
+            .showClose(false)
+            .title('')
+            .body(`
             <h5>An error has occurred</h5>
             ${this.error}`)
-          .open();
+            .open();
 
-        dialogRef
-          .then(ref => {
-            // ref.result.then(result => alert(`The result is: ${result}`));
-          });
+          dialogRef
+            .then(ref => {
+              // ref.result.then(result => alert(`The result is: ${result}`));
+            });
 
 
-      });
+        });
+
+    });
 
   }
 

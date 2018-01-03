@@ -32,6 +32,9 @@ https://www.npmjs.com/package/angular2-materialize
 https://www.npmjs.com/package/ng2-ckeditor
 
 
+NB: https://github.com/angular/angularfire2/issues/234
+
+
 CALENDAR:
 https://mattlewis92.github.io/angular-calendar/docs
 
