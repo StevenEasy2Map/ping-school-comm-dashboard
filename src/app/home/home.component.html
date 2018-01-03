@@ -42,9 +42,54 @@
             <a (click)="inviteUsersToSchool(i)">Invite Others to School</a>
             <a (click)="viewSchoolAdministrators(i)">School Administrators</a>
             <a (click)="viewSchoolWideNotices(i)">See School-Wide Notices</a>
-          <a (click)="viewSchoolWideEventsCalendar(i)">See School-Wide Events</a>
-          <a (click)="createSchoolWideNotice(i)">Add School-Wide Notice</a>
-          <a (click)="createSchoolWideEvent(i)">Add School-Wide Event</a>
+            <a (click)="viewSchoolWideEventsCalendar(i)">See School-Wide Events</a>
+            <a (click)="createSchoolWideNotice(i)">Add School-Wide Notice</a>
+            <a (click)="createSchoolWideEvent(i)">Add School-Wide Event</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div *ngIf="myNotices && myNotices.length > 0" class="center-align" style="padding-bottom:10px;padding-top:10px;">
+
+    <h2 class="center-align" style="padding-bottom:0;">My Notices</h2>
+
+    <div class="row">
+      <div style="margin-left:auto;margin-right:auto;" class="col s12">
+        <div (click)="viewNoticeDetails(notice)" style="max-width:800px;margin-left:auto;margin-right:auto;" *ngFor="let notice of myNotices; let i = index;"
+             class="card darken-1">
+          <div class="card-content">
+
+            <span style="clear: both" class="card-title">{{ notice.title }}</span>
+
+            <pre style="font-family:Lato;color:#444444;line-break: auto;word-wrap: normal;">{{notice.description}}</pre>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div *ngIf="myEvents && myEvents.length > 0" class="center-align" style="padding-bottom:10px;padding-top:10px;">
+
+    <h2 class="center-align" style="padding-bottom:0;">My Events</h2>
+
+    <div class="row">
+      <div style="margin-left:auto;margin-right:auto;" class="col s12">
+        <div (click)="viewEventDetails(event)" style="max-width:800px;margin-left:auto;margin-right:auto;" *ngFor="let event of myEvents; let i = index;"
+             class="card darken-1">
+          <div class="card-content">
+
+            <span style="clear: both" class="card-title">{{ event.title }}</span>
+
+            <pre style="font-family:Lato;color:#444444;line-break: auto;word-wrap: normal;">{{event.description}}</pre>
+
           </div>
 
         </div>

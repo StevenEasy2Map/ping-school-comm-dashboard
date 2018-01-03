@@ -3,22 +3,28 @@ import {Router} from '@angular/router';
 import {GroupService} from '../group/group.service';
 import {AuthService} from '../../providers/auth-service';
 import {SchoolService} from '../school/school.service';
+import {NoticeService} from '../notice/services/notice.service';
+import {EventService} from '../event/services/event.service';
 
 @Component({
   selector: 'app-home-component',
   templateUrl: 'home.component.html',
   styleUrls: ['./home.style.scss'],
-  providers: [GroupService, SchoolService],
+  providers: [GroupService, SchoolService, NoticeService, EventService],
 })
 export class HomeComponent implements AfterViewInit {
 
   myGroups: any[] = [];
+  myNotices: any[] = [];
+  myEvents: any[] = [];
   mySchools: any[] = [];
   error = '';
   loading = true;
 
   constructor(private auth: AuthService, private groupService: GroupService,
               private schoolService: SchoolService,
+              private noticeService: NoticeService,
+              private eventService: EventService,
               private router: Router) {
   }
 
@@ -26,6 +32,8 @@ export class HomeComponent implements AfterViewInit {
 
     this.auth.getFirebaseTokenAsPromise().then(() => {
       this.getMyGroups();
+      this.getMyNotices();
+      this.getMyEvents();
       this.getAllSchoolsIAdminister();
     });
 
@@ -42,6 +50,42 @@ export class HomeComponent implements AfterViewInit {
         });
 
         console.log(this.myGroups);
+        this.auth.processing = false;
+        this.loading = false;
+
+      },
+      error => {
+        this.error = <any>error;
+        this.loading = false;
+      });
+
+
+  }
+
+  getMyNotices() {
+
+    this.noticeService.getMyNotices().subscribe(
+      response => {
+        this.myNotices = response;
+
+        this.auth.processing = false;
+        this.loading = false;
+
+      },
+      error => {
+        this.error = <any>error;
+        this.loading = false;
+      });
+
+
+  }
+
+  getMyEvents() {
+
+    this.eventService.getMyEvents().subscribe(
+      response => {
+        this.myEvents = response;
+
         this.auth.processing = false;
         this.loading = false;
 
@@ -156,6 +200,17 @@ export class HomeComponent implements AfterViewInit {
   viewEventsCalendar(i): void {
     const group = this.myGroups[i];
     this.router.navigate(['/group-events-calendar', {group_id: group.id, school_id: group.school_id, group_name: group.name}]);
+  }
+
+  viewNoticeDetails(notice: any): void {
+    this.router.navigate(['/notice-details', {
+      notice_id: notice.id, group_id: notice.group_id, school_id: notice.school_id
+    }])
+    ;
+  }
+
+  viewEventDetails(event: any): void {
+    this.router.navigate(['/event-details', {event_id: event.id, group_id: event.group_id, school_id: event.school_id}]);
   }
 
   addNewGroup() {
