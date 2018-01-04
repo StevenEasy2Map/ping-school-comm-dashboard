@@ -7,6 +7,7 @@ import {Group} from './models/group';
 import {GroupMembershipQuestion} from './models/question';
 import {AuthService} from '../../providers/auth-service';
 import {Observable} from 'rxjs';
+import {PlatformLocation} from '@angular/common';
 import 'rxjs/add/observable/throw';
 import {ModalModule} from 'ngx-modialog';
 import {BootstrapModalModule, Modal, bootstrap4Mode} from '../../../node_modules/ngx-modialog/plugins/bootstrap';
@@ -45,6 +46,7 @@ export class NewGroupStep2Component implements AfterViewInit {
               private route: ActivatedRoute,
               private storageService: StorageService,
               private modal: Modal,
+              private platformLocation: PlatformLocation,
               private groupService: GroupService) {
   }
 
@@ -81,6 +83,10 @@ export class NewGroupStep2Component implements AfterViewInit {
           this.token = response.token;
           console.log(this.groupId);
 
+          const inviteURL = (this.platformLocation as any).location.origin;
+          const newNoticeURL = (this.platformLocation as any).location.origin;
+          const newEventURL = (this.platformLocation as any).location.origin;
+
           if (this.questions && Array.isArray(this.questions) && this.questions.length > 0) {
 
             // https://www.metaltoad.com/blog/angular-2-http-observables-and-concurrent-data-loading
@@ -91,31 +97,14 @@ export class NewGroupStep2Component implements AfterViewInit {
             });
 
             Observable.forkJoin(observables).subscribe(t => {
-
-              this.auth.processing = false;
-              this.loading = false;
-              this.router.navigate(['/invite-group-member',
-                {
-                  school_id: this.schoolId,
-                  group_id: this.groupId,
-                  token: this.token,
-                  invite_others: false
-                }]);
-
+              this.sendGroupOwnerEmail(this.groupId, this.groupName, this.groupDescription,
+                this.token, inviteURL, newNoticeURL, newEventURL);
             });
 
           } else {
 
-            this.auth.processing = false;
-            this.loading = false;
-            this.router.navigate(['/invite-group-member',
-              {
-                school_id: this.schoolId,
-                group_id: this.groupId,
-                token: this.token,
-                invite_others: ''
-              }]);
-
+            this.sendGroupOwnerEmail(this.groupId, this.groupName, this.groupDescription,
+              this.token, inviteURL, newNoticeURL, newEventURL);
           }
 
 
@@ -148,6 +137,48 @@ export class NewGroupStep2Component implements AfterViewInit {
         });
 
     });
+
+  }
+
+  sendGroupOwnerEmail(groupId, groupName, groupDescription, token, inviteURL, noticeURL, eventURL) {
+
+    const payload = {
+      group_id: groupId,
+      group_name: groupName,
+      group_description: groupDescription,
+      token: token,
+      invite_url: inviteURL,
+      new_notice_url: noticeURL,
+      new_event_url: eventURL
+    };
+
+    this.groupService.sendNewGroupOwnerEmail(payload).subscribe(
+      response => {
+
+        this.auth.processing = false;
+        this.loading = false;
+        this.router.navigate(['/invite-group-member',
+          {
+            school_id: this.schoolId,
+            group_id: this.groupId,
+            token: this.token,
+            invite_others: ''
+          }]);
+
+      }, err => {
+
+        this.auth.processing = false;
+        this.loading = false;
+        this.router.navigate(['/invite-group-member',
+          {
+            school_id: this.schoolId,
+            group_id: this.groupId,
+            token: this.token,
+            invite_others: ''
+          }]);
+
+      });
+
 
   }
 

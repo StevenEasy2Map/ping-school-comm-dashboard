@@ -27,6 +27,10 @@ export class GroupService extends APIService {
     return this.post(group, '/api/group/create_group');
   }
 
+  sendNewGroupOwnerEmail(payload: any): Observable<any> {
+    return this.post(payload, '/api/group/send_new_group_email');
+  }
+
   editGroup(group: Group): Observable<any> {
     return this.post(group, '/api/group/edit_group');
   }

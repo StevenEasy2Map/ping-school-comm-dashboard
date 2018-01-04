@@ -70,6 +70,9 @@ export class NewGroupStep1Component implements AfterViewInit {
   createSchool(): void {
 
     const school = new School('', this.schoolName, this.schoolImage, '', 0);
+    if (school.name.trim().length === 0) {
+      return;
+    }
 
     this.auth.processing = true;
 
