@@ -44,8 +44,14 @@
             <td>{{ member.first_name }} {{member.last_name}}</td>
             <td>{{ member.email }}</td>
             <td [ngClass]="{'bold-text' : member.role === 'admin' || member.role === 'owner'}">{{ member.role }}</td>
-            <td [ngClass]="{'red-text' : !member.validated, 'bold-text' : !member.validated}">{{ member.validated ? 'validated' : 'not validated' }}</td>
-            <td class="center-align"><a (click)="viewMemberDetails(member)"><i class="material-icons">settings</i></a></td>
+            <td *ngIf="member.user_id !== 0"
+                [ngClass]="{'red-text' : !member.validated, 'bold-text' : !member.validated}">
+              {{ member.validated ? 'validated' : 'not validated' }}
+            </td>
+            <td *ngIf="member.user_id === 0">-</td>
+            <td class="center-align"><a *ngIf="member.user_id !== 0"
+                                        (click)="viewMemberDetails(member)"><i class="material-icons">settings</i></a>
+            </td>
           </tr>
           </thead>
         </table>
