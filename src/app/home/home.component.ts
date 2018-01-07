@@ -43,6 +43,7 @@ export class HomeComponent implements AfterViewInit {
 
     this.groupService.getMyGroups().subscribe(
       response => {
+        console.log(response);
         this.myGroups = response;
 
         this.myGroups = this.myGroups.filter(group => {

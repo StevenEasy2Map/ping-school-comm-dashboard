@@ -24,6 +24,7 @@ export class NewGroupStep1Component implements AfterViewInit {
   selectedSchool: any = null;
   arrayOfSchools = [];
   mySchools = [];
+  loading = true;
 
   constructor(private auth: AuthService,
               private userService: UserService,
@@ -92,11 +93,12 @@ export class NewGroupStep1Component implements AfterViewInit {
   }
 
   getAllSchools(): void {
-
     this.auth.processing = true;
+    this.loading = true;
     this.schoolService.getAllNonPrivateSchools().subscribe(
       schools => {
         this.schoolsList = schools;
+        this.loading = false;
         this.schoolsList.forEach(school => {
 
           this.arrayOfSchools.push({
@@ -109,6 +111,7 @@ export class NewGroupStep1Component implements AfterViewInit {
 
       },
       error => {
+        this.loading = false;
         this.error = <any>error;
         this.auth.processing = false;
       });
@@ -117,14 +120,16 @@ export class NewGroupStep1Component implements AfterViewInit {
   getAllSchoolsIAdminister() {
 
     this.auth.processing = true;
+    this.loading = true;
     this.schoolService.getAllPrivateSchoolsIAdminister().subscribe(
       response => {
         this.mySchools = response || [];
         this.auth.processing = false;
-        this.auth.processing = false;
+        this.loading = false;
 
       },
       error => {
+        this.loading = false;
         this.error = <any>error;
         this.auth.processing = false;
       });
