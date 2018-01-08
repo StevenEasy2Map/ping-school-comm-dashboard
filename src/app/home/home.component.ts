@@ -5,6 +5,7 @@ import {AuthService} from '../../providers/auth-service';
 import {SchoolService} from '../school/school.service';
 import {NoticeService} from '../notice/services/notice.service';
 import {EventService} from '../event/services/event.service';
+import moment = require("moment");
 
 @Component({
   selector: 'app-home-component',
@@ -68,6 +69,14 @@ export class HomeComponent implements AfterViewInit {
     this.noticeService.getMyNotices().subscribe(
       response => {
         this.myNotices = response;
+
+        this.myNotices.forEach(notice => {
+
+
+          console.log(notice.show_date);
+          notice.show_date = moment(new Date(notice.show_date)).fromNow();
+
+        });
 
         this.auth.processing = false;
         this.loading = false;

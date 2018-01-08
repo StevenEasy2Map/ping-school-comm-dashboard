@@ -16,82 +16,28 @@
 
 <div *ngIf="event && !loading" class="container event">
   <h2 class="inline-page-title center-align">
-
     <a (click)="goBack()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Back</a>
-    {{ event.title }}
-
   </h2>
-
-  <p>{{ event.start_date | friendlydate }}</p>
 
   <div class="content">
 
-    <div class="row">
-      <div class="col s12">
-        <div class="event-image" *ngIf="event && event.image">
-          <img src="{{ event.image }}" style="max-width:600px;max-height:600px;">
-        </div>
-        <div class="view_description_text">
-          <pre>{{ event.description }}</pre>
-        </div>
-        <div *ngIf="event && event.attachment_link" class="card-action">
-          <hr>
-          <a href="{{ event.attachment_link }}" target="_blank" class="event-details-link">Show Document</a>
-        </div>
+    <h4 class="darkGreyHeader top-bottom-margin center-align">{{event.title}}</h4>
 
-      </div>
+    <h3 class="notice-subtitle">{{event.group_name}}</h3>
+    <h5 class="notice-sub-subtitle">{{event.school_name}}</h5>
+    <p class="notice-date">{{ event.start_date | friendlydate }}</p>
 
+    <div class="image-parent">
+      <img class="details-image" *ngIf="event.image" src="{{ event.image }}"/>
     </div>
-    <!--<div class="row">
+    <p class="description-parent">
+      {{ event.description }}
+    </p>
 
-      <div class="col s12">
-        <div class="card">
-          <h4>Classes</h4>
-          <div class="classes">
-            <div *ngFor="let group of eventGroups" class="chip small-margin">
-              <p>{{ group.name }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>-->
-
-
-    <!--<div class="row">
-
-        <div class="col s12">
-            <div class="card">
-                <h4>Payments</h4>
-
-                <table class="striped">
-                    <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Name</th>
-                        <th>Email Address</th>
-                        <th>Amount</th>
-                        <th>Ref</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr *ngFor="let payment of payments; let i = index;">
-                            <td>{{ payment.transaction_date | friendlydatetime }}</td>
-                            <td>{{ payment.user_first_name + " " + payment.user_last_name }}</td>
-                            <td>{{ payment.user_email }}</td>
-                            <td>{{ payment.currency + " " + payment.amount }}</td>
-                            <td>{{ payment.ref }}</td>
-
-                        </tr>
-
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
-
-    </div>-->
+    <div class="center-align top-bottom-margin" *ngIf="event && !!event.document">
+      <a href="{{event.document}}">View Document</a>
+    </div>
 
   </div>
+
 </div>

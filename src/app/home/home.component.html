@@ -64,7 +64,11 @@
              class="card darken-1">
           <div class="card-content">
 
-            <span style="clear: both" class="card-title">{{ notice.title }}</span>
+            <p style="clear: both" class="card-title">{{ notice.title }}</p>
+
+            <h3 *ngIf="!notice.school_wide" class="notice-subtitle">{{notice.group_name}}</h3>
+            <h5 class="notice-sub-subtitle">{{notice.school_name}}</h5>
+            <p class="notice-date">Published {{ notice.show_date }}</p>
 
             <pre style="font-family:Lato;color:#444444;line-break: auto;word-wrap: normal;">{{notice.description}}</pre>
 

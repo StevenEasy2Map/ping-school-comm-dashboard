@@ -17,81 +17,27 @@
 <div *ngIf="!loading" class="container notice">
   <h2 class="inline-page-title center-align">
     <a (click)="goBack()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Back</a>
-    {{ notice.title }}
-
   </h2>
-
-  <p>Published {{ notice.show_date | friendlydate }}</p>
 
   <div class="content">
 
-    <div class="row">
-      <div class="col s12">
+    <h4 class="darkGreyHeader top-bottom-margin center-align">{{notice.title}}</h4>
 
-          <div class="notice-image" *ngIf="notice.image">
-            <img src="{{ notice.image }}" style="max-width:600px;max-height:600px;">
-          </div>
-          <div class="view_description_text">
-            <pre>{{ notice.description }}</pre>
-          </div>
-          <div *ngIf="notice.attachment_link" class="card-action">
-            <hr>
-            <a target="_blank" href="{{notice.attachment_link}}" class="event-details-link">Show Document</a>
-          </div>
+    <h3 class="notice-subtitle">{{notice.group_name}}</h3>
+    <h5 class="notice-sub-subtitle">{{notice.school_name}}</h5>
+    <p class="notice-date">published: {{ notice.show_date | friendlydate }}</p>
 
-      </div>
-
+    <div class="image-parent">
+      <img class="details-image" *ngIf="notice.image" src="{{ notice.image }}"/>
     </div>
-    <!--<div class="row">
+    <p class="description-parent">
+      {{ notice.description }}
+    </p>
 
-      <div class="col s12">
-        <div class="card">
-          <h4>Classes</h4>
-          <div class="classes">
-            <div *ngFor="let group of noticeGroups" class="chip small-margin">
-              <p>{{ group.name }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>-->
-
-
-    <!--<div class="row">
-
-        <div class="col s12">
-            <div class="card">
-                <h4>Payments</h4>
-
-                <table class="striped">
-                    <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Name</th>
-                        <th>Email Address</th>
-                        <th>Amount</th>
-                        <th>Ref</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr *ngFor="let payment of payments; let i = index;">
-                            <td>{{ payment.transaction_date | friendlydatetime }}</td>
-                            <td>{{ payment.user_first_name + " " + payment.user_last_name }}</td>
-                            <td>{{ payment.user_email }}</td>
-                            <td>{{ payment.currency + " " + payment.amount }}</td>
-                            <td>{{ payment.ref }}</td>
-
-                        </tr>
-
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
-
-    </div>-->
+    <div class="center-align top-bottom-margin" *ngIf="notice && !!notice.document">
+      <a href="{{notice.document}}">View Document</a>
+    </div>
 
   </div>
+
 </div>

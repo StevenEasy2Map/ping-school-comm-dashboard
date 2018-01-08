@@ -165,7 +165,74 @@ select {
   }
 }
 
-input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+h4.darkGreyHeader {
+  text-align: center;
+  font-size: 22px;
+  color: #5f5e5e;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.top-bottom-margin {
+  margin: 20px auto;
+}
+
+h3.notice-subtitle {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  color: #6d6d6d;
+}
+
+h5.notice-sub-subtitle {
+  text-align: center;
+  margin-right: 15px;
+  color: #ef8e04;
+  font-weight: 400;
+}
+
+h5.large-orange {
+  text-align: center;
+  margin: 10px;
+  color: #ef8e04;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+p.notice-date {
+  text-align: center;
+  font-size: 15px;
+  color: #3c3c3c;
+  padding-bottom: 4px;
+  margin-top: -6px;
+}
+
+div.image-parent {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.details-image {
+  max-width: 300px;
+  max-height: 300px;
+  border-radius: 4px;
+  margin: 5px auto;
+  border: 1px solid #e6e6e6;
+}
+
+
+p.details-description-parent {
+  padding: 12px;
+  font-size: 15px;
+  color: #262626;
+}
+
+input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]),
+input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]),
+input[type=date]:focus:not([readonly]), input[type=datetime]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]),
+input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]) {
   border-bottom: 1px solid $cta-color;
   box-shadow: 0 1px 0 0 $cta-color;
 }
