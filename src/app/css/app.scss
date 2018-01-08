@@ -221,11 +221,23 @@ div.image-parent {
   border: 1px solid #e6e6e6;
 }
 
+.notice-details-description {
+  font-family: Lato;
+  color: #444444;
+  line-break: auto;
+  word-wrap: normal;
+  text-align: left !important;
+}
 
 p.details-description-parent {
   padding: 12px;
   font-size: 15px;
   color: #262626;
+}
+
+p.group-school-name {
+  font-weight: 400;
+  color: #b0adad;
 }
 
 input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]),

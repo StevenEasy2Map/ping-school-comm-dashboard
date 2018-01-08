@@ -34,7 +34,7 @@
 
             <a (click)="editSchool(i)" class="edit-group btn-floating halfway-fab waves-effect waves-light orange"><i
               class="material-icons">edit</i></a>
-            <pre style="font-family:Lato;color:#444444;line-break: auto;word-wrap: normal;">{{school.description}}</pre>
+            <pre class="notice-details-description">{{school.description}}</pre>
 
           </div>
 
@@ -64,13 +64,13 @@
              class="card darken-1">
           <div class="card-content">
 
-            <p style="clear: both" class="card-title">{{ notice.title }}</p>
+            <p class="card-title">{{ notice.title }}</p>
 
             <h3 *ngIf="!notice.school_wide" class="notice-subtitle">{{notice.group_name}}</h3>
             <h5 class="notice-sub-subtitle">{{notice.school_name}}</h5>
             <p class="notice-date">Published {{ notice.show_date }}</p>
 
-            <pre style="font-family:Lato;color:#444444;line-break: auto;word-wrap: normal;">{{notice.description}}</pre>
+            <pre class="notice-details-description">{{notice.description}}</pre>
 
           </div>
 
@@ -90,9 +90,13 @@
              class="card darken-1">
           <div class="card-content">
 
-            <span style="clear: both" class="card-title">{{ event.title }}</span>
+            <p class="card-title">{{ event.title }}</p>
 
-            <pre style="font-family:Lato;color:#444444;line-break: auto;word-wrap: normal;">{{event.description}}</pre>
+            <h3 *ngIf="!event.school_wide" class="notice-subtitle">{{event.group_name}}</h3>
+            <h5 class="notice-sub-subtitle">{{event.school_name}}</h5>
+            <p class="notice-date">{{ event.start_date | friendlydate }}</p>
+
+            <pre class="notice-details-description">{{event.description}}</pre>
 
           </div>
 
@@ -132,6 +136,7 @@
           </div>
 
           <span style="clear: both" class="card-title">{{ group.name }}</span>
+          <p class="group-school-name">{{group.school_name}}</p>
 
           <a (click)="editGroup(i)" class="edit-group btn-floating halfway-fab waves-effect waves-light orange"><i
             class="material-icons">edit</i></a>
