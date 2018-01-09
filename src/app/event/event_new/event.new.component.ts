@@ -33,6 +33,7 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
   groupSummary: any = {};
   loading = true;
   title = 'Create new event';
+  emailStatus = 0;
 
   error = '';
   startDateModel: DateModel;
@@ -96,6 +97,10 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
     }
     return '' + i;
 
+  }
+
+  onEmailStatusChange(val) {
+    this.emailStatus = val;
   }
 
   initiateNewEvent(): Event {
@@ -314,6 +319,8 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
 
     postValue['group_ids'] = [this.groupId];
     postValue['school_id'] = this.schoolId;
+    postValue['email_status'] = this.emailStatus;
+    console.log(postValue['email_status']);
 
     let templateDetails = {};
     if (this.documentTemplate) {
