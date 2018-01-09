@@ -24,7 +24,7 @@ export class InviteGroupMemberComponent implements AfterViewInit {
   schoolId = '';
   groupId = '';
   token = '';
-  role = '';
+  role = 'member';
   motivation = '';
   inviteUsers = false;
   loading = true;
@@ -147,16 +147,23 @@ export class InviteGroupMemberComponent implements AfterViewInit {
   }
 
   public onRemove(tag): void {
-    console.log('Chip deleted: ' + tag.display);
 
-    for (let i = 0; i < this.emailAddresses.length; i++) {
+    console.log('tag=' + tag);
+    console.log(this.emailAddressesToSend);
 
-      if (this.emailAddressesToSend[i] === tag.display) {
+    for (let i = this.emailAddressesToSend.length - 1; i >= 0; i--) {
+
+      console.log('this.emailAddressesToSend[i]=' + this.emailAddressesToSend[i]);
+
+      if (this.emailAddressesToSend[i] === tag) {
         this.emailAddressesToSend.splice(i, 1);
         break;
       }
 
     }
+
+    console.log(this.emailAddressesToSend);
+
   }
 
   goHome() {

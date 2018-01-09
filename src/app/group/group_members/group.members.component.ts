@@ -44,6 +44,17 @@ export class GroupMembersComponent implements AfterViewInit {
 
   }
 
+  inviteUsersToGroup(): void {
+
+    this.router.navigate(['/invite-group-member',
+      {
+        school_id: this.schoolId,
+        group_id: this.groupId,
+        token: this.group.invite_token,
+        invite_others: true
+      }]);
+  }
+
   getGroupDetails(): void {
 
     this.auth.processing = true;
@@ -83,7 +94,11 @@ export class GroupMembersComponent implements AfterViewInit {
 
   viewMemberDetails(member): void {
 
-    this.router.navigate(['/group-member-details', {group_id: this.groupId, school_id: this.schoolId, user_id: member['user_id']}]);
+    this.router.navigate(['/group-member-details', {
+      group_id: this.groupId,
+      school_id: this.schoolId,
+      user_id: member['user_id']
+    }]);
   }
 
 
