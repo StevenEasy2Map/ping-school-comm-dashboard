@@ -30,6 +30,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
   groupSummary: any = {};
   loading = true;
   title = 'Create new notice';
+  emailStatus = 0;
 
   showDateModel: DateModel;
   showDateOptions: DatePickerOptions;
@@ -162,6 +163,10 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
 
   }
 
+  onEmailStatusChange(val) {
+    this.emailStatus = val;
+  }
+
   getNoticeGroups(): void {
 
     this.noticeService.getNoticeGroups(this.noticeId).subscribe(
@@ -253,6 +258,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
 
     postValue['group_ids'] = [this.groupId];
     postValue['school_id'] = this.schoolId;
+    postValue['email_status'] = this.emailStatus;
 
     if (this.noticeId) {
 

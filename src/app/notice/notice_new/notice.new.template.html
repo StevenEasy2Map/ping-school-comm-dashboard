@@ -176,6 +176,36 @@
 
           </div>
 
+          <div class="row" style="margin:10px;">
+            <div class="s4">
+              <input type="radio" name="emailStatus" id="radio1"
+                     [checked]="emailStatus === 1"
+                     (change)="onEmailStatusChange(1)">
+              <label for="radio1">
+                Email details of this notice to all group members
+              </label>
+
+            </div>
+            <div class="s4">
+              <input type="radio" name="emailStatus" id="radio2"
+                     [checked]="emailStatus === 2"
+                     (change)="onEmailStatusChange(2)">
+              <label for="radio2">
+                Email details of this notice to all group members, and group invitees
+              </label>
+            </div>
+            <div class="s4">
+              <input type="radio" name="emailStatus" id="radio3"
+                     [checked]="emailStatus === 0"
+                     (change)="onEmailStatusChange(0)">
+              <label for="radio3">
+                Do not send an notice on creation of this event
+              </label>
+
+            </div>
+
+          </div>
+
         </div>
       </li>
       <li class="card">
