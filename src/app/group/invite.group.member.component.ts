@@ -10,6 +10,8 @@ import {Invitation} from './models/invitation';
 import {AuthService} from '../../providers/auth-service';
 import {ModalModule} from 'ngx-modialog';
 import {BootstrapModalModule, Modal, bootstrap4Mode} from '../../../node_modules/ngx-modialog/plugins/bootstrap';
+import {MatSnackBar} from "@angular/material";
+import set = Reflect.set;
 
 @Component({
   selector: 'app-invite-group-member-component',
@@ -39,6 +41,7 @@ export class InviteGroupMemberComponent implements AfterViewInit {
               private router: Router,
               private route: ActivatedRoute,
               private modal: Modal,
+              private snackBar: MatSnackBar,
               private groupService: GroupService) {
   }
 
@@ -78,19 +81,11 @@ export class InviteGroupMemberComponent implements AfterViewInit {
       Observable.forkJoin(observables).subscribe(t => {
 
           console.log(t);
-
-          const dialogRef = this.modal.alert()
-            .showClose(false)
-            .title('')
-            .body(`
-            <h5>Your group invitations have successfully been processed!</h5>
-            ${this.error}`)
-            .open();
-
-          dialogRef
-            .then(ref => {
-              this.router.navigateByUrl('/home');
-            });
+          const snackBarRef = this.snackBar.open('Your group invitations have successfully been processed!');
+          setTimeout(() => {
+            snackBarRef.dismiss();
+            this.router.navigateByUrl('/home');
+          }, 1500);
 
         },
         error => {
