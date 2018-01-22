@@ -51,6 +51,7 @@ export class EventDetailsComponent implements AfterViewInit {
     this.eventService.getEventDetails(this.eventId).subscribe(
       event => {
         this.event = event;
+        this.event.description = this.event.description.replace("'", "").replace("'", "");
         this.event.start_date = HelperService.timeZoneAdjustedDate(this.event.start_date, this.event.timezone_offset);
         this.event.end_date = HelperService.timeZoneAdjustedDate(this.event.end_date, this.event.timezone_offset);
 

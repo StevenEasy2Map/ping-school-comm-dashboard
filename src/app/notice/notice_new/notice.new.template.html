@@ -217,9 +217,8 @@
           </div>
         </div>
         <div class="collapsible-body entity-description-parent">
-          <!--<ckeditor [(ngModel)]="notice.description" debounce="500"></ckeditor>-->
-
-          <textarea [(ngModel)]="notice.description" style="width:90%;min-height:300px;"></textarea>
+          <ckeditor [config]="ckEditorConfig" [(ngModel)]="notice.description" debounce="500"></ckeditor>
+          <!--<textarea [(ngModel)]="notice.description" style="width:90%;min-height:300px;"></textarea>-->
 
         </div>
       </li>

@@ -133,6 +133,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
     this.noticeService.getNoticeDetails(this.noticeId).subscribe(
       response => {
         this.notice = response;
+        this.notice.description = this.notice.description.replace("'", "").replace("'", "");
         console.log(this.notice);
         this.loading = false;
         this.title = 'Edit notice';

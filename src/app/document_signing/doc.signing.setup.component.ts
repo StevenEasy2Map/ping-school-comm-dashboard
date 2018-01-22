@@ -18,6 +18,18 @@ export abstract class DocSigningSetupComponent {
   docSigningProcessStep2Completed = false;
   docSigningProcessStep3Completed = false;
 
+  ckEditorConfig = {
+    'uiColor': '#EBEBEB',
+    'toolbarGroups': [
+      {'name': 'styles'},
+      {'name': 'basicstyles', 'groups': ['basicstyles', 'cleanup']},
+      {'name': 'links'},
+      {'name': 'editing', 'groups': ['find', 'selection', 'spellchecker', 'editing']},
+      {'name': 'paragraph', 'groups': ['list', 'indent', 'blocks', 'align']}
+    ],
+    'removeButtons': 'Source,Save,Templates,Find,Replace,Scayt,SelectAll'
+  };
+
   constructor(public documentSigningService: DocumentSigningService) {
   }
 

@@ -163,6 +163,7 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
       response => {
         this.auth.processing = false;
         this.event = response;
+        this.event.description = this.event.description.replace("'", "").replace("'", "");
         console.log(this.event);
         this.title = 'Edit event details';
 
@@ -223,7 +224,6 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
 
   getEventGroups(): void {
 
-
     this.eventService.getEventGroups(this.eventId).subscribe(
       response => {
         this.eventGroups = response;
@@ -233,7 +233,6 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
       error => {
         this.error = <any>error;
       });
-
 
   }
 
@@ -245,7 +244,6 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
 
       },
       error => this.error = <any>error);
-
 
   }
 

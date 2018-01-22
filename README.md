@@ -72,6 +72,10 @@ http://shlomiassaf.github.io/ngx-modialog/#/documentation
 
 angular material
 https://material.angular.io/ 
+
+
+CKEditor
+https://docs.ckeditor.com/ckeditor4/latest/guide/dev_toolbar.html
   
   
   

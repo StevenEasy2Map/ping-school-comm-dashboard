@@ -51,6 +51,7 @@ export class NoticeDetailsComponent implements AfterViewInit {
     this.noticeService.getNoticeDetails(this.noticeId).subscribe(
       response => {
         this.notice = response;
+        this.notice.description = this.notice.description.replace("'", "").replace("'", "");
         console.log(this.notice);
         this.loading = false;
 

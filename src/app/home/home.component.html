@@ -92,10 +92,9 @@
           </mat-card-header>
           <img *ngIf="notice.image" mat-card-image src="{{notice.image}}" alt="{{notice.title}}">
           <mat-card-content>
-            <h3 *ngIf="!notice.school_wide" class="notice-subtitle"></h3>
             <p class="notice-date">Published {{ notice.show_date }}</p>
-            <h5 class="notice-sub-subtitle">{{notice.school_name}}</h5>
-            <pre class="notice-details-description">{{notice.description}}</pre>
+            <h5 *ngIf="!notice.school_wide" class="notice-sub-subtitle">{{notice.school_name}}</h5>
+            <div [innerHTML]="notice.description"></div>
           </mat-card-content>
         </mat-card>
 
@@ -117,9 +116,8 @@
           </mat-card-header>
           <img *ngIf="event.image" mat-card-image src="{{event.image}}" alt="{{event.title}}">
           <mat-card-content>
-            <h3 *ngIf="!event.school_wide" class="notice-subtitle"></h3>
             <p class="notice-date">{{ event.start_date | friendlydate }}</p>
-            <h5 class="notice-sub-subtitle">{{event.school_name}}</h5>
+            <h5 *ngIf="!event.school_wide" class="notice-sub-subtitle">{{event.school_name}}</h5>
             <pre class="notice-details-description">{{event.description}}</pre>
           </mat-card-content>
         </mat-card>
@@ -139,7 +137,7 @@
           <span>Add a Group</span>
         </a>
 
-        <h2 *ngIf="myGroups && myGroups.length > 0" class="center-align" style="padding-bottom:0;">My Groups</h2>
+        <h2 *ngIf="myGroups && myGroups.length > 0" style="clear:both;" class="center-align" style="padding-bottom:0;">My Groups</h2>
 
         <mat-card class="home-card" *ngFor="let group of myGroups; let i = index">
           <mat-card-header>

@@ -72,6 +72,8 @@ export class HomeComponent implements AfterViewInit {
 
         this.myNotices.forEach(notice => {
 
+          notice.description = notice.description.replace("'", "").replace("'", "");
+          console.log(notice.description);
 
           console.log(notice.show_date);
           notice.show_date = moment(new Date(notice.show_date)).fromNow();
@@ -95,6 +97,10 @@ export class HomeComponent implements AfterViewInit {
     this.eventService.getMyEvents().subscribe(
       response => {
         this.myEvents = response;
+
+        this.myEvents.forEach(event => {
+          event.description = event.description.replace("'", "").replace("'", "");
+        });
 
         this.auth.processing = false;
         this.loading = false;

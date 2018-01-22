@@ -30,9 +30,7 @@
     <div class="image-parent">
       <img class="details-image" *ngIf="event.image" src="{{ event.image }}"/>
     </div>
-    <p class="description-parent">
-      {{ event.description }}
-    </p>
+    <p class="details-description-parent" [innerHTML]="event.description"></p>
 
     <div class="center-align top-bottom-margin" *ngIf="event && !!event.document">
       <a href="{{event.document}}">View Document</a>
