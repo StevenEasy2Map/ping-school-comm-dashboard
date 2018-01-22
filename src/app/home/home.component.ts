@@ -108,6 +108,10 @@ export class HomeComponent implements AfterViewInit {
 
   }
 
+  getUrl(url) {
+    return `url('${url}')`;
+  }
+
   getAllSchoolsIAdminister() {
 
     this.schoolService.getAllPrivateSchoolsIAdminister().subscribe(

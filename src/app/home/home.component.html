@@ -20,143 +20,180 @@
     <img src="/assets/ping_logo_01.png" style="width:100px;margin-bottom:20px;"/>
   </div>
 
-  <div *ngIf="mySchools && mySchools.length > 0" class="center-align" style="padding-bottom:10px;padding-top:10px;">
-
-    <h2 class="center-align" style="padding-bottom:0;">My Schools</h2>
-
-    <div class="row">
-      <div style="margin-left:auto;margin-right:auto;" class="col s12">
-        <div style="max-width:800px;margin-left:auto;margin-right:auto;" *ngFor="let school of mySchools; let i = index;"
-             class="card darken-1">
-          <div class="card-content">
-
-            <span style="clear: both" class="card-title">{{ school.name }}</span>
-
-            <a (click)="editSchool(i)" class="edit-group btn-floating halfway-fab waves-effect waves-light orange"><i
-              class="material-icons">edit</i></a>
-            <pre class="notice-details-description">{{school.description}}</pre>
-
-          </div>
-
-          <div class="card-action">
-            <a (click)="inviteUsersToSchool(i)">Invite Others to School</a>
-            <a (click)="viewSchoolAdministrators(i)">School Administrators</a>
-            <a (click)="viewSchoolWideNotices(i)">See School-Wide Notices</a>
-            <a (click)="viewSchoolWideEventsCalendar(i)">See School-Wide Events</a>
-            <a (click)="createSchoolWideNotice(i)">Add School-Wide Notice</a>
-            <a (click)="createSchoolWideEvent(i)">Add School-Wide Event</a>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-
-  <div *ngIf="myNotices && myNotices.length > 0" class="center-align" style="padding-bottom:10px;padding-top:10px;">
-
-    <h2 class="center-align" style="padding-bottom:0;">My Notices</h2>
-
-    <div class="row">
-      <div style="margin-left:auto;margin-right:auto;" class="col s12">
-        <div (click)="viewNoticeDetails(notice)" style="max-width:800px;margin-left:auto;margin-right:auto;" *ngFor="let notice of myNotices; let i = index;"
-             class="card darken-1">
-          <div class="card-content">
-
-            <p class="card-title">{{ notice.title }}</p>
-
-            <h3 *ngIf="!notice.school_wide" class="notice-subtitle">{{notice.group_name}}</h3>
-            <h5 class="notice-sub-subtitle">{{notice.school_name}}</h5>
-            <p class="notice-date">Published {{ notice.show_date }}</p>
-
-            <pre class="notice-details-description">{{notice.description}}</pre>
-
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div *ngIf="myEvents && myEvents.length > 0" class="center-align" style="padding-bottom:10px;padding-top:10px;">
-
-    <h2 class="center-align" style="padding-bottom:0;">My Events</h2>
-
-    <div class="row">
-      <div style="margin-left:auto;margin-right:auto;" class="col s12">
-        <div (click)="viewEventDetails(event)" style="max-width:800px;margin-left:auto;margin-right:auto;" *ngFor="let event of myEvents; let i = index;"
-             class="card darken-1">
-          <div class="card-content">
-
-            <p class="card-title">{{ event.title }}</p>
-
-            <h3 *ngIf="!event.school_wide" class="notice-subtitle">{{event.group_name}}</h3>
-            <h5 class="notice-sub-subtitle">{{event.school_name}}</h5>
-            <p class="notice-date">{{ event.start_date | friendlydate }}</p>
-
-            <pre class="notice-details-description">{{event.description}}</pre>
-
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <h2 class="center-align" style="padding-bottom:0;">My Groups</h2>
-
   <div class="row">
     <div role="alert" *ngIf="error" class="col s12">
       <span class="red-text text-darken-4">{{ error }}</span>
     </div>
   </div>
 
-  <a class="add-new-wrapper" (click)="addNewGroup()">
-    <div class="btn-floating btn-large waves-effect waves-light orange">
-      <i class="material-icons">add</i>
-    </div>
-    <span>Add a Group</span>
-  </a>
+  <mat-tab-group class="home-page">
+    <mat-tab *ngIf="mySchools && mySchools.length > 0" label="My Schools">
 
+      <div class="tab-content">
 
-  <div class="row">
-    <div style="margin-left:auto;margin-right:auto;" class="col s12">
-      <div style="max-width:800px;margin-left:auto;margin-right:auto;" *ngFor="let group of myGroups; let i = index;"
-           class="card darken-1">
-        <div class="card-content">
+        <h2 class="center-align" style="padding-bottom:0;">My Schools</h2>
 
-          <div *ngIf="group.event_count" class="right"><a (click)="viewEventsCalendar(i)"><i class="small material-icons stats">event_note</i><span class="stats-total">{{ group.event_count}}</span></a>
-          </div>
-          <div *ngIf="group.notice_count" class="right"><a (click)="viewGroupNotices(i)"><i class="small material-icons stats">assignment</i><span class="stats-total">{{ group.notice_count}}</span></a>
-          </div>
-          <div *ngIf="group.member_count" class="right"><a (click)="viewGroupMembers(i)"><i class="small material-icons stats">group</i><span class="stats-total">{{ group.member_count}}</span></a>
-          </div>
+        <mat-card class="home-card" *ngFor="let school of mySchools; let i = index">
+          <mat-card-header>
 
-          <span style="clear: both" class="card-title">{{ group.name }}</span>
-          <p class="group-school-name">{{group.school_name}}</p>
+            <button style="position:absolute;right:0;top:0;" (click)="editSchool(i)" mat-icon-button>
+              <mat-icon aria-label="Edit">edit</mat-icon>
+            </button>
 
-          <a (click)="editGroup(i)" class="edit-group btn-floating halfway-fab waves-effect waves-light orange"><i
-            class="material-icons">edit</i></a>
-          <pre style="font-family:Lato;color:#444444;line-break: auto;word-wrap: normal;">{{group.description}}</pre>
+            <button style="position:absolute;right:40px;top:0;" (click)="inviteUsersToSchool(i)" mat-icon-button>
+              <mat-icon aria-label="Edit">share</mat-icon>
+            </button>
 
-        </div>
-        <div class="card-action">
-          <p>{{group.schoolName}}</p>
-          <div class="row">
-            <div class="col m2 s6"></div>
-          </div>
-          <a (click)="viewGroupNotices(i)">See Notices</a>
-          <a (click)="viewEventsCalendar(i)">See Events</a>
-          <a (click)="createNotice(i)">Add Notice</a>
-          <a (click)="createEvent(i)">Add Event</a>
-          <a (click)="inviteUsersToGroup(i)">Invite Others to Group</a>
-          <div class="role">{{ group.role }}</div>
-        </div>
+            <mat-card-title>{{ school.name }}</mat-card-title>
+          </mat-card-header>
+          <img *ngIf="school.image" mat-card-image src="{{school.image}}" alt="{{school.name}}">
+          <mat-card-content>
+
+            <div style="margin:0;padding:0;width: 100%;text-align: right">
+              <div class="right">
+                <button (click)="viewSchoolWideEventsCalendar(i)" mat-icon-button>
+                  <mat-icon aria-label="Edit">event_note</mat-icon>
+                </button>
+              </div>
+              <div class="right">
+                <button (click)="viewSchoolWideNotices(i)" mat-icon-button>
+                  <mat-icon aria-label="Edit">assignment</mat-icon>
+                </button>
+              </div>
+              <div class="right">
+                <button (click)="viewSchoolAdministrators(i)" mat-icon-button>
+                  <mat-icon aria-label="Edit">group</mat-icon>
+                </button>
+              </div>
+
+            </div>
+
+            <pre style="clear:both;" class="notice-details-description">{{school.description}}</pre>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button (click)="createSchoolWideNotice(i)">Add School-Wide Notice</button>
+            <button mat-raised-button (click)="createSchoolWideEvent(i)">Add School-Wide Event</button>
+          </mat-card-actions>
+        </mat-card>
+
       </div>
-    </div>
-  </div>
+
+    </mat-tab>
+    <mat-tab label="My Notices">
+      <div class="tab-content">
+        <h2 *ngIf="myNotices && myNotices.length > 0" class="center-align" style="padding-bottom:0;">My Notices</h2>
+
+        <mat-card (click)="viewNoticeDetails(notice)" class="home-card" *ngFor="let notice of myNotices; let i = index">
+          <mat-card-header>
+            <div [ngStyle]="{'background-image': getUrl(notice.group_image)}" *ngIf="notice.group_image"
+                 mat-card-avatar class="home-header-image"></div>
+            <mat-card-title>{{ notice.title }}</mat-card-title>
+            <mat-card-subtitle>{{notice.group_name}}</mat-card-subtitle>
+          </mat-card-header>
+          <img *ngIf="notice.image" mat-card-image src="{{notice.image}}" alt="{{notice.title}}">
+          <mat-card-content>
+            <h3 *ngIf="!notice.school_wide" class="notice-subtitle"></h3>
+            <p class="notice-date">Published {{ notice.show_date }}</p>
+            <h5 class="notice-sub-subtitle">{{notice.school_name}}</h5>
+            <pre class="notice-details-description">{{notice.description}}</pre>
+          </mat-card-content>
+        </mat-card>
+
+      </div>
+
+    </mat-tab>
+    <mat-tab label="My Events">
+
+      <div class="tab-content">
+
+        <h2 *ngIf="myEvents && myEvents.length > 0" class="center-align" style="padding-bottom:0;">My Events</h2>
+
+        <mat-card (click)="viewEventDetails(event)" class="home-card" *ngFor="let event of myEvents; let i = index">
+          <mat-card-header>
+            <div *ngIf="event.group_image" [ngStyle]="{'background-image': getUrl(event.group_image)}"
+                 mat-card-avatar class="home-header-image"></div>
+            <mat-card-title>{{ event.title }}</mat-card-title>
+            <mat-card-subtitle>{{event.group_name}}</mat-card-subtitle>
+          </mat-card-header>
+          <img *ngIf="event.image" mat-card-image src="{{event.image}}" alt="{{event.title}}">
+          <mat-card-content>
+            <h3 *ngIf="!event.school_wide" class="notice-subtitle"></h3>
+            <p class="notice-date">{{ event.start_date | friendlydate }}</p>
+            <h5 class="notice-sub-subtitle">{{event.school_name}}</h5>
+            <pre class="notice-details-description">{{event.description}}</pre>
+          </mat-card-content>
+        </mat-card>
+
+      </div>
+
+
+    </mat-tab>
+    <mat-tab label="My Groups">
+
+      <div class="tab-content">
+
+        <a class="add-new-wrapper" (click)="addNewGroup()">
+          <div class="btn-floating btn-large waves-effect waves-light orange">
+            <i class="material-icons">add</i>
+          </div>
+          <span>Add a Group</span>
+        </a>
+
+        <h2 *ngIf="myGroups && myGroups.length > 0" class="center-align" style="padding-bottom:0;">My Groups</h2>
+
+        <mat-card class="home-card" *ngFor="let group of myGroups; let i = index">
+          <mat-card-header>
+
+            <button style="position:absolute;right:0;top:0;" (click)="editGroup(i)" mat-icon-button>
+              <mat-icon aria-label="Edit">edit</mat-icon>
+            </button>
+
+            <button style="position:absolute;right:40px;top:0;" (click)="inviteUsersToGroup(i)" mat-icon-button>
+              <mat-icon aria-label="Edit">share</mat-icon>
+            </button>
+
+            <div *ngIf="group.school_logo" [ngStyle]="{'background-image': getUrl(group.school_logo)}"
+                 mat-card-avatar class="home-header-image"></div>
+            <mat-card-title>{{ group.name }}</mat-card-title>
+            <mat-card-subtitle>{{group.school_name}}</mat-card-subtitle>
+          </mat-card-header>
+          <img *ngIf="group.image" mat-card-image src="{{group.image}}" alt="{{group.name}}">
+          <mat-card-content>
+
+            <div style="margin:0;padding:0;width: 100%;text-align: right">
+              <div *ngIf="group.event_count" class="right">
+                <button (click)="viewEventsCalendar(i)" mat-icon-button>
+                  <mat-icon aria-label="Edit">event_note</mat-icon>
+                </button>
+                <span class="stats-total">{{ group.event_count}}</span>
+              </div>
+              <div *ngIf="group.notice_count" class="right">
+                <button (click)="viewGroupNotices(i)" mat-icon-button>
+                  <mat-icon aria-label="Edit">assignment</mat-icon>
+                </button>
+                <span class="stats-total">{{ group.notice_count}}</span>
+              </div>
+              <div *ngIf="group.member_count" class="right">
+                <button (click)="viewGroupMembers(i)" mat-icon-button>
+                  <mat-icon aria-label="Edit">group</mat-icon>
+                </button>
+                <span class="stats-total">{{ group.member_count}}</span>
+              </div>
+
+            </div>
+
+            <pre style="clear:both;" class="notice-details-description">{{group.description}}</pre>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button (click)="createNotice(i)">Add Notice</button>
+            <button mat-raised-button (click)="createEvent(i)">Add Event</button>
+            <div class="role">{{ group.role }}</div>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+
+    </mat-tab>
+  </mat-tab-group>
+
 
 </div>

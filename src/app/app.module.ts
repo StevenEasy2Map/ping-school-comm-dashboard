@@ -55,8 +55,9 @@ import {ModalModule} from 'ngx-modialog';
 import {BootstrapModalModule} from '../../node_modules/ngx-modialog/plugins/bootstrap';
 import {OwnMySchoolComponent} from './school/own.my.school.component';
 import {UpdateMySchoolComponent} from './school/update.my.school.component';
-import {InviteSchoolMemberComponent} from "./school/invite.school.member.component";
-import {SchoolAdministratorsComponent} from "./school/school_administrators/school.administrators.component";
+import {InviteSchoolMemberComponent} from './school/invite.school.member.component';
+import {SchoolAdministratorsComponent} from './school/school_administrators/school.administrators.component';
+import {MatButtonModule, MatCardModule, MatIconModule, MatTabsModule} from '@angular/material';
 
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
@@ -166,7 +167,8 @@ const appRoutes: Routes = [
     ModalModule.forRoot(),
     BootstrapModalModule,
 
-    AngularFireModule.initializeApp(environment.firebase)
+    AngularFireModule.initializeApp(environment.firebase),
+    MatTabsModule, MatCardModule, MatButtonModule, MatIconModule
   ],
   providers: [AppComponent, AuthService, AuthGuard, StorageService, APIService, HelperService, AngularFireAuth],
   bootstrap: [AppComponent]
