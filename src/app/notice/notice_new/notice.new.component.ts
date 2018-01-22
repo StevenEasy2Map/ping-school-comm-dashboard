@@ -31,6 +31,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
   loading = true;
   title = 'Create new notice';
   emailStatus = 0;
+  step = 0;
 
   showDateModel: DateModel;
   showDateOptions: DatePickerOptions;
