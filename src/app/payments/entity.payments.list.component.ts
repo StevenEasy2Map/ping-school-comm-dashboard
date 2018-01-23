@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../providers/auth-service';
 import {PaymentsService} from './services/payments.service';
 import {DateModel, DatePickerOptions} from 'ng2-datepicker';
-import {PingBaseComponent} from "../ping.base.component";
+import {PingBaseComponent} from '../ping.base.component';
 
 @Component({
   selector: 'app-entity-payments-list-list-component',
@@ -71,7 +71,9 @@ export class EntityPaymentsListComponent extends PingBaseComponent implements On
 
   getEntityPayments(): void {
 
-    this.paymentsService.getPayments(this.entityId, this.entityType, this.groupId, this.schoolId).subscribe(res => {
+    this.paymentsService.getPayments(this.entityId,
+      this.entityType,
+      this.groupId, this.schoolId).subscribe(res => {
       this.payments = res;
       this.payments.forEach(payment => {
         payment.payment_date = this.addDateTimeZone(payment.payment_date);
@@ -85,7 +87,9 @@ export class EntityPaymentsListComponent extends PingBaseComponent implements On
 
   getNonPayments(): void {
 
-    this.paymentsService.getNonPayments(this.entityId, this.entityType, this.groupId, this.schoolId).subscribe(res => {
+    this.paymentsService.getNonPayments(this.entityId,
+      this.entityType, this.groupId,
+      this.schoolId).subscribe(res => {
       this.nonPayments = res;
       this.loading = false;
     });
@@ -111,32 +115,23 @@ export class EntityPaymentsListComponent extends PingBaseComponent implements On
     this.loading = true;
 
     const payload = {
-      event_id: this.entityId,
+      entity_type: this.entityType,
+      entity_id: this.entityId,
       amount: this.paymentAmount,
       payment_reference: this.paymentReference,
       user_id: this.paymentUser,
       payment_date: paymentDate
     };
 
-    this.paymentsService.makeManualPayment(this.entityType, payload).subscribe(res => {
+    this.paymentsService.makeManualPayment(payload).subscribe(res => {
       this.processManualPayment = false;
       this.getEntityPayments();
     });
   }
 
-
   backToList(): void {
     window.history.back();
-// this.router.navigate(['/group-notices-list', {group_id: this.groupId, school_id: this.schoolId}]);
   }
 
-// getEntityDocuments(): void {
-//
-//   this.documentSignService.getEntityUserDocuments(this.entityId, this.entityType).subscribe(res => {
-//     this.documents = res.documents;
-//
-//   });
-//
-// }
 
 }
