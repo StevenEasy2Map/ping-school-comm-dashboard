@@ -71,7 +71,7 @@ http://shlomiassaf.github.io/ngx-modialog/#/documentation
 
 
 angular material
-https://material.angular.io/ 
+_https://material.angular.io/_ 
 
 
 CKEditor

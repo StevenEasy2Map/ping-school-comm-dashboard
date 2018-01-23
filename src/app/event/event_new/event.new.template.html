@@ -14,552 +14,528 @@
   </div>
 </div>
 
-<div materialize class="container events-and-events">
+
+<div materialize class="container">
 
   <div class="content">
     <h2 class="inline-page-title center-align">
       <a (click)="backToList()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Cancel</a>
       {{title}}</h2>
-    <ul materialize="collapsible" class="collapsible" data-collapsible="accordion">
-      <!--<li class="card">
-        <div class="collapsible-header"><img class="collapsibe-header-icon recipients"
-                                             src="/assets/recipients.svg"/>
-          Recipients
-        </div>
-        <div class="collapsible-body">
 
-          <h4>{{groupSummary.name}}</h4>
-
-          <div class="row row-with-line" *ngFor="let grade of grades; let i = index">
-              <div class="top-level-checkbox col s6">
-                  <input class="filled-in" type="checkbox"
-                         id="{{ grade.name }}"
-                         [(ngModel)]="grade.selected"
-                         (change)="gradeCheckUncheck(i)"/>
-                  <label for="{{ grade.name }}">{{ grade.name }}</label>
-              </div>
-
-              <div class="col s6">
-                  <div class="children-checkbox-group">
-                      <div *ngFor="let class of grade.classes">
-                          <input class="filled-in" type="checkbox"
-                                 id="{{ class.className }}"
-                                 [(ngModel)]="class.selected"/>
-                          <label for="{{ class.className }}">{{ class.className }}</label>
+    <mat-accordion class="notice-headers-align">
+      <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Event Details
+          </mat-panel-title>
+          <mat-panel-description>
+            &nbsp;
+            <mat-icon>assignment</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
 
 
-                      </div>
-                  </div>
-              </div>
-          </div>
-
-        </div>
-      </li>-->
-      <li class="card">
-        <div class="collapsible-header active"><img class="collapsibe-header-icon" src="/assets/event-details.svg"/>
-          Event details
-          <div class="collapsible-arrow">
-
-            <img src="/assets/arrow-down.svg"/>
+        <div class="row">
+          <div class="col s12">
+            <h6 for="eventtitle">Event Title</h6>
+            <input style="max-width:500px" class="validate" [(ngModel)]="event.title" id="eventtitle" type="text"/>
           </div>
         </div>
-        <div class="collapsible-body">
 
-          <div class="row">
-            <div class="col s12">
-              <h6 for="eventtitle">Event Title</h6>
-              <input style="max-width:500px" class="validate" [(ngModel)]="event.title" id="eventtitle" type="text"/>
-            </div>
+        <div class="row">
+          <div class="col s6">
+            <h6 for="startdate">Start date</h6>
+            <ng2-datepicker id="startdate" [options]="startDateOptions" [(ngModel)]="startDateModel"></ng2-datepicker>
           </div>
+          <div class="col s6">
 
-          <div class="row">
-            <div class="col s6">
-              <h6 for="startdate">Start date</h6>
-              <ng2-datepicker id="startdate" [options]="startDateOptions" [(ngModel)]="startDateModel"></ng2-datepicker>
-            </div>
-            <div class="col s6">
-
-              <label>Start time</label>
-              <div class="row">
-
-                <div class="col s2 time-select">
-                  <select class="time" [(ngModel)]="startTimeHours">
-                    <option *ngFor="let hour of hours">
-                      {{hour | numberpad}}
-                    </option>
-                  </select>
-                </div>
-                <div class="col s1 time-colon"></div>
-                <div class="col s2 time-select">
-                  <select class="time" style="float:left;" [(ngModel)]="startTimeMinutes">
-                    <option *ngFor="let minute of minutes">
-                      {{minute | numberpad}}
-                    </option>
-                  </select>
-                </div>
-                <div class="col s7">&nbsp;</div>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col s6">
-
-              <h6 for="enddate">End Date</h6>
-
-              <ng2-datepicker id="enddate" [options]="endDateOptions"
-                              [(ngModel)]="endDateModel"></ng2-datepicker>
-
-            </div>
-            <div class="col s6">
-
-              <label>End time</label>
-              <div class="row">
-
-                <div class="col s2 time-select">
-                  <select class="time" [(ngModel)]="endTimeHours">
-                    <option *ngFor="let hour of hours">
-                      {{hour | numberpad}}
-                    </option>
-                  </select>
-                </div>
-                <div class="col s1 time-colon"></div>
-                <div class="col s2 time-select">
-                  <select class="time" style="float:left;" [(ngModel)]="endTimeMinutes">
-                    <option *ngFor="let minute of minutes">
-                      {{minute | numberpad}}
-                    </option>
-                  </select>
-                </div>
-                <div class="col s7">&nbsp;</div>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col s6"><!--
-                            <img ng-show="!!event.image" ng-src="{{event.image}}">-->
-              <div class="file-field input-field">
-                <div class="btn">
-                  <div class="upload-icon">
-                    <img src="/assets/upload.svg"/>
-                  </div>
-                  <span>Upload a banner image</span>
-                  <input id="imageUpload" type="file">
-                </div>
-                <div class="file-path-wrapper center-align">
-                  <img *ngIf="!!event.image" src="{{ event.image }}"
-                       style="max-width:90%;border:1px solid #EBEBEB;"/>
-                  <input style="display: none" class="file-path" type="text">
-                  <a *ngIf="!!event.image" (click)="event.image = null;" class="delete-upload">
-                    <img src="/assets/delete.svg"/>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div class="col s6">
-              <div class="file-field input-field">
-                <div class="btn">
-                  <div class="upload-icon">
-                    <img src="/assets/upload.svg"/>
-                  </div>
-                  <span>Upload an attachment</span>
-                  <input id="fileUpload" type="file">
-                </div>
-                <div class="file-path-wrapper center-align">
-                  <input style="display: none" class="file-path" type="text">
-                  <a *ngIf="!!event.attachment_link" target="_blank" href="{{ event.attachment_link }}">View
-                    Document</a>
-                  <a *ngIf="!!event.image" (click)="event.image = null;" class="delete-upload">
-                    <img src="/assets/delete.svg"/>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div style="display:none" class="hidden row">
-            <div class="col s12">
-              <h5 class="external-links-title">External links</h5>
-              <div class="row">
-                <div class="col s6">
-                  <h6>Link 1 - URL</h6>
-                  <input style="max-width:300px" class="validate" [(ngModel)]="event.link1_url"
-                         id="link1_url"
-                         type="text"/>
-                </div>
-                <div class="col s6">
-                  <h6>Link 1 - Title</h6>
-                  <input style="max-width:300px" class="validate" [(ngModel)]="event.link1_title"
-                         id="link1_title" type="text"/>
-                </div>
-                <div class="col s6">
-                  <h6>Link 2 - URL</h6>
-                  <input style="max-width:300px" class="validate" [(ngModel)]="event.link2_url"
-                         id="link2_url"
-                         type="text"/>
-                </div>
-                <div class="col s6">
-                  <h6>Link 2 - Title</h6>
-                  <input style="max-width:300px" class="validate" [(ngModel)]="event.link2_title"
-                         id="link2_title" type="text"/>
-                </div>
-                <div class="col s6">
-                  <h6>Link 3 - URL</h6>
-                  <input style="max-width:300px" class="validate" [(ngModel)]="event.link3_url"
-                         id="link3_url"
-                         type="text"/>
-                </div>
-                <div class="col s6">
-                  <h6>Link 3 - Title</h6>
-                  <input style="max-width:300px" class="validate" [(ngModel)]="event.link3_title"
-                         id="link3_title" type="text"/>
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-
-          <div class="row" style="margin:10px;">
-            <div class="s4">
-              <input type="radio" name="emailStatus" id="radio1"
-                     [checked]="emailStatus === 1"
-                     (change)="onEmailStatusChange(1)">
-              <label for="radio1">
-                Email details of this event to all group members
-              </label>
-
-            </div>
-            <div class="s4">
-              <input type="radio" name="emailStatus" id="radio2"
-                     [checked]="emailStatus === 2"
-                     (change)="onEmailStatusChange(2)">
-              <label for="radio2">
-                Email details of this event to all group members, and group invitees
-              </label>
-            </div>
-            <div class="s4">
-              <input type="radio" name="emailStatus" id="radio3"
-                     [checked]="emailStatus === 0"
-                     (change)="onEmailStatusChange(0)">
-              <label for="radio3">
-                Do not send an email on creation of this event
-              </label>
-
-            </div>
-
-          </div>
-
-
-        </div>
-      </li>
-      <li class="card">
-        <div class="collapsible-header">
-          <img class="collapsibe-header-icon message" src="/assets/message.svg"/>
-          Event message
-          <div class="collapsible-arrow">
-            <img src="/assets/arrow-down.svg"/>
-          </div>
-        </div>
-        <div class="collapsible-body entity-description-parent">
-
-          <ckeditor [config]="ckEditorConfig" [(ngModel)]="event.description" debounce="500"></ckeditor>
-
-          <!--<textarea [(ngModel)]="event.description" style="width:90%;min-height:300px;"></textarea>-->
-
-        </div>
-      </li>
-
-      <li class="card doc-signing-new-parent">
-        <div class="collapsible-header">
-          <img class="collapsibe-header-icon message" src="/assets/message.svg"/>
-          Document Signing
-          <div class="collapsible-arrow">
-            <img src="/assets/arrow-down.svg"/>
-          </div>
-        </div>
-        <div class="collapsible-body">
-
-          <div *ngIf="documentTemplateFields.length > 0 && documentTemplate && docSigningProcessStep3Completed"
-               class="row">
-            <div class="col s12">
-              <h5>Document Signing Setup Complete</h5>
-              <p>Document title: <span class="bold">{{ documentTemplate['title'] }}</span></p>
-            </div>
-            <div class="col s6 left-align padded">
-              <a (click)="cancelAddDocument()" class="waves-effect waves-light btn">Remove</a>
-            </div>
-            <div class="col s6 right-align padded">
-              <a (click)="docSigningProcessStep3Completed = false;" class="waves-effect waves-light btn">Edit</a>
-            </div>
-
-          </div>
-
-          <p *ngIf="!docSigningProcessStarted" class="documentExplanation">Praesent eleifend gravida luctus. Maecenas
-            non mi ac massa tincidunt lacinia.
-            Aliquam dignissim tristique mi quis ornare. Phasellus pretium magna tellus, non rhoncus dui vehicula et.
-            Praesent quis lectus sit amet felis dignissim molestie. Nunc ornare, felis maximus lacinia hendrerit, mi
-            mauris posuere enim, id faucibus diam leo ut mauris. Nunc id diam nec nisl mollis gravida. Proin egestas
-            dolor eget condimentum aliquet. Etiam massa mi, egestas ut ante a, tincidunt placerat libero. Ut consectetur
-            turpis quis magna dignissim tempor. Mauris eget lacus ipsum. Mauris dictum eros vitae dignissim convallis.
-            Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Morbi non purus
-            sit amet urna tristique bibendum vitae non magna. Sed porta nibh ipsum, eu luctus lacus tincidunt ut.
-
-            Vestibulum sapien sem, lacinia nec feugiat sit amet, sollicitudin nec massa. Aliquam at augue quis sapien
-            tincidunt rutrum. Vestibulum ut viverra velit, id maximus eros. Sed vel accumsan orci. Morbi vulputate
-            congue sem, sed mattis massa blandit vel. Vivamus tortor justo, consequat dapibus quam nec, cursus mattis
-            sapien. Sed vel nisl quis lacus vulputate ullamcorper in at ante. Duis faucibus est sed egestas feugiat.
-            Donec fermentum eros eu nunc consectetur, ut egestas tortor rhoncus.</p>
-
-          <div *ngIf="!docSigningProcessStarted" id="divIncludeDocumentYN" class="row">
-            <div class="col s12 doc-button-parent">
-              <a (click)="includeDocForSigning()" class="waves-effect waves-light btn">Include document for signing</a>
-            </div>
-          </div>
-
-          <div *ngIf="docSigningProcessStarted && !docSigningProcessStep1Completed"
-               id="divDocumentCategory" class="row">
-            <div class="col s12">
-              <h5>Step 1 : choose a document category</h5>
-              <select style="max-width:500px;" class="browser-default" [(ngModel)]="documentCategory">
-                <option *ngFor="let category of signingCategories" [ngValue]="category">{{category.name}}</option>
-              </select>
-            </div>
-            <div class="col s6 left-align padded">
-              <a (click)="cancelAddDocument()" class="waves-effect waves-light btn">Cancel</a>
-            </div>
-            <div class="col s6 right-align padded">
-              <a (click)="onDocumentCategorySelect(event, $event)" class="waves-effect waves-light btn">Next</a>
-            </div>
-          </div>
-
-          <div id="divDocumentTemplate"
-               *ngIf="docSigningProcessStep1Completed && !docSigningProcessStep2Completed && documentTemplates.length > 0"
-               class="row">
-            <div class="col s12">
-              <h5>Step 2 : choose the document template you wish to use</h5>
-              <table class="striped">
-                <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Example</th>
-                  <th>Select</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr *ngFor="let template of documentTemplates; let i = index;">
-                  <td>{{ template.name}}</td>
-                  <td>
-                    <pre class="smallDocDescription">{{ template.description}}</pre>
-                  </td>
-                  <td><a href="{{ template.example_url}}" target="_blank">View example</a></td>
-                  <td style="vertical-align: middle;min-width:120px;">
-                    <button class="waves-effect waves-light btn"
-                            (click)="selectDocumentTemplate(event, template)">select
-                    </button>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="col s6 left-align padding">
-              <a (click)="cancelSelectTemplate()" class="waves-effect waves-light btn">Back</a>
-            </div>
-          </div>
-
-          <div
-            *ngIf="documentTemplateFields.length > 0 && documentTemplate && docSigningProcessStep2Completed && !docSigningProcessStep3Completed"
-            class="row">
-
-            <div class="col s12">
-
-
-              <h5>Step 3 : set values for fields within the document</h5>
-              <table class="bordered">
-                <thead>
-                <tr>
-                  <th>Description</th>
-                  <th>Value</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr *ngFor="let field of documentTemplateFields; let i = index;">
-                  <td>{{ field.code_description}}</td>
-                  <td *ngIf="field.autofill === 1"><input type="text" [(ngModel)]="field.default_value"/></td>
-                  <td class="auto-fill-off" *ngIf="field.autofill === 0">{{ field.default_value }}</td>
-                </tr>
-                </tbody>
-              </table>
-
-            </div>
-
-            <div class="col s12">
-              <h5 style="margin-top:30px;">Specify your document's details</h5>
-
-              <div class="col s12">
-                <p class="title">Call To Action</p>
-                <p class="docSectionExplanation">
-                  This is the text displayed in the Ping app which prompts the user to sign. Typically something like
-                  'Click here to sign the indemnity form'.
-                </p>
-                <input style="max-width:500px" class="validate" [(ngModel)]="documentTemplate['call_to_action']"
-                       id="document_call_to_action" type="text"/>
-              </div>
-
-              <div class="col s12">
-                <p class="title">Title</p>
-                <p class="docSectionExplanation">
-                  This is the document title. Typically something like 'Indemnity Form'.
-                </p>
-                <input style="max-width:500px" class="validate" [(ngModel)]="documentTemplate['title']"
-                       id="document_title" type="text"/>
-              </div>
-
-              <div class="col s12">
-                <p class="title">Description (optional)</p>
-                <p class="docSectionExplanation">
-                  Allows you to include any specific instructions or details.
-                </p>
-                <textarea class="materialize-textarea"
-                          id="document_user_description"
-                          [(ngModel)]="documentTemplate['user_description']"
-                          style="width:90%;min-height:200px;"></textarea>
-
-              </div>
-
-
-              <div class="col s6 left-align padded">
-                <a (click)="cancelSpecifyDocDetails()" class="waves-effect waves-light btn">Back</a>
-              </div>
-              <div class="col s6 right-align padded">
-                <a (click)="onDocumentSelectCompleted($event)" class="waves-effect waves-light btn">Done</a>
-              </div>
-
-            </div>
-
-          </div>
-
-
-        </div>
-      </li>
-
-
-      <li class="card">
-        <div class="collapsible-header main-color">
-          <img class="collapsibe-header-icon payments" src="/assets/payment.svg"/>
-          Payment details
-          <div class="collapsible-arrow">
-            <img src="/assets/arrow-down.svg"/>
-          </div>
-        </div>
-        <div class="collapsible-body">
-          <div class="payment-options">
+            <label>Start time</label>
             <div class="row">
-              <div class="col s12 top-padding">
-                <input class="filled-in"
-                       id="payment-associated"
-                       type="checkbox"
-                       [(ngModel)]="paymentApplicable"/>
-                <label for="payment-associated">There is a payment associated with this event</label>
+
+              <div class="col s2 time-select">
+
+                <mat-select placeholder="hour" [(ngModel)]="startTimeHours">
+                  <mat-option *ngFor="let hour of hours" [value]="hour">
+                    {{hour | numberpad}}
+                  </mat-option>
+                </mat-select>
+
+              </div>
+              <div class="col s1 time-colon">:</div>
+              <div class="col s2 time-select">
+
+                <mat-select placeholder="min" [(ngModel)]="startTimeMinutes">
+                  <mat-option *ngFor="let minute of minutes" [value]="minute">
+                    {{minute | numberpad}}
+                  </mat-option>
+                </mat-select>
+
+              </div>
+              <div class="col s7">&nbsp;</div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col s6">
+
+            <h6 for="enddate">End Date</h6>
+
+            <ng2-datepicker id="enddate" [options]="endDateOptions"
+                            [(ngModel)]="endDateModel"></ng2-datepicker>
+
+          </div>
+          <div class="col s6">
+
+            <label>End time</label>
+            <div class="row">
+
+              <div class="col s2 time-select">
+
+                <mat-select placeholder="hour" [(ngModel)]="endTimeHours">
+                  <mat-option *ngFor="let hour of hours" [value]="hour">
+                    {{hour | numberpad}}
+                  </mat-option>
+                </mat-select>
+
+              </div>
+              <div class="col s1 time-colon"></div>
+              <div class="col s2 time-select">
+
+
+                <mat-select placeholder="min" [(ngModel)]="endTimeMinutes">
+                  <mat-option *ngFor="let minute of minutes" [value]="minute">
+                    {{minute | numberpad}}
+                  </mat-option>
+                </mat-select>
+
+              </div>
+              <div class="col s7">&nbsp;</div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col s6"><!--
+                            <img ng-show="!!event.image" ng-src="{{event.image}}">-->
+            <div class="file-field input-field">
+              <div class="btn">
+                <div class="upload-icon">
+                  <img src="/assets/upload.svg"/>
+                </div>
+                <span>Upload a banner image</span>
+                <input id="imageUpload" type="file">
+              </div>
+              <div class="file-path-wrapper center-align">
+                <img *ngIf="!!event.image" src="{{ event.image }}"
+                     style="max-width:90%;border:1px solid #EBEBEB;"/>
+                <input style="display: none" class="file-path" type="text">
+                <a *ngIf="!!event.image" (click)="event.image = null;" class="delete-upload">
+                  <img src="/assets/delete.svg"/>
+                </a>
               </div>
             </div>
           </div>
-          <div *ngIf="paymentApplicable" class="row">
-            <div class="col s12 top-padding">
-              <input class="filled-in" [(ngModel)]="allowUsersToSetPaymentAmount" name="allow_user_set"
-                     type="checkbox" id="allow_user_set"/>
-              <label style="!important;margin-top:5px;" for="allow_user_set">Allow user to choose payment amount</label>
+
+          <div class="col s6">
+            <div class="file-field input-field">
+              <div class="btn">
+                <div class="upload-icon">
+                  <img src="/assets/upload.svg"/>
+                </div>
+                <span>Upload an attachment</span>
+                <input id="fileUpload" type="file">
+              </div>
+              <div class="file-path-wrapper center-align">
+                <input style="display: none" class="file-path" type="text">
+                <a *ngIf="!!event.attachment_link" target="_blank" href="{{ event.attachment_link }}">View
+                  Document</a>
+                <a *ngIf="!!event.image" (click)="event.image = null;" class="delete-upload">
+                  <img src="/assets/delete.svg"/>
+                </a>
+              </div>
             </div>
           </div>
+        </div>
 
-
-          <div *ngIf="paymentApplicable" class="row">
-            <div class="col s6">
-              <label *ngIf="allowUsersToSetPaymentAmount" for="paymentamount">Default payment amount (R)</label>
-              <label *ngIf="!allowUsersToSetPaymentAmount" for="paymentamount">Payment amount (R)</label>
-              <input class="validate short"
-                     [(ngModel)]="event.payment_amount"
-                     placeholder="Payment Amount"
-                     id="paymentamount" type="text">
-
-
-            </div>
-            <div class="col s6">
-              <label *ngIf="allowUsersToSetPaymentAmount" for="minpaymentamount">Minimum payment amount (R)</label>
-              <input *ngIf="allowUsersToSetPaymentAmount" class="validate short"
-                     [(ngModel)]="event.min_payment_amount"
-                     placeholder="Minimum Payment Amount"
-                     id="minpaymentamount" type="text">
-            </div>
-          </div>
-          <div *ngIf="paymentApplicable" class="row">
-            <div class="col s6">
-              <label *ngIf="allowUsersToSetPaymentAmount" for="maxpaymentamount">Maximum payment amount (R)</label>
-              <input *ngIf="allowUsersToSetPaymentAmount" class="validate short"
-                     [(ngModel)]="event.max_payment_amount"
-                     placeholder="Maximum Payment Amount"
-                     id="maxpaymentamount" type="text">
-            </div>
-
-            <div class="col s6">
-
-            </div>
-          </div>
-          <div *ngIf="paymentApplicable" class="row">
-
-            <div class="col s12">
-
-
-              <label for="ref">Payment Reference</label>
-              <input id="ref" type="text" class="validate short" placeholder="Payment Reference"
-                     [(ngModel)]="event.payment_reference">
-
-              <input [(ngModel)]="appendPaymentRefUserLastName" name="lastname_ref"
-                     type="checkbox" id="lastname_ref"/>
-              <label style="font-size:13px !important;margin-top:5px;" class="small-text" for="lastname_ref">Append
-                user's lastname to reference</label>
-
-
+        <div style="display:none" class="hidden row">
+          <div class="col s12">
+            <h5 class="external-links-title">External links</h5>
+            <div class="row">
+              <div class="col s6">
+                <h6>Link 1 - URL</h6>
+                <input style="max-width:300px" class="validate" [(ngModel)]="event.link1_url"
+                       id="link1_url"
+                       type="text"/>
+              </div>
+              <div class="col s6">
+                <h6>Link 1 - Title</h6>
+                <input style="max-width:300px" class="validate" [(ngModel)]="event.link1_title"
+                       id="link1_title" type="text"/>
+              </div>
+              <div class="col s6">
+                <h6>Link 2 - URL</h6>
+                <input style="max-width:300px" class="validate" [(ngModel)]="event.link2_url"
+                       id="link2_url"
+                       type="text"/>
+              </div>
+              <div class="col s6">
+                <h6>Link 2 - Title</h6>
+                <input style="max-width:300px" class="validate" [(ngModel)]="event.link2_title"
+                       id="link2_title" type="text"/>
+              </div>
+              <div class="col s6">
+                <h6>Link 3 - URL</h6>
+                <input style="max-width:300px" class="validate" [(ngModel)]="event.link3_url"
+                       id="link3_url"
+                       type="text"/>
+              </div>
+              <div class="col s6">
+                <h6>Link 3 - Title</h6>
+                <input style="max-width:300px" class="validate" [(ngModel)]="event.link3_title"
+                       id="link3_title" type="text"/>
+              </div>
             </div>
 
-          </div>
-
-          <div *ngIf="paymentApplicable" class="row">
-            <div class="input-field col s12">
-              <h6>Payment description / notes <span class="small-text">(if applicable)</span></h6>
-              <textarea [(ngModel)]="event.payment_instructions"
-                        id="payment_notes" style="max-width:500px;height:100px;"
-                        name="payment_notes" class="materialize-textarea"
-                        data-length="512"></textarea>
-              <label style="display: none" for="payment_notes">Textarea</label>
-
-            </div>
           </div>
 
         </div>
 
-      </li>
+        <div class="row" style="margin:10px;">
+
+          <div class="s12">
+            <h6>Notification settings</h6>
+            <mat-radio-group class="ping-radio-group" [(ngModel)]="emailStatus">
+              <mat-radio-button class="ping-radio-button" [value]="1">
+                Email details of this event to *all* group members
+              </mat-radio-button>
+              <br>
+              <mat-radio-button class="ping-radio-button" [value]="2">
+                Email details of this event to *all* group members, *and* group invitees
+              </mat-radio-button>
+              <br>
+              <mat-radio-button class="ping-radio-button" [value]="3">
+                *Do not* email details of this event
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+        </div>
 
 
-    </ul>
+      </mat-expansion-panel>
 
-    <div class="row">
+      <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Event Message
+          </mat-panel-title>
+          <mat-panel-description>
+            &nbsp;
+            <mat-icon>comment</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+
+        <ckeditor [config]="ckEditorConfig" [(ngModel)]="event.description" debounce="500"></ckeditor>
+
+
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Document Signing
+          </mat-panel-title>
+          <mat-panel-description>
+            &nbsp;
+            <mat-icon>create</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div *ngIf="documentTemplateFields.length > 0 && documentTemplate && docSigningProcessStep3Completed"
+             class="row">
+          <div class="col s12">
+            <h5>Document Signing Setup Complete</h5>
+            <p>Document title: <span class="bold">{{ documentTemplate.title }}</span></p>
+          </div>
+          <div class="col s6 left-align padded">
+            <button mat-raised-button (click)="cancelAddDocument()">Remove</button>
+          </div>
+          <div class="col s6 right-align padded">
+            <button mat-raised-button color="primary" (click)="docSigningProcessStep3Completed = false;">Edit</button>
+          </div>
+
+        </div>
+
+        <p *ngIf="!docSigningProcessStarted" class="documentExplanation">
+
+          Praesent eleifend gravida luctus. Maecenas
+          non mi ac massa tincidunt lacinia.
+          Aliquam dignissim tristique mi quis ornare. Phasellus pretium magna tellus, non rhoncus dui vehicula et.
+          Praesent quis lectus sit amet felis dignissim molestie. Nunc ornare, felis maximus lacinia hendrerit, mi
+          mauris posuere enim, id faucibus diam leo ut mauris. Nunc id diam nec nisl mollis gravida. Proin egestas
+          dolor eget condimentum aliquet. Etiam massa mi, egestas ut ante a, tincidunt placerat libero. Ut consectetur
+          turpis quis magna dignissim tempor. Mauris eget lacus ipsum. Mauris dictum eros vitae dignissim convallis.
+          Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Morbi non purus
+          sit amet urna tristique bibendum vitae non magna. Sed porta nibh ipsum, eu luctus lacus tincidunt ut.
+
+          Vestibulum sapien sem, lacinia nec feugiat sit amet, sollicitudin nec massa. Aliquam at augue quis sapien
+          tincidunt rutrum. Vestibulum ut viverra velit, id maximus eros. Sed vel accumsan orci. Morbi vulputate
+          congue sem, sed mattis massa blandit vel. Vivamus tortor justo, consequat dapibus quam nec, cursus mattis
+          sapien. Sed vel nisl quis lacus vulputate ullamcorper in at ante. Duis faucibus est sed egestas feugiat.
+          Donec fermentum eros eu nunc consectetur, ut egestas tortor rhoncus.</p>
+
+        <div *ngIf="!docSigningProcessStarted" id="divIncludeDocumentYN" class="row">
+          <div class="col s12 doc-button-parent">
+            <button mat-raised-button color="primary" (click)="includeDocForSigning()">Include document for signing</button>
+          </div>
+        </div>
+
+        <div *ngIf="docSigningProcessStarted && !docSigningProcessStep1Completed"
+             id="divDocumentCategory" class="row">
+          <div class="col s12">
+            <mat-form-field style="width:400px;">
+              <mat-select [style.width]="'100%'" placeholder="Step 1: choose a document category" [(ngModel)]="documentCategory" name="documentCategory">
+                <mat-option *ngFor="let category of signingCategories" [value]="category">
+                  {{category.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col s6 left-align top-bottom-margin">
+            <button mat-raised-button (click)="cancelAddDocument()">Cancel</button>
+          </div>
+          <div class="col s6 right-align top-bottom-margin">
+            <button mat-raised-button color="primary" (click)="onDocumentCategorySelect(event, $event)">Next</button>
+          </div>
+        </div>
+
+        <div id="divDocumentTemplate"
+             *ngIf="docSigningProcessStep1Completed && !docSigningProcessStep2Completed && documentTemplates.length > 0"
+             class="row">
+          <div class="col s12">
+            <h5>Step 2 : choose the document template you wish to use</h5>
+            <table class="striped">
+              <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th class="center-align">Example</th>
+                <th class="center-align">Select</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              <tr *ngFor="let template of documentTemplates; let i = index;">
+                <td><span class="bold">{{ template.name}}</span></td>
+                <td>
+                  <pre class="smallDocDescription">{{ template.description}}</pre>
+                </td>
+                <td class="center-align"><a href="{{ template.example_url}}" target="_blank">Example</a></td>
+                <td class="center-align" style="min-width:120px;">
+                  <button mat-raised-button (click)="selectDocumentTemplate(event, template)">Select</button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col s6 left-align padding">
+            <button mat-raised-button (click)="cancelSelectTemplate()">Back</button>
+          </div>
+        </div>
+
+        <div
+          *ngIf="documentTemplateFields.length > 0 && documentTemplate && docSigningProcessStep2Completed && !docSigningProcessStep3Completed"
+          class="row">
+
+          <div class="col s12">
+
+
+            <h5>Step 3 : complete document fields</h5>
+            <table class="bordered">
+              <thead>
+              <tr>
+                <th>Description</th>
+                <th>Value</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              <tr *ngFor="let field of documentTemplateFields; let i = index;">
+                <td>{{ field.code_description}}</td>
+                <td *ngIf="field.autofill === 1"><input type="text" [(ngModel)]="field.default_value"/></td>
+                <td class="auto-fill-off" *ngIf="field.autofill === 0">{{ field.default_value }}</td>
+              </tr>
+              </tbody>
+            </table>
+
+          </div>
+
+          <div class="col s12">
+            <h5 style="margin-top:30px;">Specify your document's details</h5>
+
+            <div class="col s12">
+              <p class="title">Call To Action</p>
+              <p class="docSectionExplanation">
+                This is the text displayed in the Ping app which prompts the user to sign. Typically something like
+                'Click here to sign the indemnity form'.
+              </p>
+              <input style="max-width:500px" class="validate" [(ngModel)]="documentTemplate.call_to_action"
+                     id="document_call_to_action" type="text"/>
+            </div>
+
+            <div class="col s12">
+              <p class="title">Title</p>
+              <p class="docSectionExplanation">
+                This is the document title. Typically something like 'Indemnity Form'.
+              </p>
+              <input style="max-width:500px" class="validate" [(ngModel)]="documentTemplate.title"
+                     id="document_title" type="text"/>
+            </div>
+
+            <div class="col s12">
+              <p class="title">Description (optional)</p>
+              <p class="docSectionExplanation">
+                Allows you to include any specific instructions or details.
+              </p>
+              <textarea class="materialize-textarea"
+                        id="document_user_description"
+                        [(ngModel)]="documentTemplate.user_description"
+                        style="width:90%;min-height:200px;"></textarea>
+
+            </div>
+
+
+            <div class="col s6 left-align padded">
+              <button mat-raised-button (click)="cancelSpecifyDocDetails()">Back</button>
+            </div>
+            <div class="col s6 right-align padded">
+              <button mat-raised-button color="primary" (click)="onDocumentSelectCompleted($event)">Done</button>
+            </div>
+
+          </div>
+
+        </div>
+
+
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Payment Details
+          </mat-panel-title>
+          <mat-panel-description>
+            &nbsp;
+            <mat-icon>credit_card</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="payment-options">
+          <div class="row">
+            <div class="col s12 top-padding">
+              <input class="filled-in"
+                     id="payment-associated"
+                     type="checkbox"
+                     [(ngModel)]="paymentApplicable"/>
+              <label for="payment-associated">There is a payment associated with this event</label>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="paymentApplicable" class="row">
+          <div class="col s12 top-padding">
+            <input class="filled-in" [(ngModel)]="allowUsersToSetPaymentAmount" name="allow_user_set"
+                   type="checkbox" id="allow_user_set"/>
+            <label style="!important;margin-top:5px;" for="allow_user_set">Allow user to choose payment amount</label>
+          </div>
+        </div>
+
+
+        <div *ngIf="paymentApplicable" class="row">
+          <div class="col s6">
+            <h6 *ngIf="allowUsersToSetPaymentAmount" for="paymentamount">Default payment amount (R)</h6>
+            <h6 *ngIf="!allowUsersToSetPaymentAmount" for="paymentamount">Payment amount (R)</h6>
+            <input class="validate short"
+                   [(ngModel)]="event.payment_amount"
+                   placeholder="Payment Amount"
+                   id="paymentamount" type="text">
+
+
+          </div>
+          <div class="col s6">
+            <h6 *ngIf="allowUsersToSetPaymentAmount" for="minpaymentamount">Minimum payment amount (R)</h6>
+            <input *ngIf="allowUsersToSetPaymentAmount" class="validate short"
+                   [(ngModel)]="event.min_payment_amount"
+                   placeholder="Minimum Payment Amount"
+                   id="minpaymentamount" type="text">
+          </div>
+        </div>
+        <div *ngIf="paymentApplicable" class="row">
+          <div class="col s6">
+            <h6 *ngIf="allowUsersToSetPaymentAmount" for="maxpaymentamount">Maximum payment amount (R)</h6>
+            <input *ngIf="allowUsersToSetPaymentAmount" class="validate short"
+                   [(ngModel)]="event.max_payment_amount"
+                   placeholder="Maximum Payment Amount"
+                   id="maxpaymentamount" type="text">
+          </div>
+
+          <div class="col s6">
+
+          </div>
+        </div>
+        <div *ngIf="paymentApplicable" class="row">
+
+          <div class="col s12">
+
+
+            <h6 for="ref">Payment Reference</h6>
+            <input id="ref" type="text" class="validate short" style="max-width:300px;" placeholder="Payment Reference"
+                   [(ngModel)]="event.payment_reference">
+            <br>
+
+            <input [(ngModel)]="appendPaymentRefUserLastName" name="lastname_ref"
+                   type="checkbox" id="lastname_ref"/>
+            <label style="font-size:13px !important;margin-top:5px;" class="small-text" for="lastname_ref">Append
+              user's lastname to reference</label>
+
+
+          </div>
+
+        </div>
+
+        <div *ngIf="paymentApplicable" class="row">
+          <div class="input-field col s12">
+            <h6>Payment description / notes <span class="small-text">(if applicable)</span></h6>
+            <textarea [(ngModel)]="event.payment_instructions"
+                      id="payment_notes" style="max-width:500px;height:100px;"
+                      name="payment_notes" class="materialize-textarea"
+                      data-length="512"></textarea>
+            <label style="display: none" for="payment_notes">Textarea</label>
+
+          </div>
+        </div>
+
+
+      </mat-expansion-panel>
+
+    </mat-accordion>
+
+    <div class="row top-bottom-margin">
+
       <div class="col s12 right-align">
-        <a (click)="createEvent()" class="waves-effect waves-light btn">Save Event Details</a>
+        <button mat-raised-button color="primary" (click)="createEvent()">Save Event Details</button>
       </div>
     </div>
 
   </div>
 
-
 </div>
+
+
 
 
 

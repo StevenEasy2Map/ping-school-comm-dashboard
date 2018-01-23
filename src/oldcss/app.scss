@@ -86,6 +86,15 @@ select, textarea {
   }
 }
 
+[type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:after {
+  background-color: $primary-accent-color !important;
+  z-index: 0;
+}
+
+[type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:before, [type="radio"].with-gap:checked + label:after {
+  border: 2px solid $primary-accent-color !important;
+}
+
 [type="checkbox"].filled-in:not(:checked) + label:after {
   background-color: white;
 }
@@ -98,6 +107,16 @@ select, textarea {
 [type="checkbox"].filled-in:checked + label:after {
   border-color: $cta-color;
   background-color: $cta-color;
+
+}
+
+.ping-radio-group {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.ping-radio-button {
+  margin: 20px !important;
 }
 
 label {
@@ -157,7 +176,7 @@ nav {
     vertical-align: middle;
   }
   &.cancel-link {
-    font-size:15px;
+    font-size: 15px;
 
     img {
       width: 8px;
@@ -230,7 +249,7 @@ a.card-outer-link > .card {
   .btn,
   .btn:hover {
     text-align: left;
-    border: 2px dashed #60798A;
+    border: 1px dashed #60798A;
     background: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;

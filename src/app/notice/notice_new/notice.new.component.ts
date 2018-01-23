@@ -30,7 +30,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
   groupSummary: any = {};
   loading = true;
   title = 'Create new notice';
-  emailStatus = 0;
+  emailStatus = '1';
   step = 0;
 
   showDateModel: DateModel;
@@ -165,10 +165,6 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
 
   }
 
-  onEmailStatusChange(val) {
-    this.emailStatus = val;
-  }
-
   getNoticeGroups(): void {
 
     this.noticeService.getNoticeGroups(this.noticeId).subscribe(
@@ -260,7 +256,8 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
 
     postValue['group_ids'] = [this.groupId];
     postValue['school_id'] = this.schoolId;
-    postValue['email_status'] = this.emailStatus;
+    postValue['email_status'] = parseInt(this.emailStatus, 10);
+    this.loading = true;
 
     if (this.noticeId) {
 
@@ -278,6 +275,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
               templateDetails['document_id'] = this.notice['signature_document_id'];
               this.updateDocument(templateDetails).subscribe(
                 response => {
+                  this.loading = false;
                   this.backToList();
                 }
               );
@@ -285,6 +283,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
             } else {
               this.createDocument(templateDetails).subscribe(
                 response => {
+                  this.loading = false;
                   this.backToList();
                 }
               );
@@ -299,11 +298,13 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
               templateDetails['document_id'] = this.notice['signature_document_id'];
               this.removeDocument(templateDetails).subscribe(
                 response => {
+                  this.loading = false;
                   this.backToList();
                 }
               );
 
             } else {
+              this.loading = false;
               this.backToList();
             }
 
@@ -321,14 +322,19 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
             templateDetails['entity_id'] = result.notice_id;
             this.createDocument(templateDetails).subscribe(
               res => {
+                this.loading = false;
                 this.backToList();
               });
           } else {
+            this.loading = false;
             this.backToList();
           }
 
         },
-        error => this.error = <any>error);
+        error => {
+          this.loading = false;
+          this.error = <any>error;
+        });
 
     }
 

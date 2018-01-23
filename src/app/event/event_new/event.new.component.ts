@@ -33,7 +33,8 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
   groupSummary: any = {};
   loading = true;
   title = 'Create new event';
-  emailStatus = 0;
+  emailStatus = '1';
+  step = 0;
 
   error = '';
   startDateModel: DateModel;
@@ -48,8 +49,8 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
   endTimeHours = this.padNumber((new Date()).getHours());
   endTimeMinutes = '00'; // this.padNumber((new Date()).getMinutes());
 
-  hours = Array.from({length: 24}, (v, i) => i);
-  minutes = [0, 15, 30, 45]; // Array.from({length: 60}, (v, i) => i);
+  hours = Array.from({length: 24}, (v, i) => i + '');
+  minutes = ['00', '15', '30', '45']; // Array.from({length: 60}, (v, i) => i);
 
   paymentApplicable = false;
   allowUsersToSetPaymentAmount = false;

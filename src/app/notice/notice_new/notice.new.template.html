@@ -60,6 +60,7 @@
           <div class="col s6"><!--
                             <img ng-show="!!notice.image" ng-src="{{notice.image}}">-->
             <div class="file-field input-field">
+
               <div class="btn">
                 <div class="upload-icon">
                   <img src="/assets/upload.svg"/>
@@ -144,32 +145,50 @@
         </div>
 
         <div class="row" style="margin:10px;">
-          <div class="s4">
-            <input type="radio" name="emailStatus" id="radio1"
-                   [checked]="emailStatus === 1"
-                   (change)="onEmailStatusChange(1)">
-            <label for="radio1">
-              Email details of this notice to all group members
-            </label>
 
+          <div class="s12">
+            <h6>Notification settings</h6>
+            <mat-radio-group class="ping-radio-group" [(ngModel)]="emailStatus">
+              <mat-radio-button class="ping-radio-button" [value]="1">
+                Email details of this notice to *all* group members
+              </mat-radio-button>
+              <br>
+              <mat-radio-button class="ping-radio-button" [value]="2">
+                Email details of this notice to *all* group members, *and* group invitees
+              </mat-radio-button>
+              <br>
+              <mat-radio-button class="ping-radio-button" [value]="3">
+                *Do not* email details of this notice
+              </mat-radio-button>
+            </mat-radio-group>
           </div>
-          <div class="s4">
-            <input type="radio" name="emailStatus" id="radio2"
-                   [checked]="emailStatus === 2"
-                   (change)="onEmailStatusChange(2)">
-            <label for="radio2">
-              Email details of this notice to all group members, and group invitees
-            </label>
-          </div>
-          <div class="s4">
-            <input type="radio" name="emailStatus" id="radio3"
-                   [checked]="emailStatus === 0"
-                   (change)="onEmailStatusChange(0)">
-            <label for="radio3">
-              Do not send an notice on creation of this event
-            </label>
 
-          </div>
+          <!--<div class="s4">-->
+          <!--<input type="radio" name="emailStatus" id="radio1"-->
+          <!--[checked]="emailStatus === 1"-->
+          <!--(change)="onEmailStatusChange(1)">-->
+          <!--<label for="radio1">-->
+          <!--Email details of this notice to all group members-->
+          <!--</label>-->
+
+          <!--</div>-->
+          <!--<div class="s4">-->
+          <!--<input type="radio" name="emailStatus" id="radio2"-->
+          <!--[checked]="emailStatus === 2"-->
+          <!--(change)="onEmailStatusChange(2)">-->
+          <!--<label for="radio2">-->
+          <!--Email details of this notice to all group members, and group invitees-->
+          <!--</label>-->
+          <!--</div>-->
+          <!--<div class="s4">-->
+          <!--<input type="radio" name="emailStatus" id="radio3"-->
+          <!--[checked]="emailStatus === 0"-->
+          <!--(change)="onEmailStatusChange(0)">-->
+          <!--<label for="radio3">-->
+          <!--Do not send an notice on creation of this event-->
+          <!--</label>-->
+
+          <!--</div>-->
 
         </div>
 
@@ -211,15 +230,17 @@
             <p>Document title: <span class="bold">{{ documentTemplate.title }}</span></p>
           </div>
           <div class="col s6 left-align padded">
-            <a (click)="cancelAddDocument()" class="waves-effect waves-light btn">Remove</a>
+            <button mat-raised-button (click)="cancelAddDocument()">Remove</button>
           </div>
           <div class="col s6 right-align padded">
-            <a (click)="docSigningProcessStep3Completed = false;" class="waves-effect waves-light btn">Edit</a>
+            <button mat-raised-button color="primary" (click)="docSigningProcessStep3Completed = false;">Edit</button>
           </div>
 
         </div>
 
-        <p *ngIf="!docSigningProcessStarted" class="documentExplanation">Praesent eleifend gravida luctus. Maecenas
+        <p *ngIf="!docSigningProcessStarted" class="documentExplanation">
+
+          Praesent eleifend gravida luctus. Maecenas
           non mi ac massa tincidunt lacinia.
           Aliquam dignissim tristique mi quis ornare. Phasellus pretium magna tellus, non rhoncus dui vehicula et.
           Praesent quis lectus sit amet felis dignissim molestie. Nunc ornare, felis maximus lacinia hendrerit, mi
@@ -237,23 +258,26 @@
 
         <div *ngIf="!docSigningProcessStarted" id="divIncludeDocumentYN" class="row">
           <div class="col s12 doc-button-parent">
-            <a (click)="includeDocForSigning()" class="waves-effect waves-light btn">Include document for signing</a>
+            <button mat-raised-button color="primary" (click)="includeDocForSigning()">Include document for signing</button>
           </div>
         </div>
 
         <div *ngIf="docSigningProcessStarted && !docSigningProcessStep1Completed"
              id="divDocumentCategory" class="row">
           <div class="col s12">
-            <h5>Step 1 : choose a document category</h5>
-            <select style="max-width:500px;" class="browser-default" [(ngModel)]="documentCategory">
-              <option *ngFor="let category of signingCategories" [ngValue]="category">{{category.name}}</option>
-            </select>
+            <mat-form-field style="width:400px;">
+              <mat-select [style.width]="'100%'" placeholder="Step 1: choose a document category" [(ngModel)]="documentCategory" name="documentCategory">
+                <mat-option *ngFor="let category of signingCategories" [value]="category">
+                  {{category.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
-          <div class="col s6 left-align padded">
-            <a (click)="cancelAddDocument()" class="waves-effect waves-light btn">Cancel</a>
+          <div class="col s6 left-align top-bottom-margin">
+            <button mat-raised-button (click)="cancelAddDocument()">Cancel</button>
           </div>
-          <div class="col s6 right-align padded">
-            <a (click)="onDocumentCategorySelect(notice, $event)" class="waves-effect waves-light btn">Next</a>
+          <div class="col s6 right-align top-bottom-margin">
+            <button mat-raised-button color="primary" (click)="onDocumentCategorySelect(notice, $event)">Next</button>
           </div>
         </div>
 
@@ -267,29 +291,27 @@
               <tr>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Example</th>
-                <th>Select</th>
+                <th class="center-align">Example</th>
+                <th class="center-align">Select</th>
               </tr>
               </thead>
 
               <tbody>
               <tr *ngFor="let template of documentTemplates; let i = index;">
-                <td>{{ template.name}}</td>
+                <td><span class="bold">{{ template.name}}</span></td>
                 <td>
                   <pre class="smallDocDescription">{{ template.description}}</pre>
                 </td>
-                <td><a href="{{ template.example_url}}" target="_blank">View example</a></td>
-                <td style="vertical-align: middle;min-width:120px;">
-                  <button class="waves-effect waves-light btn"
-                          (click)="selectDocumentTemplate(notice, template)">select
-                  </button>
+                <td class="center-align"><a href="{{ template.example_url}}" target="_blank">Example</a></td>
+                <td class="center-align" style="min-width:120px;">
+                  <button mat-raised-button (click)="selectDocumentTemplate(notice, template)">Select</button>
                 </td>
               </tr>
               </tbody>
             </table>
           </div>
           <div class="col s6 left-align padding">
-            <a (click)="cancelSelectTemplate()" class="waves-effect waves-light btn">Back</a>
+            <button mat-raised-button (click)="cancelSelectTemplate()">Back</button>
           </div>
         </div>
 
@@ -356,10 +378,10 @@
 
 
             <div class="col s6 left-align padded">
-              <a (click)="cancelSpecifyDocDetails()" class="waves-effect waves-light btn">Back</a>
+              <button mat-raised-button (click)="cancelSpecifyDocDetails()">Back</button>
             </div>
             <div class="col s6 right-align padded">
-              <a (click)="onDocumentSelectCompleted($event)" class="waves-effect waves-light btn">Done</a>
+              <button mat-raised-button color="primary" (click)="onDocumentSelectCompleted($event)">Done</button>
             </div>
 
           </div>
@@ -391,7 +413,6 @@
             </div>
           </div>
         </div>
-
 
         <div *ngIf="paymentApplicable" class="row">
           <div class="col s12 top-padding">
@@ -474,12 +495,11 @@
     <div class="row top-bottom-margin">
 
       <div class="col s12 right-align">
-        <a (click)="createNotice()" class="waves-effect waves-light btn">Save Notice Details</a>
+        <button mat-raised-button color="primary" (click)="createNotice()">Save Notice Details</button>
       </div>
     </div>
 
   </div>
-
 
 </div>
 
