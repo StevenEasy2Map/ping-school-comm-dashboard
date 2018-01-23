@@ -21,17 +21,20 @@
       <a (click)="backToList()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Back</a>
       "{{entityTitle}}" - Payments Made</h2>
 
-    <div class="row">
+    <div *ngIf="!processManualPayment" class="row top-bottom-margin">
       <div class="col s6">
         <h5>Total Payments Received : {{ paymentCurrency }} {{ paymentTotal | number: '1.2-2' }}</h5>
       </div>
       <div class="col s6">
-        <a class="right waves-effect waves-light btn white-text">Send reminder to non-payers</a>
-        <a class=" rightwaves-effect waves-light btn white-text">Export payments list</a>
+        <button mat-raised-button color="primary">Send reminder to non-payers</button>
+        <button mat-raised-button color="primary">Export payments list</button>
+        <button *ngIf="nonPayments && nonPayments.length > 0"
+                mat-raised-button color="primary"
+                (click)="processManualPayment = true">Make manual process</button>
       </div>
     </div>
 
-    <table class="bordered">
+    <table *ngIf="!processManualPayment" class="bordered">
       <thead>
       <th>First Name</th>
       <th>Last Name</th>
@@ -39,7 +42,7 @@
       <th>Reference</th>
       <th class="right-align">Amount Paid</th>
       <th class="center-align">Payment Date</th>
-      <th class="center-align">Paid To Group Owner</th>
+      <!--<th class="center-align">Paid To Group Owner</th>-->
       <th class="right-align">Amount Refunded</th>
       </thead>
       <tbody>
@@ -49,19 +52,48 @@
         <td>{{ payment.email }}</td>
         <td>{{ payment.payment_reference }}</td>
         <td class="right-align">{{payment.currency}} {{ payment.amount | number: '1.2-2' }}</td>
-        <td class="center-align">{{ (payment.payment_date | friendlydatetime) || '-' }}</td>
-        <td class="center-align"> {{ payment.processed ? 'Yes' : 'No' }}</td>
+        <td class="center-align">{{ (payment.payment_date | friendlydate) || '-' }}</td>
+        <!--<td class="center-align"> {{ payment.processed ? 'Yes' : 'No' }}</td>-->
         <td class="right-align"><a href="#">Refund payment</a></td>
-        <!--<td>{{ document.first_name }}</td>
-        <td>{{ document.last_name }}</td>
-        <td>{{ document.email }}</td>
-        <td>{{ document.document_status || '-' }}</td>
-        <td class="center-align">{{ (document.date_generated | friendlydatetime) || '-' }}</td>
-        <td class="center-align">{{ (document.date_signed | friendlydatetime) || '-' }}</td>
-        <td><a target="_blank" *ngIf="document.document_url" href="{{ document.document_url || '#' }}">View document</a></td>-->
       </tr>
       </tbody>
     </table>
+
+    <div *ngIf="processManualPayment" class="row">
+      <div class="col s12"><h3>Process manual Payment</h3></div>
+      <div class="col s6">
+
+        <mat-form-field style="min-width:400px;">
+          <mat-select [style.width]="'100%'" [(ngModel)]="paymentUser" placeholder="Select user">
+            <mat-option *ngFor="let item of nonPayments" [value]="item.id">
+              {{ item.email }} ({{item.first_name}} {{item.last_name}})
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+      <div class="col s6">
+        <h6 for="paymentdate">The date of payment</h6>
+        <ng2-datepicker name="paymentdate" id="paymentdate" [options]="paymentDateOptions"
+                        [(ngModel)]="paymentDateModel"></ng2-datepicker>
+      </div>
+      <div class="col s6">
+        <h6>Payment amount (R)</h6>
+        <input style="max-width:250px;" class="validate short" [(ngModel)]="paymentAmount" placeholder="Payment Amount" id="paymentAmount" type="text">
+      </div>
+      <div class="col s6">
+        <h6>Payment reference</h6>
+        <input style="max-width:250px;" class="validate short" [(ngModel)]="paymentReference" placeholder="Payment Reference" id="paymentReference" type="text">
+      </div>
+    </div>
+    <div *ngIf="processManualPayment" class="row top-bottom-margin">
+      <div class="col s6 left-align">
+        <button mat-raised-button (click)="processManualPayment = false">Cancel</button>
+      </div>
+      <div class="col s6 right-align">
+        <button mat-raised-button color="primary" (click)="makeManualPayment()">Process Manual Payment</button>
+      </div>
+    </div>
 
 
   </div>

@@ -118,7 +118,7 @@
           <mat-card-content>
             <p class="notice-date">{{ event.start_date | friendlydate }}</p>
             <h5 *ngIf="!event.school_wide" class="notice-sub-subtitle">{{event.school_name}}</h5>
-            <pre class="notice-details-description">{{event.description}}</pre>
+            <div [innerHTML]="event.description" class="notice-details-description"></div>
           </mat-card-content>
         </mat-card>
 
