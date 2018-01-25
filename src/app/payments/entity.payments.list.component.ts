@@ -4,6 +4,8 @@ import {AuthService} from '../../providers/auth-service';
 import {PaymentsService} from './services/payments.service';
 import {DateModel, DatePickerOptions} from 'ng2-datepicker';
 import {PingBaseComponent} from '../ping.base.component';
+import {MatDialog, MatSnackBar} from "@angular/material";
+import {DialogAreYouSureComponent} from "../common/modals/are.you.sure.component";
 
 @Component({
   selector: 'app-entity-payments-list-list-component',
@@ -36,7 +38,9 @@ export class EntityPaymentsListComponent extends PingBaseComponent implements On
   constructor(private auth: AuthService,
               public paymentsService: PaymentsService,
               public router: Router,
-              public route: ActivatedRoute) {
+              public route: ActivatedRoute,
+              public snackBar: MatSnackBar,
+              public dialog: MatDialog) {
 
     super();
 
@@ -75,6 +79,7 @@ export class EntityPaymentsListComponent extends PingBaseComponent implements On
       this.entityType,
       this.groupId, this.schoolId).subscribe(res => {
       this.payments = res;
+      this.paymentTotal = 0;
       this.payments.forEach(payment => {
         payment.payment_date = this.addDateTimeZone(payment.payment_date);
         this.paymentTotal += payment.amount || 0;
@@ -93,6 +98,36 @@ export class EntityPaymentsListComponent extends PingBaseComponent implements On
       this.nonPayments = res;
       this.loading = false;
     });
+
+  }
+
+  refundPayment($event, paymentId) {
+
+    $event.preventDefault();
+
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      data: {
+        title: 'Refund Payment'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loading = true;
+        const payload = {
+          entity_type: this.entityType,
+          payment_id: paymentId,
+          entity_id: this.entityId
+        };
+        this.paymentsService.refundPayment(payload).subscribe(res => {
+          this.processManualPayment = false;
+          this.snackBar.open('Payment successfully refunded');
+          this.getEntityPayments();
+          this.getNonPayments();
+        });
+      }
+    });
+
 
   }
 

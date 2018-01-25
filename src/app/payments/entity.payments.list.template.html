@@ -22,15 +22,15 @@
       "{{entityTitle}}" - Payments Made</h2>
 
     <div *ngIf="!processManualPayment" class="row top-bottom-margin">
-      <div class="col s6">
+      <div class="col s12 m3">
         <h5>Total Payments Received : {{ paymentCurrency }} {{ paymentTotal | number: '1.2-2' }}</h5>
       </div>
-      <div class="col s6">
+      <div class="col s12 m9 right-align">
         <button mat-raised-button color="primary">Send reminder to non-payers</button>
         <button mat-raised-button color="primary">Export payments list</button>
         <button *ngIf="nonPayments && nonPayments.length > 0"
                 mat-raised-button color="primary"
-                (click)="processManualPayment = true">Make manual process</button>
+                (click)="processManualPayment = true">Process manual payment</button>
       </div>
     </div>
 
@@ -54,7 +54,7 @@
         <td class="right-align">{{payment.currency}} {{ payment.amount | number: '1.2-2' }}</td>
         <td class="center-align">{{ (payment.payment_date | friendlydate) || '-' }}</td>
         <!--<td class="center-align"> {{ payment.processed ? 'Yes' : 'No' }}</td>-->
-        <td class="right-align"><a href="#">Refund payment</a></td>
+        <td class="right-align"><a (click)="refundPayment($event, payment.payment_id)" href="#">Refund payment</a></td>
       </tr>
       </tbody>
     </table>

@@ -57,7 +57,8 @@ import {OwnMySchoolComponent} from './school/own.my.school.component';
 import {UpdateMySchoolComponent} from './school/update.my.school.component';
 import {InviteSchoolMemberComponent} from './school/invite.school.member.component';
 import {SchoolAdministratorsComponent} from './school/school_administrators/school.administrators.component';
-import {MatButtonModule, MatCardModule, MatExpansionModule, MatIconModule, MatRadioModule, MatSelectModule, MatSnackBarModule, MatTabsModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, MatIconModule, MatRadioModule, MatSelectModule, MatSnackBarModule, MatTabsModule} from '@angular/material';
+import {DialogAreYouSureComponent} from './common/modals/are.you.sure.component';
 
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
@@ -146,10 +147,13 @@ const appRoutes: Routes = [
     FriendlyDatePipe,
     FriendlyDateTimePipe,
     EllipsisPipe,
-    NumberPadPipe
+    NumberPadPipe,
+
+    DialogAreYouSureComponent
 
 
   ],
+  entryComponents: [DialogAreYouSureComponent],
   imports: [
     BrowserModule,
     MaterializeModule,
@@ -168,7 +172,7 @@ const appRoutes: Routes = [
     BootstrapModalModule,
 
     AngularFireModule.initializeApp(environment.firebase),
-    MatTabsModule, MatCardModule, MatButtonModule, MatIconModule, MatSnackBarModule, MatExpansionModule, MatRadioModule, MatSelectModule
+    MatTabsModule, MatCardModule, MatButtonModule, MatIconModule, MatSnackBarModule, MatExpansionModule, MatRadioModule, MatSelectModule, MatDialogModule
   ],
   providers: [AppComponent, AuthService, AuthGuard, StorageService, APIService, HelperService, AngularFireAuth],
   bootstrap: [AppComponent]

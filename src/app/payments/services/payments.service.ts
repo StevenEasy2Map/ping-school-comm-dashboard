@@ -29,6 +29,12 @@ export class PaymentsService extends APIService {
 
   }
 
+  refundPayment(payload: any): Observable<any> {
+
+    return this.post(payload, '/api/payment/refund');
+
+  }
+
   getNonPayments(entityId: string, entityType: string, groupId: string, schoolId: string): Observable<any> {
 
     return this.get(`/api/payment/non_payments/${entityType}/${entityId}/${groupId}/${schoolId}`);
