@@ -83,7 +83,7 @@
       <div class="tab-content">
         <h2 *ngIf="myNotices && myNotices.length > 0" class="center-align" style="padding-bottom:0;">My Notices</h2>
 
-        <mat-card (click)="viewNoticeDetails(notice)" class="home-card" *ngFor="let notice of myNotices; let i = index">
+        <mat-card (click)="viewNoticeDetails(notice)" class="home-card pointer" *ngFor="let notice of myNotices; let i = index">
           <mat-card-header>
             <div [ngStyle]="{'background-image': getUrl(notice.group_image)}" *ngIf="notice.group_image"
                  mat-card-avatar class="home-header-image"></div>
@@ -107,7 +107,7 @@
 
         <h2 *ngIf="myEvents && myEvents.length > 0" class="center-align" style="padding-bottom:0;">My Events</h2>
 
-        <mat-card (click)="viewEventDetails(event)" class="home-card" *ngFor="let event of myEvents; let i = index">
+        <mat-card (click)="viewEventDetails(event)" class="home-card pointer" *ngFor="let event of myEvents; let i = index">
           <mat-card-header>
             <div *ngIf="event.group_image" [ngStyle]="{'background-image': getUrl(event.group_image)}"
                  mat-card-avatar class="home-header-image"></div>
@@ -158,24 +158,24 @@
           <img *ngIf="group.image" mat-card-image src="{{group.image}}" alt="{{group.name}}">
           <mat-card-content>
 
-            <div style="margin:0;padding:0;width: 100%;text-align: right">
-              <div *ngIf="group.event_count" class="right">
-                <button (click)="viewEventsCalendar(i)" mat-icon-button>
+            <div style="margin:0;padding:0;width: 100%;text-align: right;color:#a2a2a2;">
+              <div (click)="viewEventsCalendar(i)" *ngIf="group.event_count" class="right">
+                <button  mat-icon-button>
                   <mat-icon aria-label="Edit">event_note</mat-icon>
                 </button>
-                <span class="stats-total">{{ group.event_count}}</span>
+                <span class="stats-total">{{ group.event_count}} live event<span *ngIf="group.event_count !== 1">s</span></span>
               </div>
-              <div *ngIf="group.notice_count" class="right">
-                <button (click)="viewGroupNotices(i)" mat-icon-button>
+              <div (click)="viewGroupNotices(i)" *ngIf="group.notice_count" class="right">
+                <button mat-icon-button>
                   <mat-icon aria-label="Edit">assignment</mat-icon>
                 </button>
-                <span class="stats-total">{{ group.notice_count}}</span>
+                <span class="stats-total">{{ group.notice_count}}  live notice<span *ngIf="group.notice_count !== 1">s</span></span>
               </div>
-              <div *ngIf="group.member_count" class="right">
-                <button (click)="viewGroupMembers(i)" mat-icon-button>
+              <div (click)="viewGroupMembers(i)" *ngIf="group.member_count" class="right">
+                <button  mat-icon-button>
                   <mat-icon aria-label="Edit">group</mat-icon>
                 </button>
-                <span class="stats-total">{{ group.member_count}}</span>
+                <span class="stats-total">{{ group.member_count}} member<span *ngIf="group.member_count !== 1">s</span></span>
               </div>
 
             </div>

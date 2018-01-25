@@ -17,6 +17,7 @@ import * as moment from 'moment';
   providers: [EventService],
   styleUrls: ['./events.calendar.style.scss']
 })
+
 export class GroupEventsCalendarComponent extends EventListComponent implements AfterViewInit {
 
   groupId = '';
@@ -29,6 +30,22 @@ export class GroupEventsCalendarComponent extends EventListComponent implements 
   selectedEvents: any[] = [];
   selectedMonth = '';
   loading = true;
+
+  colors: any = {
+    red: {
+      primary: '#ad2121',
+      secondary: '#FAE3E3'
+    },
+    blue: {
+      primary: '#1e90ff',
+      secondary: '#D1E8FF'
+    },
+    grey: {
+      primary: '#888888',
+      secondary: '#818181'
+    }
+  };
+
 
   constructor(private auth: AuthService,
               public eventService: EventService,
@@ -137,13 +154,11 @@ export class GroupEventsCalendarComponent extends EventListComponent implements 
               title: event.title,
               start: event.start_date,
               end: event.end_date,
+              future_date: event.future_date,
               signature_document_id: event.signature_document_id,
               signature_document_template_id: event.signature_document_template_id,
               payment_applicable: event.payment_applicable,
-              color: { // can also be calendarConfig.colorTypes.warning for shortcuts to the deprecated event types
-                primary: '#e3bc08', // the primary event color (should be darker than secondary)
-                secondary: '#fdf1ba' // the secondary event color (should be lighter than primary)
-              }
+              color: event.future_date ? this.colors.blue : this.colors.grey
             });
 
           });

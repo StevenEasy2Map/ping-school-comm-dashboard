@@ -14,7 +14,7 @@
   </div>
 </div>
 
-<div *ngIf="!loading" class="container" style="margin-top:20px;">
+<div *ngIf="!loading" class="wide-container" style="margin-top:20px;">
 
   <h2 class="inline-page-title center-align">
     <a routerLink="/" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Back</a>
@@ -67,33 +67,33 @@
     <th class="center-align">Delete</th>
     </thead>
     <tbody>
-    <tr *ngFor="let event of selectedEvents; let i = index;">
-      <td><a (click)="viewEventDetails(event)">{{ event.title | ellipsis:20 }}</a></td>
-      <td class="center-align">{{ event.start | friendlydatetime }} - {{ event.end | friendlydatetime }}</td>
+    <tr *ngFor="let event of selectedEvents; let i = index;" [ngClass]="{'past-event' : event && !event.future_date}" >
+      <td><a [ngClass]="{'past-event' : event && !event.future_date}" (click)="viewEventDetails(event)">{{ event.title | ellipsis:20 }}</a></td>
+      <td [ngClass]="{'past-event' : event && !event.future_date}" class="center-align">{{ event.start | friendlydatetime }} - {{ event.end | friendlydatetime }}</td>
       <td class="center-align">
 
-        <a *ngIf="event.signature_document_id && event.signature_document_template_id" (click)="viewEventSignedDocs(event);">
+        <a [ngClass]="{'past-event' : event && !event.future_date}" *ngIf="event.signature_document_id && event.signature_document_template_id" (click)="viewEventSignedDocs(event);">
           <i class="material-icons">border_color</i></a>
       </td>
       <td class="center-align">
 
-        <a *ngIf="event.payment_applicable"
+        <a [ngClass]="{'past-event' : event && !event.future_date}" *ngIf="event.payment_applicable"
            (click)="viewEventPayments(event);"><i class="material-icons">payment</i></a>
 
       </td>
       <td class="center-align">
-        <a (click)="editEvent(event, groupId)"><i class="material-icons">create</i></a>
+        <a [ngClass]="{'past-event' : event && !event.future_date}" (click)="editEvent(event, groupId)"><i class="material-icons">create</i></a>
 
       </td>
       <td class="center-align">
-        <a (click)="deleteEvent(event, i)"><i class="material-icons">delete</i></a>
+        <a [ngClass]="{'past-event' : event && !event.future_date}" (click)="deleteEvent(event, i)"><i class="material-icons">delete</i></a>
       </td>
 
     </tr>
     </tbody>
   </table>
 
-  <a style="margin-top:20px;" class="add-new-wrapper" (click)="createEvent()">
+  <a [ngClass]="{'past-event' : event && !event.future_date}" style="margin-top:20px;" class="add-new-wrapper" (click)="createEvent()">
     <div class="btn-floating btn-large waves-effect waves-light orange">
       <i class="material-icons">add</i>
     </div>

@@ -122,6 +122,9 @@ export class EntityPaymentsListComponent extends PingBaseComponent implements On
         this.paymentsService.refundPayment(payload).subscribe(res => {
           this.processManualPayment = false;
           this.snackBar.open('Payment successfully refunded');
+          setTimeout(() => {
+            this.snackBar.dismiss();
+          }, 1500);
           this.getEntityPayments();
           this.getNonPayments();
         });

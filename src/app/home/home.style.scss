@@ -49,6 +49,15 @@ div.role {
     margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
+
+  }
+
+  .pointer {
+    cursor: pointer !important;
+  }
+
+  .pointer:focus {
+    background-color:#EBEBEB;
   }
 
   .home-header-image {
@@ -63,13 +72,14 @@ i.stats {
 }
 
 span.stats-total {
-  color: #000008;
+  color: #a2a2a2;
   vertical-align: middle;
   height: 37px;
   display: inline-block;
   padding: 0 15px 0 3px;
-  font-size: 15px;
-  font-weight: bold;
+  font-size: 14px;
+  font-weight: 500;
   margin-left: -9px;
   margin-top: 15px;
+  cursor: pointer;
 }
