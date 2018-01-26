@@ -31,7 +31,6 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
   eventGroups: any[] = [];
   groups: any[] = [];
   groupSummary: any = {};
-  loading = true;
   title = 'Create new event';
   emailStatus = '1';
   step = 0;
@@ -64,7 +63,7 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
               public router: Router,
               public route: ActivatedRoute) {
 
-    super(documentSigningService);
+    super(documentSigningService, storageService);
 
   }
 
@@ -89,6 +88,7 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
   ngAfterViewInit(): void {
 
     this.setupFileUploadLogic();
+    this.setupDocSigningFileUploadLogic();
   }
 
   onEmailStatusChange(val) {

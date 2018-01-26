@@ -6,7 +6,15 @@
     <h4>{{entityTitle}}</h4>
     <h5>{{documentDetails['title']}}</h5>
 
-    <table class="bordered">
+    <div *ngIf="!processManualSignature" class="col s12 right-align">
+      <button mat-raised-button color="primary">Send reminder to non-signers</button>
+      <button *ngIf="outstandingSignatures"
+              mat-raised-button color="primary"
+              (click)="showManualSignatureControls()">Process manual signature
+      </button>
+    </div>
+
+    <table *ngIf="!processManualSignature" class="bordered">
       <thead>
       <th>First Name</th>
       <th>Last Name</th>
@@ -28,6 +36,57 @@
       </tr>
       </tbody>
     </table>
+
+    <div *ngIf="processManualSignature" class="row">
+      <div class="col s12"><h3>Upload physically-signed document</h3></div>
+      <div class="col s6">
+
+        <mat-form-field style="min-width:400px;">
+          <mat-select [style.width]="'100%'" [(ngModel)]="signUser" placeholder="Select user">
+            <mat-option *ngFor="let item of unsignedDocuments(documents)" [value]="item.user_id">
+              {{ item.email }} ({{item.first_name}} {{item.last_name}})
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+      <div class="col s6">
+        <h6 for="paymentdate">The date of signing</h6>
+        <ng2-datepicker name="signdate" id="signdate" [options]="signDateOptions"
+                        [(ngModel)]="signDateModel"></ng2-datepicker>
+      </div>
+      <div class="col s6">
+        <h6>Signed Document</h6>
+
+        <div class="file-field input-field">
+          <div class="btn">
+            <div class="upload-icon">
+              <img src="/assets/upload.svg"/>
+            </div>
+            <span>Upload an attachment</span>
+            <input id="docFileUpload" type="file">
+          </div>
+          <div class="file-path-wrapper center-align">
+            <input style="display: none" class="file-path" type="text">
+            <a *ngIf="signDocument" target="_blank"
+               href="{{ signDocument }}">View Document</a>
+            <a *ngIf="signDocument" (click)="signDocument = null;"
+               class="delete-upload">
+              <img src="/assets/delete.svg"/>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div *ngIf="processManualSignature" class="row top-bottom-margin">
+      <div class="col s6 left-align">
+        <button mat-raised-button (click)="processManualSignature = false">Cancel</button>
+      </div>
+      <div class="col s6 right-align">
+        <button mat-raised-button color="primary" (click)="makeManualSignature()">Process Manual Signature</button>
+      </div>
+    </div>
 
 
   </div>

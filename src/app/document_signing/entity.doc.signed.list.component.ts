@@ -1,7 +1,9 @@
-import {Component} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DocumentSigningService} from "./services/document.signing.service";
 import {AuthService} from "../../providers/auth-service";
+import {StorageService} from "../../providers/storage-service";
+import {DateModel, DatePickerOptions} from 'ng2-datepicker';
 
 @Component({
   selector: 'entity-doc-signed-list-component',
@@ -9,7 +11,7 @@ import {AuthService} from "../../providers/auth-service";
   providers: [DocumentSigningService],
   styleUrls: ['doc.signed.style.scss']
 })
-export class EntityDocSignedListComponent {
+export class EntityDocSignedListComponent implements OnInit, AfterViewInit {
 
   documents: any[] = [];
   documentDetails = {};
@@ -21,11 +23,31 @@ export class EntityDocSignedListComponent {
   entityType = '';
   entityTitle = '';
 
+  signDocument = '';
+  signUser = 0;
+  processManualSignature = false;
+  outstandingSignatures = false;
+
+  signDateModel: DateModel;
+  signDateOptions: DatePickerOptions;
+
   constructor(private auth: AuthService,
               public documentSignService: DocumentSigningService,
               public router: Router,
+              public storageService: StorageService,
               public route: ActivatedRoute) {
 
+
+  }
+
+  ngOnInit() {
+
+    const signDate = new Date();
+
+    this.signDateOptions = new DatePickerOptions({
+      initialDate: signDate,
+      format: 'DD MMMM, YYYY'
+    });
 
   }
 
@@ -57,14 +79,98 @@ export class EntityDocSignedListComponent {
 
   }
 
+  showManualSignatureControls() {
+
+    this.processManualSignature = true;
+    setTimeout(() => this.setupFileUploadLogic(), 1000);
+
+  }
+
+  makeManualSignature() {
+    if (this.signDocument.length === 0 || !this.signUser) {
+      return;
+    }
+
+    const signatureDate = new Date(this.signDateModel.momentObj.toString()).toString();
+
+    for (let i = 0; i < this.documents.length; i++) {
+
+      if (this.documents[i].user_id === this.signUser) {
+
+        this.auth.processing = true;
+        const payload = {
+          entity_type: this.entityType,
+          entity_id: this.entityId,
+          user_id: this.signUser,
+          email: this.documents[i].email,
+          user_name: `${this.documents[i].first_name} ${this.documents[i].last_name}`,
+          document_id: this.documentId,
+          signature_date: signatureDate,
+          document_url: this.signDocument
+        };
+
+        this.documentSignService.createManualUserDocument(payload).subscribe(res => {
+          this.processManualSignature = false;
+          this.getEntityDocuments();
+          this.auth.processing = false;
+        });
+
+        break;
+
+      }
+
+
+    }
+
+
+  }
+
+
+  setupFileUploadLogic(): void {
+
+    const fileUpload = document.getElementById('docFileUpload');
+    fileUpload.addEventListener('change', (e) => {
+      const file = e.target['files'][0];
+      this.auth.processing = true;
+      this.storageService.uploadFileToCloudStorage('/ notice_documents /', file).then(
+        storageInfo => {
+          this.signDocument = storageInfo.downloadURL;
+          this.auth.processing = false;
+        }, errMessage => {
+          alert(errMessage);
+          this.auth.processing = false;
+        });
+    });
+
+  }
+
+  unsignedDocuments(itemList: any[]): any[] {
+    const result: any[] = [];
+
+    itemList.forEach(document => {
+      if (!document.document_status || document.document_status !== 'complete') {
+        result.push(document);
+      }
+    })
+
+    return result;
+  }
+
   backToList(): void {
     this.router.navigate(['/group-notices-list', {group_id: this.groupId, school_id: this.schoolId}]);
   }
 
   getEntityDocuments(): void {
 
+    this.outstandingSignatures = false;
     this.documentSignService.getEntityUserDocuments(this.entityId, this.entityType).subscribe(res => {
       this.documents = res.documents;
+
+      this.documents.forEach(document => {
+        if (!document.document_status || document.document_status !== 'complete') {
+          this.outstandingSignatures = true;
+        }
+      });
 
     });
 

@@ -2,8 +2,9 @@ import {Component} from '@angular/core';
 import {DocumentSigningService} from "./services/document.signing.service";
 import {Observable} from "rxjs/Observable";
 import {PingBaseComponent} from "../ping.base.component";
+import {StorageService} from "../../providers/storage-service";
 
-export abstract class DocSigningSetupComponent extends PingBaseComponent{
+export abstract class DocSigningSetupComponent extends PingBaseComponent {
 
   signingCategories: any[] = [];
   documentTemplates: any[] = [];
@@ -31,7 +32,7 @@ export abstract class DocSigningSetupComponent extends PingBaseComponent{
     'removeButtons': 'Source,Save,Templates,Find,Replace,Scayt,SelectAll'
   };
 
-  constructor(public documentSigningService: DocumentSigningService) {
+  constructor(public documentSigningService: DocumentSigningService, public storageService: StorageService) {
     super();
   }
 
@@ -68,18 +69,40 @@ export abstract class DocSigningSetupComponent extends PingBaseComponent{
               this.documentTemplate['title'] = this.docSigningDetails['title'];
               this.documentTemplate['call_to_action'] = this.docSigningDetails['call_to_action'];
               this.documentTemplate['user_description'] = this.docSigningDetails['description'];
+              this.documentTemplate['document_attachment'] = this.docSigningDetails['document_attachment'] || '';
 
               this.getDocumentTemplateFields(entity, this.documentTemplate['id'], true);
 
             }
 
-          })
+          });
 
         }
 
       }, error => {
         this.error = <any>error;
       });
+
+  }
+
+  setupDocSigningFileUploadLogic(): void {
+
+    const fileUpload = document.getElementById('docFileAttachmentUpload');
+    if (!fileUpload) {
+      return;
+    }
+    fileUpload.addEventListener('change', (e) => {
+      const file = e.target['files'][0];
+      this.loading = true;
+      this.storageService.uploadFileToCloudStorage('/ doc_signing_attachments /', file).then(
+        storageInfo => {
+          this.documentTemplate['document_attachment'] = storageInfo.downloadURL;
+          this.loading = false;
+        }, errMessage => {
+          alert(errMessage);
+          this.loading = false;
+        });
+    });
 
   }
 
@@ -91,12 +114,12 @@ export abstract class DocSigningSetupComponent extends PingBaseComponent{
         this.documentTemplateFields = response.fields;
 
         if (initiate && entity && entity['signature_template_id']
-          && parseInt(entity['signature_template_id']) === templateId
+          && parseInt(entity['signature_template_id'], 10) === templateId
           && this.docSigningDetails) {
 
           this.documentTemplateFields.forEach(templateField => {
             this.docSigningFields.forEach(field => {
-              if (parseInt(templateField['id']) === parseInt(field['field_id'], 10)) {
+              if (parseInt(templateField['id'], 10) === parseInt(field['field_id'], 10)) {
                 templateField['default_value'] = field['value'];
               }
             });
@@ -161,7 +184,9 @@ export abstract class DocSigningSetupComponent extends PingBaseComponent{
       cc_email_address: '',
       call_to_action: this.documentTemplate['call_to_action'] || 'Sign Document',
       title: this.documentTemplate['title'] || 'Indemnity Form',
-      description: this.documentTemplate['user_description']
+      description: this.documentTemplate['user_description'],
+      document_attachment: this.documentTemplate['document_attachment']
+
     };
 
   }
@@ -186,10 +211,11 @@ export abstract class DocSigningSetupComponent extends PingBaseComponent{
   selectDocumentTemplate(entity: object, template: object) {
 
     this.documentTemplate = template;
+    this.documentTemplate['document_attachment'] = '';
     this.documentTemplateFields = [];
     this.getDocumentTemplateFields(entity, this.documentTemplate['id']);
     this.docSigningProcessStep2Completed = true;
-
+    setTimeout(() => this.setupDocSigningFileUploadLogic(), 2000);
   }
 
   cancelSelectTemplate(): void {
@@ -248,7 +274,6 @@ export abstract class DocSigningSetupComponent extends PingBaseComponent{
       entity['signature_template_id'], entityId + '', entityType).subscribe(
       response => {
         this.docSigningFields = response.document_fields;
-
         this.getDocumentTemplates(entity, this.docSigningDetails['category_id'], true);
 
       },

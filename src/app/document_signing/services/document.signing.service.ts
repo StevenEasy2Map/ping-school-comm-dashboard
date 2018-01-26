@@ -45,6 +45,11 @@ export class DocumentSigningService extends APIService {
     return this.post(document, '/api/sign/create_document');
   }
 
+
+  createManualUserDocument(payload: any): Observable<any> {
+    return this.post(payload, '/api/sign/create_manual_user_document');
+  }
+
   updateDocument(document: any): Observable<any> {
     return this.post(document, '/api/sign/update_document');
   }

@@ -28,7 +28,6 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
   noticeGroups: any[] = [];
   groups: any[] = [];
   groupSummary: any = {};
-  loading = true;
   title = 'Create new notice';
   emailStatus = '1';
   step = 0;
@@ -51,7 +50,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
               public router: Router,
               public route: ActivatedRoute) {
 
-    super(documentSigningService);
+    super(documentSigningService, storageService);
 
   }
 
@@ -75,6 +74,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
   ngAfterViewInit(): void {
 
     this.setupFileUploadLogic();
+    this.setupDocSigningFileUploadLogic();
     this.getEditNoticeDetails();
 
   }

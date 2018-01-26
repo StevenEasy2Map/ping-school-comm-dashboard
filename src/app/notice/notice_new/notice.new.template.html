@@ -343,6 +343,30 @@
           </div>
 
           <div class="col s12">
+            <h5 style="margin-top:30px;">Upload document for physical signing
+              (for members who do not wish to sign digitally)</h5>
+
+            <div class="file-field input-field">
+              <div class="btn">
+                <div class="upload-icon">
+                  <img src="/assets/upload.svg"/>
+                </div>
+                <span>Upload an attachment</span>
+                <input id="docFileAttachmentUpload" type="file">
+              </div>
+              <div class="file-path-wrapper center-align">
+                <input style="display: none" class="file-path" type="text">
+                <a *ngIf="documentTemplate.document_attachment" target="_blank"
+                   href="{{ documentTemplate.document_attachment }}">View Document</a>
+                <a *ngIf="documentTemplate.document_attachment" (click)="documentTemplate.document_attachment = null;"
+                   class="delete-upload">
+                  <img src="/assets/delete.svg"/>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col s12">
             <h5 style="margin-top:30px;">Specify your document's details</h5>
 
             <div class="col s12">

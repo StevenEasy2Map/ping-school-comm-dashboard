@@ -1,5 +1,7 @@
 export abstract class PingBaseComponent {
 
+  loading = true;
+
 
   constructor() {
   }
