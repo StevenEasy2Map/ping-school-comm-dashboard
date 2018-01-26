@@ -56,7 +56,7 @@
 
                 <mat-select placeholder="hour" [(ngModel)]="startTimeHours">
                   <mat-option *ngFor="let hour of hours" [value]="hour">
-                    {{hour | numberpad}}
+                    {{hour}}
                   </mat-option>
                 </mat-select>
 
@@ -66,7 +66,7 @@
 
                 <mat-select placeholder="min" [(ngModel)]="startTimeMinutes">
                   <mat-option *ngFor="let minute of minutes" [value]="minute">
-                    {{minute | numberpad}}
+                    {{minute}}
                   </mat-option>
                 </mat-select>
 
@@ -95,7 +95,7 @@
 
                 <mat-select placeholder="hour" [(ngModel)]="endTimeHours">
                   <mat-option *ngFor="let hour of hours" [value]="hour">
-                    {{hour | numberpad}}
+                    {{hour}}
                   </mat-option>
                 </mat-select>
 
@@ -106,7 +106,7 @@
 
                 <mat-select placeholder="min" [(ngModel)]="endTimeMinutes">
                   <mat-option *ngFor="let minute of minutes" [value]="minute">
-                    {{minute | numberpad}}
+                    {{minute}}
                   </mat-option>
                 </mat-select>
 

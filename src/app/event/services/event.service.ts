@@ -56,5 +56,13 @@ export class EventService extends APIService {
     return this.post(event, '/api/event/update_event_payment');
   }
 
+  hideEventFromFeed(payload: any): Observable<any> {
+    return this.post(payload, '/api/event/hide_from_feed');
+  }
+
+  updateHiddenEventCount(): Observable<any> {
+    return this.get('/api/event/update_user_hidden_event_count');
+  }
+
 
 }

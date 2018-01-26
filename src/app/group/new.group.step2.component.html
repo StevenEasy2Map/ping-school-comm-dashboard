@@ -69,7 +69,7 @@
             <div class="upload-icon">
               <img src="/assets/upload.svg"/>
             </div>
-            <span>Upload a group image or logo (optional)</span>
+            <span>Upload optional image or logo</span>
             <input id="logoUpload" type="file">
           </div>
           <div class="file-path-wrapper">
@@ -109,14 +109,15 @@
 
     <div class="row group-meta-parent">
 
-      <h6>Membership questions
+      <h6>Membership questions</h6>
 
-        <a (click)="addQuestion()" class="btn-floating halfway-fab waves-effect waves-light orange"><i
-          class="material-icons">add</i></a>
+      <a (click)="addQuestion()">
+        <button mat-fab color="accent">Add</button>
+      </a>
 
-        <p *ngIf="questions && questions.length == 0" class="description_hint">Ask new members questions when joining this group.<br>For example, what is your child's name etc.</p>
+      <p *ngIf="questions && questions.length == 0" class="description_hint">Ask new members questions when joining this group.<br>For example, what is your child's name etc.</p>
 
-      </h6>
+
       <div *ngIf="questions && questions.length > 0" class="input-field col s12">
 
         <table class="bordered">
@@ -133,7 +134,12 @@
             <td class="right-align"><a (click)="deleteQuestion(i);">
               <i class="material-icons">mode_delete</i></a></td>
             <td class="right-align">
-              <a (click)="editQuestion(i);"><i class="material-icons">mode_edit</i></a></td>
+
+              <a (click)="editQuestion(i)">
+                <button mat-icon-button>
+                  <mat-icon aria-label="Example icon-button with a heart icon">mode_edit</mat-icon>
+                </button>
+              </a></td>
           </tr>
           </thead>
         </table>
@@ -167,20 +173,8 @@
       <div class="row">
         <div class="col s12 submit-button-parent">
 
-          <button (click)="cancelAddEditQuestion()"
-                  class="btn waves-effect waves-light"
-                  style="float:left;margin-left:80px;" type="button" name="action">
-            Cancel
-            <i class="material-icons right">clear</i>
-          </button>
-
-          <button (click)="saveQuestion()"
-                  class="btn waves-effect waves-light"
-                  style="float:right;margin-right:80px;" type="button" name="action">
-            Save
-            <i class="material-icons right">send</i>
-          </button>
-
+          <button style="float:left;margin-left:80px;" mat-raised-button (click)="cancelAddEditQuestion()">Cancel</button>
+          <button style="float:right;margin-right:80px;" mat-raised-button color="primary" (click)="saveQuestion()">Save</button>
 
         </div>
       </div>
@@ -189,10 +183,11 @@
 
 
     <div class="row">
-      <div class="col s12 submit-button-parent">
-        <button style="margin-top:10px;" [disabled]="!loginForm.form.valid" (click)="createGroup()"
-                class="btn waves-effect waves-light" type="submit" name="action">Submit
-          <i class="material-icons right">send</i>
+      <div class="col s12 submit-button-parent top-bottom-margin">
+        <button mat-raised-button color="primary"
+                type="submit" name="action"
+                [disabled]="!loginForm.form.valid"
+                (click)="createGroup()">Save Details
         </button>
       </div>
     </div>

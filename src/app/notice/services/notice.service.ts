@@ -44,6 +44,14 @@ export class NoticeService extends APIService {
     return this.get(`/api/notice/notice_groups/${noticeId}`);
   }
 
+  hideNoticeFromFeed(payload: any): Observable<any> {
+    return this.post(payload, '/api/notice/hide_from_feed');
+  }
+
+  updateHiddenNoticeCount(): Observable<any> {
+    return this.get('/api/notice/update_user_hidden_notice_count');
+  }
+
   createNotice(notice: any): Observable<any> {
     return this.post(notice, '/api/notice/create_notice');
   }

@@ -136,7 +136,7 @@ select {
   font-weight: bold;
 }
 
-.past-event{
+.past-event {
   color: #858585;
 }
 
@@ -144,6 +144,13 @@ select {
   padding: 30px;
   text-align: center;
   font-size: 17px;
+}
+
+div.content.entity-details-parent {
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  background-color: #FAFAFA;
+  margin-top: 50px;
 }
 
 pre {

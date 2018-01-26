@@ -6,6 +6,9 @@ import {SchoolService} from '../school/school.service';
 import {NoticeService} from '../notice/services/notice.service';
 import {EventService} from '../event/services/event.service';
 import moment = require("moment");
+import {MatDialog, MatSnackBar} from "@angular/material";
+import {DialogAreYouSureComponent} from "../common/modals/are.you.sure.component";
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-home-component',
@@ -21,11 +24,14 @@ export class HomeComponent implements AfterViewInit {
   mySchools: any[] = [];
   error = '';
   loading = true;
+  selectedTabIndex = 0;
 
   constructor(private auth: AuthService, private groupService: GroupService,
               private schoolService: SchoolService,
               private noticeService: NoticeService,
               private eventService: EventService,
+              public dialog: MatDialog,
+              public snackBar: MatSnackBar,
               private router: Router) {
   }
 
@@ -91,6 +97,57 @@ export class HomeComponent implements AfterViewInit {
 
 
   }
+
+  hideEntity($event, entityType, entityId) {
+
+    $event.preventDefault();
+
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      data: {
+        title: 'Hide item from your feed'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loading = true;
+
+        let payload = {};
+        const observables = [];
+        if (entityType === 'event') {
+
+          payload = {
+            event_id: entityId
+          };
+          observables.push(this.eventService.hideEventFromFeed(payload));
+          observables.push(this.eventService.updateHiddenEventCount());
+
+        } else {
+
+          payload = {
+            notice_id: entityId
+          };
+          observables.push(this.noticeService.hideNoticeFromFeed(payload));
+          observables.push(this.noticeService.updateHiddenNoticeCount());
+
+        }
+        Observable.forkJoin(observables).subscribe(t => {
+          this.loading = false;
+          this.snackBar.open('Item successfully hidden from your feed');
+          setTimeout(() => {
+            this.snackBar.dismiss();
+            if (entityType === 'event') {
+              this.getMyEvents();
+            } else {
+              this.getMyNotices();
+            }
+          }, 1500);
+        });
+
+      }
+    });
+  }
+
 
   getMyEvents() {
 

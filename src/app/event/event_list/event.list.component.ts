@@ -8,9 +8,9 @@ export abstract class EventListComponent {
   constructor(public router: Router) {
   }
 
-  editEvent(event: any, groupId: any): void {
+  editEvent(event: any, groupId: any, schoolId: any): void {
 
-    this.router.navigate(['/new-event', {event_id: event.id, group_id: groupId}]);
+    this.router.navigate(['/new-event', {event_id: event.id, group_id: groupId, school_id: schoolId}]);
 
   }
 

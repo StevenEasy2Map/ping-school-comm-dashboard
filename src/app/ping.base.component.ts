@@ -12,5 +12,13 @@ export abstract class PingBaseComponent {
     return newDate;
   }
 
+  padNumber(value) {
+    const item = parseInt(value, 10);
+    if (item < 10) {
+      return '0' + item;
+    }
+    return item + '';
+  }
+
 
 }

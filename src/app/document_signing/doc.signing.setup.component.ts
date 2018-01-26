@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
 import {DocumentSigningService} from "./services/document.signing.service";
 import {Observable} from "rxjs/Observable";
+import {PingBaseComponent} from "../ping.base.component";
 
-export abstract class DocSigningSetupComponent {
+export abstract class DocSigningSetupComponent extends PingBaseComponent{
 
   signingCategories: any[] = [];
   documentTemplates: any[] = [];
@@ -31,6 +32,7 @@ export abstract class DocSigningSetupComponent {
   };
 
   constructor(public documentSigningService: DocumentSigningService) {
+    super();
   }
 
   getSigningCategories(): void {
@@ -131,7 +133,7 @@ export abstract class DocSigningSetupComponent {
     return this.documentSigningService.removeDocument(document);
   }
 
-  retrieveDocumentTemplateDetails(schoolId: number): object {
+  retrieveDocumentTemplateDetails(schoolId: number, entityType: string): object {
 
     const fields = [];
     for (let i = 0; i < this.documentTemplateFields.length; i++) {
@@ -155,7 +157,7 @@ export abstract class DocSigningSetupComponent {
       school_id: schoolId,
       template_id: this.documentTemplate['id'],
       fields: fields,
-      entity_type: 'notice',
+      entity_type: entityType,
       cc_email_address: '',
       call_to_action: this.documentTemplate['call_to_action'] || 'Sign Document',
       title: this.documentTemplate['title'] || 'Indemnity Form',

@@ -20,6 +20,7 @@ export class GroupEventListComponent extends EventListComponent {
 
   events: any[] = [];
   groupId = '';
+  schoolId = '';
 
   constructor(public eventService: EventService,
               public router: Router,
@@ -34,6 +35,7 @@ export class GroupEventListComponent extends EventListComponent {
 
     this.route.params.subscribe(params => {
       this.groupId = params['group_id'];
+      this.schoolId = params['school_id'];
 
       this.eventService.getGroupEvents(parseInt(this.groupId, 10)).then(res => {
         this.events = res;

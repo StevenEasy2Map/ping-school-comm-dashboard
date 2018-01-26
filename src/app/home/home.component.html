@@ -26,7 +26,7 @@
     </div>
   </div>
 
-  <mat-tab-group class="home-page">
+  <mat-tab-group [(selectedIndex)]="selectedTabIndex" class="home-page">
     <mat-tab *ngIf="mySchools && mySchools.length > 0" label="My Schools">
 
       <div class="tab-content">
@@ -86,18 +86,24 @@
       <div class="tab-content">
         <h2 *ngIf="myNotices && myNotices.length > 0" class="center-align" style="padding-bottom:0;">My Notices</h2>
 
-        <mat-card (click)="viewNoticeDetails(notice)" class="home-card pointer" *ngFor="let notice of myNotices; let i = index">
-          <mat-card-header>
+        <mat-card class="home-card pointer" *ngFor="let notice of myNotices; let i = index">
+
+          <button (click)="hideEntity($event, 'notice', notice.id)" style="position:absolute;top:10px;right:10px;" mat-icon-button>
+            <mat-icon aria-label="Example icon-button with a heart icon">clear</mat-icon>
+          </button>
+
+          <mat-card-header (click)="viewNoticeDetails(notice)">
             <div [ngStyle]="{'background-image': getUrl(notice.group_image)}" *ngIf="notice.group_image"
                  mat-card-avatar class="home-header-image"></div>
             <mat-card-title>{{ notice.title }}</mat-card-title>
             <mat-card-subtitle>{{notice.group_name}}</mat-card-subtitle>
           </mat-card-header>
-          <img *ngIf="notice.image" mat-card-image src="{{notice.image}}" alt="{{notice.title}}">
-          <mat-card-content>
+          <img (click)="viewNoticeDetails(notice)" *ngIf="notice.image" mat-card-image src="{{notice.image}}" alt="{{notice.title}}">
+          <mat-card-content (click)="viewNoticeDetails(notice)">
             <p class="notice-date">Published {{ notice.show_date }}</p>
             <h5 *ngIf="!notice.school_wide" class="notice-sub-subtitle">{{notice.school_name}}</h5>
             <div [innerHTML]="notice.description"></div>
+
           </mat-card-content>
         </mat-card>
 
@@ -110,15 +116,20 @@
 
         <h2 *ngIf="myEvents && myEvents.length > 0" class="center-align" style="padding-bottom:0;">My Events</h2>
 
-        <mat-card (click)="viewEventDetails(event)" class="home-card pointer" *ngFor="let event of myEvents; let i = index">
-          <mat-card-header>
+        <mat-card class="home-card pointer" *ngFor="let event of myEvents; let i = index">
+
+          <button (click)="hideEntity($event, 'event', event.id)" style="position:absolute;top:10px;right:10px;" mat-icon-button>
+            <mat-icon aria-label="Example icon-button with a heart icon">clear</mat-icon>
+          </button>
+
+          <mat-card-header (click)="viewEventDetails(event)">
             <div *ngIf="event.group_image" [ngStyle]="{'background-image': getUrl(event.group_image)}"
                  mat-card-avatar class="home-header-image"></div>
             <mat-card-title>{{ event.title }}</mat-card-title>
             <mat-card-subtitle>{{event.group_name}}</mat-card-subtitle>
           </mat-card-header>
-          <img *ngIf="event.image" mat-card-image src="{{event.image}}" alt="{{event.title}}">
-          <mat-card-content>
+          <img (click)="viewEventDetails(event)" *ngIf="event.image" mat-card-image src="{{event.image}}" alt="{{event.title}}">
+          <mat-card-content (click)="viewEventDetails(event)">
             <p class="notice-date">{{ event.start_date | friendlydate }}</p>
             <h5 *ngIf="!event.school_wide" class="notice-sub-subtitle">{{event.school_name}}</h5>
             <div [innerHTML]="event.description" class="notice-details-description"></div>

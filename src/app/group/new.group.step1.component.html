@@ -45,10 +45,10 @@
                    open-on-focus="false" id="school"
                    auto-complete [(ngModel)]="schoolName"
                    [source]="arrayOfSchools"
-                    value-property-name="id"
-                    display-property-name="name"
+                   value-property-name="id"
+                   display-property-name="name"
                    [list-formatter]="autocompleListFormatter"
-                  />
+            />
 
           </div>
         </div>
@@ -80,15 +80,10 @@
     </div>
 
     <div class="row">
-      <div class="col s12 left submit-button-parent">
-        <button style="margin-top:10px;" (click)="createSchool()"
-                class="btn waves-effect waves-light" type="submit" name="action">Create School
-          <i class="material-icons right">send</i>
-        </button>
+      <div class="col s12 left submit-button-parent top-bottom-margin">
+        <button mat-raised-button color="primary" type="submit" name="action" (click)="createSchool()">Create School</button>
       </div>
     </div>
-
-
 
 
   </form>

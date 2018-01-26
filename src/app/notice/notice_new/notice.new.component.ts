@@ -236,7 +236,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
 
     this.notice.payment_allow_user_to_set = this.allowUsersToSetPaymentAmount ? 1 : 0;
     this.notice.payment_ref_append_lastname = this.appendPaymentRefUserLastName ? 1 : 0;
-    this.notice.payment_applicable = this.paymentApplicable ? 1 : 1;
+    this.notice.payment_applicable = this.paymentApplicable ? 1 : 0;
 
     const postValue = {};
     for (const item in this.notice) {
@@ -245,7 +245,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
 
     let templateDetails = {};
     if (this.documentTemplate) {
-      templateDetails = this.retrieveDocumentTemplateDetails(this.schoolId);
+      templateDetails = this.retrieveDocumentTemplateDetails(this.schoolId, 'notice');
     }
 
     if (this.documentTemplate && !templateDetails) {

@@ -49,7 +49,7 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
   endTimeHours = this.padNumber((new Date()).getHours());
   endTimeMinutes = '00'; // this.padNumber((new Date()).getMinutes());
 
-  hours = Array.from({length: 24}, (v, i) => i + '');
+  hours = Array.from({length: 24}, (v, i) => this.padNumber(i));
   minutes = ['00', '15', '30', '45']; // Array.from({length: 60}, (v, i) => i);
 
   paymentApplicable = false;
@@ -89,15 +89,6 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
   ngAfterViewInit(): void {
 
     this.setupFileUploadLogic();
-  }
-
-  padNumber(i: number): string {
-
-    if (i < 10) {
-      return '0' + i;
-    }
-    return '' + i;
-
   }
 
   onEmailStatusChange(val) {
@@ -295,7 +286,7 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
 
     this.event.payment_allow_user_to_set = this.allowUsersToSetPaymentAmount ? 1 : 0;
     this.event.payment_ref_append_lastname = this.appendPaymentRefUserLastName ? 1 : 0;
-    this.event.payment_applicable = this.paymentApplicable ? 1 : 1;
+    this.event.payment_applicable = this.paymentApplicable ? 1 : 0;
 
     const s = new Date(this.event.start_date);
     s.setHours(parseInt(this.startTimeHours, 10));
@@ -323,7 +314,7 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
 
     let templateDetails = {};
     if (this.documentTemplate) {
-      templateDetails = this.retrieveDocumentTemplateDetails(this.schoolId);
+      templateDetails = this.retrieveDocumentTemplateDetails(this.schoolId, 'event');
     }
 
     if (this.documentTemplate && !templateDetails) {
