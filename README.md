@@ -43,6 +43,8 @@ DEPLOYING ON HEROKU:
 https://www.youtube.com/watch?v=0bOJjAUXjhI
 https://dashboard.heroku.com/apps/ping-dashboard/deploy/heroku-git
 
+Heroku Git URL: https://git.heroku.com/ping-dashboard.git
+
 
 QuicklySign
 https://quicklysign.readme.io/

@@ -5,7 +5,7 @@ import {AuthService} from '../../providers/auth-service';
 import {SchoolService} from '../school/school.service';
 import {NoticeService} from '../notice/services/notice.service';
 import {EventService} from '../event/services/event.service';
-import moment = require("moment");
+import  * as moment from "moment";
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {DialogAreYouSureComponent} from "../common/modals/are.you.sure.component";
 import {Observable} from 'rxjs';
