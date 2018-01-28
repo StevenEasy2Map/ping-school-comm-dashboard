@@ -15,6 +15,7 @@ export class UpdateMySchoolComponent implements AfterViewInit {
   error = '';
   schoolDetails: any = {};
   schoolId = 0;
+  loading = false;
 
   constructor(private auth: AuthService,
               private router: Router,
@@ -47,6 +48,7 @@ export class UpdateMySchoolComponent implements AfterViewInit {
     };
 
     this.auth.processing = true;
+    this.loading = true;
 
     this.auth.getFirebaseTokenAsPromise().then(() => {
 
@@ -54,7 +56,11 @@ export class UpdateMySchoolComponent implements AfterViewInit {
         res => {
           this.router.navigateByUrl('/home');
         },
-        error => this.error = <any>error);
+        error => {
+          this.error = <any>error;
+          this.loading = false;
+          this.auth.processing = false;
+        });
     });
 
   }
