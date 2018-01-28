@@ -22,7 +22,7 @@
       {{title}}</h2>
 
     <mat-accordion class="notice-headers-align">
-      <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle="true">
+      <mat-expansion-panel hideToggle="true">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Notice Details
@@ -194,8 +194,8 @@
 
 
       </mat-expansion-panel>
-
-      <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle="true">
+<!--[expanded]="step === 1" (opened)="setStep(1)" -->
+      <mat-expansion-panel hideToggle="true">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Notice Message
@@ -212,7 +212,7 @@
 
       </mat-expansion-panel>
 
-      <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle="true">
+      <mat-expansion-panel hideToggle="true">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Document Signing
@@ -415,7 +415,7 @@
 
       </mat-expansion-panel>
 
-      <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle="true">
+      <mat-expansion-panel hideToggle="true">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Payment Details

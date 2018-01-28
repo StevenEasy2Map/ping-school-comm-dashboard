@@ -19,6 +19,7 @@ export class OwnMySchoolComponent implements AfterViewInit {
   vetNewEvents = false;
   vetNewNotices = false;
   allowNewGroupsNonAdmin = false;
+  loading = true;
 
   constructor(private auth: AuthService,
               private router: Router, private schoolService: SchoolService) {
@@ -73,11 +74,13 @@ export class OwnMySchoolComponent implements AfterViewInit {
       schools => {
         this.schoolsList = schools;
         this.auth.processing = false;
+        this.loading = false;
 
       },
       error => {
         this.error = <any>error;
         this.auth.processing = false;
+        this.loading = false;
       });
   }
 

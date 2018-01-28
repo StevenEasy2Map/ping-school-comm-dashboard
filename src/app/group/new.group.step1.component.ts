@@ -42,7 +42,9 @@ export class NewGroupStep1Component implements AfterViewInit {
     });
   }
 
-  schoolSelected(): void {
+  schoolSelected($event): void {
+
+    $event.preventDefault();
 
     if (!this.schoolName['id']) {
       return;
@@ -84,7 +86,10 @@ export class NewGroupStep1Component implements AfterViewInit {
           this.schoolDetails = res.school;
           this.auth.processing = false;
           localStorage.setItem('newGroupSchoolId', this.schoolDetails.id);
-          this.router.navigate(['/new-group-step-2', {school_id: this.schoolDetails.id, school_name: this.schoolDetails.name}]);
+          this.router.navigate(['/new-group-step-2', {
+            school_id: this.schoolDetails.id,
+            school_name: this.schoolDetails.name
+          }]);
         },
         error => this.error = <any>error);
 
