@@ -6,9 +6,10 @@ import {SchoolService} from '../school/school.service';
 import {NoticeService} from '../notice/services/notice.service';
 import {EventService} from '../event/services/event.service';
 import * as moment from "moment";
-import {MatDialog, MatSnackBar} from "@angular/material";
+import {MatDialog, MatSnackBar, MatTabChangeEvent} from "@angular/material";
 import {DialogAreYouSureComponent} from "../common/modals/are.you.sure.component";
 import {Observable} from 'rxjs';
+import {HelperService} from "../../providers/helper-service";
 
 @Component({
   selector: 'app-home-component',
@@ -24,7 +25,7 @@ export class HomeComponent implements AfterViewInit {
   mySchools: any[] = [];
   error = '';
   loading = true;
-  selectedTabIndex = 0;
+  selectedTabIndex = this.retrieveSavedTabIndex();
 
   constructor(private auth: AuthService, private groupService: GroupService,
               private schoolService: SchoolService,
@@ -44,6 +45,22 @@ export class HomeComponent implements AfterViewInit {
       this.getAllSchoolsIAdminister();
     });
 
+  }
+
+  tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
+    console.log('tabChangeEvent => ', tabChangeEvent);
+    console.log('index => ', tabChangeEvent.index);
+    if (typeof(Storage) !== 'undefined') {
+      window.localStorage.setItem('ping-home-tab-index', tabChangeEvent.index.toString());
+    }
+  };
+
+  retrieveSavedTabIndex() {
+    if (typeof(Storage) !== 'undefined') {
+      const index = window.localStorage.getItem('ping-home-tab-index') || '0';
+      return parseInt(index, 10);
+    }
+    return 0;
   }
 
   getMyGroups() {
@@ -180,6 +197,7 @@ export class HomeComponent implements AfterViewInit {
 
         this.myEvents.forEach(event => {
           event.description = event.description.replace("'", "").replace("'", "");
+          event.start_date = HelperService.timeZoneAdjustedDate(event.start_date, event.timezone_offset);
         });
 
         this.auth.processing = false;

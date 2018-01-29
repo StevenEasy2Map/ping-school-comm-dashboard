@@ -30,6 +30,12 @@ div.role {
 
 }
 
+button.add-group {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+}
+
 .home-page {
 
   h2 {
@@ -46,10 +52,20 @@ div.role {
 
   .home-card {
     width: 600px;
-    margin-top: 20px;
+    margin-top: 30px;
     margin-left: auto;
     margin-right: auto;
 
+  }
+
+  img.home{
+    opacity:0.5;
+    max-width:500px;
+    max-height:500px;
+    margin-left: auto;
+    margin-right: auto;
+    border:1px solid #AAAAAA;
+    cursor:pointer;
   }
 
   .pointer {
@@ -57,11 +73,15 @@ div.role {
   }
 
   .pointer:focus {
-    background-color:#EBEBEB;
+    background-color: #EBEBEB;
   }
 
   .home-header-image {
     background-size: cover;
+  }
+
+  mat-card-title{
+    font-size:18px;
   }
 
 }

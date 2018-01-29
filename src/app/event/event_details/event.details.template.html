@@ -25,7 +25,7 @@
 
     <h3 class="notice-subtitle">{{event.group_name}}</h3>
     <h5 class="notice-sub-subtitle">{{event.school_name}}</h5>
-    <p class="notice-date">{{ event.start_date | friendlydate }}</p>
+    <p class="notice-date">{{ event.start_date | friendlydatetime }}</p>
 
     <div class="image-parent">
       <img class="details-image" *ngIf="event.image" src="{{ event.image }}"/>

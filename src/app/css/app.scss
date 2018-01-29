@@ -3,7 +3,7 @@
 
 body {
   background-color: $page-background;
-  font-family: Ubuntu, sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 16px;
   display: flex;
   min-height: 100vh;
@@ -16,22 +16,26 @@ body {
 
 }
 
+app-root {
+  background-color: $page-background;
+}
+
 h1, h2, h3 {
   font-weight: normal;
-  font-family: Ubuntu, sans-serif;
+  font-family: Arial, sans-serif;
   color: $darkGrey;
 }
 
 h1 { /* headline */
   font-size: 38px;
-  font-family: Ubuntu, sans-serif;
+  font-family: Arial, sans-serif;
   color: $darkGrey;
 }
 
 h2 { /* page title */
   font-size: 25px;
   margin-top: 0;
-  font-family: Ubuntu, sans-serif;
+  font-family: Arial, sans-serif;
   color: $darkGrey;
 }
 
@@ -71,6 +75,12 @@ tr.inactive {
   background-color: #EBEBEB;
 }
 
+.mat-card-active {
+  background-color: #000;
+  color: #fff;
+  opacity: 1;
+}
+
 select, input[type=text], input[type=password], input[type=email],
 input[type=url], input[type=time], input[type=date], input[type=datetime-local],
 input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea,
@@ -81,9 +91,9 @@ select, textarea {
   //font-size: 1em;
   //box-sizing: border-box;
   //margin: 0;
-  //font-family: Ubuntu, sans-serif;
+  //font-family: Arial, sans-serif;
 
-  font-family: Ubuntu, sans-serif;
+  font-family: Arial, sans-serif;
   margin-bottom: 15px;
   width: 500px;
   border: 1px solid #a7a7a7;
@@ -198,14 +208,14 @@ h3.notice-subtitle {
 h5.notice-sub-subtitle {
   text-align: center;
   margin-right: 15px;
-  color: #ef8e04;
+  color: $cta-color;
   font-weight: 400;
 }
 
 h5.large-orange {
   text-align: center;
   margin: 10px;
-  color: #ef8e04;
+  color: $cta-color;
   font-weight: 500;
   font-size: 16px;
 }
@@ -233,11 +243,14 @@ div.image-parent {
 }
 
 .notice-details-description {
-  font-family: Lato;
+  font-family: Arial;
   color: #444444;
   line-break: auto;
   word-wrap: normal;
   text-align: left !important;
+  background-color: #fbfbfb;
+  border:1px solid #EBEBEB;
+  padding: 10px;
 }
 
 p.details-description-parent {
@@ -1142,7 +1155,7 @@ div.signup-parent {
   margin: 20px auto;
 
   a {
-    font-size: 16px;
+    font-size: 22px;
   }
 
 }

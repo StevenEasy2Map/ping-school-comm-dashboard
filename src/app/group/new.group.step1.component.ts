@@ -44,7 +44,7 @@ export class NewGroupStep1Component implements AfterViewInit {
 
   schoolSelected($event): void {
 
-    $event.preventDefault();
+    //$event.preventDefault();
 
     if (!this.schoolName['id']) {
       return;
