@@ -37,5 +37,15 @@
     </div>
 
   </div>
+  <div *ngIf="event && event.signature_template_id && event.signature_document_id && event.signature_user_document_status !== 'complete'"
+       class="center-align top-bottom-margin">
+    <h4 class="darkGreyHeader top-bottom-margin center-align">{{event.signature_document_title}}</h4>
+    <p class="details-description-parent">{{event.signature_document_signature}}</p>
+
+    <button (click)="signDocument()" mat-raised-button color="primary">{{event.signature_document_call_to_action}}</button>
+    <h4 *ngIf="event.signature_document_attachment" class="darkGreyHeader top-bottom-margin center-align">OR</h4>
+    <button *ngIf="event.signature_document_attachment" (click)="manuallySignDocument(event.signature_document_attachment)" mat-raised-button color="accent">Download document to sign manually</button>
+
+  </div>
 
 </div>

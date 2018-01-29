@@ -59,11 +59,13 @@ import {InviteSchoolMemberComponent} from './school/invite.school.member.compone
 import {SchoolAdministratorsComponent} from './school/school_administrators/school.administrators.component';
 import {MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, MatIconModule, MatRadioModule, MatSelectModule, MatSnackBarModule, MatTabsModule} from '@angular/material';
 import {DialogAreYouSureComponent} from './common/modals/are.you.sure.component';
+import {SignFromEmailComponent} from "./document_signing/sign.from.email.component";
 
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
   {path: 'signup', component: SignUpComponent},
   {path: 'signin', component: SignInComponent},
+  {path: 'sign-from-email', component: SignFromEmailComponent},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
 
   {path: 'invite-group-member', component: InviteGroupMemberComponent, canActivate: [AuthGuard]},
@@ -112,6 +114,7 @@ const appRoutes: Routes = [
     SignInComponent,
     SignUpComponent,
     HomeComponent,
+    SignFromEmailComponent,
     NewGroupStep1Component,
     NewGroupStep2Component,
     InviteGroupMemberComponent,

@@ -6,14 +6,17 @@ import {FriendlyDateTimePipe} from '../../common/pipes/friendly.date.time.pipe';
 import {Event} from '../models/event';
 import {AuthService} from '../../../providers/auth-service';
 import {HelperService} from '../../../providers/helper-service';
+import {DetailsBaseComponent} from "../../notice/notice_details/details.base.component";
+import {DocumentSigningService} from "../../document_signing/services/document.signing.service";
+import {MatSnackBar} from "@angular/material";
 
 @Component({
   selector: 'app-event-details-component',
   templateUrl: 'event.details.template.html',
-  providers: [EventService],
+  providers: [EventService, DocumentSigningService],
   styleUrls: ['event.details.style.scss']
 })
-export class EventDetailsComponent implements AfterViewInit {
+export class EventDetailsComponent extends DetailsBaseComponent implements AfterViewInit {
 
   schoolId = 0;
   groupId = 0;
@@ -26,8 +29,11 @@ export class EventDetailsComponent implements AfterViewInit {
   constructor(private auth: AuthService,
               public eventService: EventService,
               public router: Router,
+              public documentSigningService: DocumentSigningService,
+              public snackBar: MatSnackBar,
               public route: ActivatedRoute) {
 
+    super(documentSigningService);
 
   }
 
@@ -65,6 +71,23 @@ export class EventDetailsComponent implements AfterViewInit {
       });
 
 
+  }
+
+  signDocument() {
+    this.loading = true;
+    this.digitallySignDocument(this.schoolId, this.event.signature_document_id).subscribe(
+      response => {
+        this.loading = false;
+        this.event.signature_user_document_status = 'complete';
+        this.snackBar.open('Thank you, please check your email!');
+        setTimeout(() => {
+          this.snackBar.dismiss();
+        }, 1500);
+      },
+      error => {
+        this.error = <any>error;
+        this.loading = false;
+      });
   }
 
   goBack() {

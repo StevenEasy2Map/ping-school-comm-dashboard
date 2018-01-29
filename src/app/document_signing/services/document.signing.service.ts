@@ -33,6 +33,14 @@ export class DocumentSigningService extends APIService {
 
   }
 
+  createUserDocument(payload: any): Observable<any> {
+    return this.post(payload, '/api/sign/create_user_document');
+  }
+
+  createFirebaseUserDocument(payload: any): Observable<any> {
+    return this.post(payload, '/api/sign/create_firebase_user_document');
+  }
+
   getDocumentDetails(documentId: string, schoolId: string, templateId: string, entityId: string, entityType: string): Observable<any> {
     return this.get(`/api/sign/document_details/${documentId}/${schoolId}/${templateId}/${entityId}/${entityType}`);
   }
