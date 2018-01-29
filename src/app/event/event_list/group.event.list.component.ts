@@ -41,8 +41,8 @@ export class GroupEventListComponent extends EventListComponent {
         this.events = res;
 
         this.events.forEach(event => {
-          event.start_date = HelperService.timeZoneAdjustedDate(event.start_date, event.timezone_offset);
-          event.end_date = HelperService.timeZoneAdjustedDate(event.end_date, event.timezone_offset);
+          //event.start_date = HelperService.timeZoneAdjustedDate(event.start_date, event.timezone_offset);
+          //event.end_date = HelperService.timeZoneAdjustedDate(event.end_date, event.timezone_offset);
         });
 
         this.events.sort((a, b) => {

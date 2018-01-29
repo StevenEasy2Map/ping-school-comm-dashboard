@@ -60,8 +60,8 @@ export class EventDetailsComponent extends DetailsBaseComponent implements After
       event => {
         this.event = event;
         this.event.description = this.event.description.replace("'", "").replace("'", "");
-        this.event.start_date = HelperService.timeZoneAdjustedDate(this.event.start_date, this.event.timezone_offset);
-        this.event.end_date = HelperService.timeZoneAdjustedDate(this.event.end_date, this.event.timezone_offset);
+        //this.event.start_date = HelperService.timeZoneAdjustedDate(this.event.start_date, this.event.timezone_offset);
+        //this.event.end_date = HelperService.timeZoneAdjustedDate(this.event.end_date, this.event.timezone_offset);
 
         console.log(this.event);
         this.loading = false;
