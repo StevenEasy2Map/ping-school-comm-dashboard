@@ -92,6 +92,12 @@
             <mat-icon aria-label="Example icon-button with a heart icon">clear</mat-icon>
           </button>
 
+          <button *ngIf="notice.group_member_role === 'admin' || notice.group_member_role === 'owner' || notice.school_member_role === 'admin' || notice.school_member_role === 'owner'"
+                  (click)="editEntity($event, 'notice', notice.id, notice.group_id, notice.school_id)"
+                  style="position:absolute;top:10px;right:60px;" mat-icon-button>
+            <mat-icon aria-label="Example icon-button with a heart icon">edit</mat-icon>
+          </button>
+
           <mat-card-header (click)="viewNoticeDetails(notice)">
             <div [ngStyle]="{'background-image': getUrl(notice.group_image)}" *ngIf="notice.group_image"
                  mat-card-avatar class="home-header-image"></div>
@@ -120,6 +126,12 @@
 
           <button (click)="hideEntity($event, 'event', event.id)" style="position:absolute;top:10px;right:10px;" mat-icon-button>
             <mat-icon aria-label="Example icon-button with a heart icon">clear</mat-icon>
+          </button>
+
+          <button *ngIf="event.group_member_role === 'admin' || event.group_member_role === 'owner' || event.school_member_role === 'admin' || event.school_member_role === 'owner'"
+                  (click)="editEntity($event, 'event', event.id, event.group_id, event.school_id)"
+                  style="position:absolute;top:10px;right:60px;" mat-icon-button>
+            <mat-icon aria-label="Example icon-button with a heart icon">edit</mat-icon>
           </button>
 
           <mat-card-header (click)="viewEventDetails(event)">

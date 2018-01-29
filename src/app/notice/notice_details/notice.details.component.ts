@@ -5,11 +5,12 @@ import {AuthService} from '../../../providers/auth-service';
 import {DetailsBaseComponent} from './details.base.component';
 import {DocumentSigningService} from '../../document_signing/services/document.signing.service';
 import {MatSnackBar} from '@angular/material';
+import {PaymentsService} from '../../payments/services/payments.service';
 
 @Component({
   selector: 'app-notice-details-component',
   templateUrl: './notice.details.template.html',
-  providers: [NoticeService, DocumentSigningService],
+  providers: [NoticeService, DocumentSigningService, PaymentsService],
   styleUrls: ['./notice.details.style.scss']
 })
 export class NoticeDetailsComponent extends DetailsBaseComponent implements AfterViewInit {
@@ -25,10 +26,11 @@ export class NoticeDetailsComponent extends DetailsBaseComponent implements Afte
               public noticeService: NoticeService,
               public router: Router,
               public documentSigningService: DocumentSigningService,
+              public paymentsService: PaymentsService,
               public snackBar: MatSnackBar,
               public route: ActivatedRoute) {
 
-    super(documentSigningService);
+    super(documentSigningService, paymentsService);
 
   }
 
@@ -78,12 +80,29 @@ export class NoticeDetailsComponent extends DetailsBaseComponent implements Afte
         this.snackBar.open('Thank you, please check your email!');
         setTimeout(() => {
           this.snackBar.dismiss();
-        }, 1500);
+        }, 4000);
       },
       error => {
         this.error = <any>error;
         this.loading = false;
       });
+  }
+
+  pay() {
+    this.loading = true;
+    this.makePayment(this.notice.payment_reference, 'notice', this.notice.id, this.notice.payment_amount).then(res => {
+      this.loading = false;
+      this.notice.amount_paid_by_user = this.notice.payment_amount;
+      this.snackBar.open('Thank you, your payment has been received!');
+      this.processPayment = false;
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 4000);
+
+    }, err => {
+      this.error = <any>err;
+      this.loading = false;
+    });
   }
 
   backToList(): void {

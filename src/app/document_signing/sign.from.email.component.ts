@@ -3,11 +3,12 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 import {DocumentSigningService} from './services/document.signing.service';
 import {DetailsBaseComponent} from '../notice/notice_details/details.base.component';
+import {PaymentsService} from "../payments/services/payments.service";
 
 @Component({
   selector: 'app-sign-from-email-component',
   templateUrl: './sign.from.email.template.html',
-  providers: [DocumentSigningService],
+  providers: [DocumentSigningService, PaymentsService],
   styleUrls: ['../notice/notice_details/notice.details.style.scss']
 })
 export class SignFromEmailComponent extends DetailsBaseComponent implements AfterViewInit {
@@ -21,9 +22,10 @@ export class SignFromEmailComponent extends DetailsBaseComponent implements Afte
   constructor(public router: Router,
               public documentSigningService: DocumentSigningService,
               public snackBar: MatSnackBar,
+              public paymentsService: PaymentsService,
               public route: ActivatedRoute) {
 
-    super(documentSigningService);
+    super(documentSigningService, paymentsService);
   }
 
   ngAfterViewInit(): void {

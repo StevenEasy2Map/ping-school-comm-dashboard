@@ -29,6 +29,12 @@ export class PaymentsService extends APIService {
 
   }
 
+  makePayment(payload: any): Observable<any> {
+
+    return this.post(payload, '/api/payment/payment');
+
+  }
+
   refundPayment(payload: any): Observable<any> {
 
     return this.post(payload, '/api/payment/refund');

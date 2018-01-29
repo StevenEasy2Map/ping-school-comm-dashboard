@@ -14,7 +14,7 @@
   </div>
 </div>
 
-<div *ngIf="!loading" class="container notice">
+<div *ngIf="!loading && !processPayment" class="container notice">
   <h2 class="inline-page-title center-align">
     <a (click)="goBack()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Back</a>
   </h2>
@@ -37,15 +37,72 @@
     </div>
 
   </div>
-  <div *ngIf="notice && notice.signature_template_id && notice.signature_document_id && notice.signature_user_document_status !== 'complete'"
-       class="center-align top-bottom-margin">
-    <h4 class="darkGreyHeader top-bottom-margin center-align">{{notice.signature_document_title}}</h4>
-    <p class="details-description-parent">{{notice.signature_document_signature}}</p>
 
-    <button (click)="signDocument()" mat-raised-button color="primary">{{notice.signature_document_call_to_action}}</button>
-    <h4 *ngIf="notice.signature_document_attachment" class="darkGreyHeader top-bottom-margin center-align">OR</h4>
-    <button *ngIf="notice.signature_document_attachment" (click)="manuallySignDocument(notice.signature_document_attachment)" mat-raised-button color="accent">Download document to sign manually</button>
+  <div *ngIf="notice && notice.payment_applicable && !notice.amount_paid_by_user && !processPayment"
+       class="center-align top-bottom-margin">
+    <p class="details-description-parent">{{notice.payment_instructions}}</p>
+    <button (click)="processPayment = true" mat-raised-button color="primary">Go to online payment page</button>
+  </div>
+</div>
+
+<div *ngIf="processPayment" class="container top-bottom-margin">
+  <div class="row">
+    <div class="col s12"><h3>Make Payment</h3></div>
+
+    <div class="col s12">
+      <h6 *ngIf="notice.payment_allow_user_to_set">Payment amount (R)</h6>
+      <h6 *ngIf="!notice.payment_allow_user_to_set">Payment amount - R {{notice.payment_amount}}</h6>
+
+      <input *ngIf="notice.payment_allow_user_to_set" style="max-width:250px;" class="validate short" [(ngModel)]="notice.payment_amount"
+             placeholder="Payment Amount" id="paymentAmount" type="text">
+    </div>
+    <div class="col s12">
+      <h6>Your Credit Card Number</h6>
+      <input style="max-width:250px;" class="validate short" [(ngModel)]="cardNumber" placeholder="Your Credit Card Number" id="CreditCardNumber" type="number">
+    </div>
+    <div class="col s12">
+      <h6>Your CVC Number</h6>
+      <input style="max-width:250px;" class="validate short" [(ngModel)]="cvcNumber" placeholder="Your CVC Number" size="4" id="cvcNumber" type="number">
+    </div>
+  </div>
+  <div class="row top-bottom-margin">
+    <div class="col s6">
+      <mat-form-field style="min-width:400px;">
+        <mat-select style="width:100%" [(ngModel)]="cardExpiryMonth" placeholder="Select expiry month">
+          <mat-option *ngFor="let month of expiryMonths" [value]="month">
+            {{month}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col s6">
+      <mat-form-field style="min-width:400px;">
+        <mat-select style="width:100%" [(ngModel)]="cardExpiryYear" placeholder="Select expiry year">
+          <mat-option *ngFor="let year of expiryYears" [value]="year">
+            {{year}}
+          </mat-option>
+        </mat-select>
+
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row top-bottom-margin">
+    <div class="col s12">
+      <button (click)="pay()" mat-raised-button color="primary">Make Payment</button>
+    </div>
 
   </div>
+</div>
+
+<div *ngIf="notice && notice.signature_template_id && notice.signature_document_id && notice.signature_user_document_status !== 'complete' && !processPayment"
+     class="center-align top-bottom-margin container">
+  <h4 class="darkGreyHeader top-bottom-margin center-align">{{notice.signature_document_title}}</h4>
+  <p class="details-description-parent">{{notice.signature_document_signature}}</p>
+
+  <button (click)="signDocument()" mat-raised-button color="primary">{{notice.signature_document_call_to_action}}</button>
+  <h4 *ngIf="notice.signature_document_attachment" class="darkGreyHeader top-bottom-margin center-align">OR</h4>
+  <button *ngIf="notice.signature_document_attachment" (click)="manuallySignDocument(notice.signature_document_attachment)" mat-raised-button color="accent">Download document to sign manually</button>
 
 </div>
+
+

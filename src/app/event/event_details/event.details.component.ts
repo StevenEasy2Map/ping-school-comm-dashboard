@@ -9,11 +9,12 @@ import {HelperService} from '../../../providers/helper-service';
 import {DetailsBaseComponent} from "../../notice/notice_details/details.base.component";
 import {DocumentSigningService} from "../../document_signing/services/document.signing.service";
 import {MatSnackBar} from "@angular/material";
+import {PaymentsService} from '../../payments/services/payments.service';
 
 @Component({
   selector: 'app-event-details-component',
   templateUrl: 'event.details.template.html',
-  providers: [EventService, DocumentSigningService],
+  providers: [EventService, DocumentSigningService, PaymentsService],
   styleUrls: ['event.details.style.scss']
 })
 export class EventDetailsComponent extends DetailsBaseComponent implements AfterViewInit {
@@ -30,10 +31,11 @@ export class EventDetailsComponent extends DetailsBaseComponent implements After
               public eventService: EventService,
               public router: Router,
               public documentSigningService: DocumentSigningService,
+              public paymentsService: PaymentsService,
               public snackBar: MatSnackBar,
               public route: ActivatedRoute) {
 
-    super(documentSigningService);
+    super(documentSigningService, paymentsService);
 
   }
 
