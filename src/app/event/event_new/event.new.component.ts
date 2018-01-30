@@ -161,11 +161,8 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
 
         this.loading = false;
 
-        //const startDate: Date = HelperService.timeZoneAdjustedDate(this.event.start_date, this.event.timezone_offset);
-        //const endDate: Date = HelperService.timeZoneAdjustedDate(this.event.end_date, this.event.timezone_offset);
-
-        const startDate: Date = new Date(this.event.start_date);
-        const endDate: Date = new Date(this.event.end_date);
+        const startDate: Date = HelperService.timeZoneAdjustedDate(this.event.start_date, this.event.timezone_offset);
+        const endDate: Date = HelperService.timeZoneAdjustedDate(this.event.end_date, this.event.timezone_offset);
 
         const startDateModel: DateModel = new DateModel();
         const startMomentObj = moment(startDate, 'DD MMMM, YYYY');
