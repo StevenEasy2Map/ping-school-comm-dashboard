@@ -145,8 +145,8 @@ export class GroupEventsCalendarComponent extends EventListComponent implements 
 
           this.group_events.forEach(event => {
 
-            event.start_date = HelperService.timeZoneAdjustedDate(event.start_date, event.timezone_offset);
-            event.end_date = HelperService.timeZoneAdjustedDate(event.end_date, event.timezone_offset);
+            //event.start_date = HelperService.timeZoneAdjustedDate(event.start_date, event.timezone_offset);
+            //event.end_date = HelperService.timeZoneAdjustedDate(event.end_date, event.timezone_offset);
 
             tempEvents.push({
 
