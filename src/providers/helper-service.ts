@@ -16,7 +16,7 @@ export class HelperService {
   static timeZoneAdjustedDate(date: string, timezoneOffset: number) {
 
     const targetTime = new Date(date);
-    //return new Date(targetTime.getTime() + timezoneOffset * 60 * 1000);
+    // return new Date(targetTime.getTime() + timezoneOffset * 60 * 1000);
     return new Date(targetTime.getTime());
 
   }

@@ -23,6 +23,7 @@ export interface INotice {
   link3_url: string;
   link3_title: string;
   active: number;
+  homework: number;
 }
 
 

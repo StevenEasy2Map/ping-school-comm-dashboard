@@ -57,6 +57,15 @@
 
       </div>
     </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <input [(ngModel)]="group.include_homework" name="groupIncludeHomework"
+               type="checkbox" id="groupIncludeHomework"/>
+        <label class="description" for="groupIncludeHomework">Include homework functionality</label>
+      </div>
+    </div>
+
     <div class="row">
       <div class="input-field col s12">
         <input [(ngModel)]="group.is_private" name="groupPrivate"

@@ -31,6 +31,7 @@ export class NewGroupStep2Component implements AfterViewInit {
   whatsApp = '';
   groupDescription = '';
   groupPrivate = false;
+  includeHomework = false;
   groupId: any = 0;
   token = '';
   questionId: any = 0;
@@ -71,7 +72,7 @@ export class NewGroupStep2Component implements AfterViewInit {
 
     const group = new Group(0, this.schoolId, this.groupName, this.groupDescription, this.groupImage,
       this.groupPrivate ? 1 : 0, 0, '', 1, (new Date()).toDateString(), 0, 0, 0, 0, 0, this.whatsApp,
-      this.newMembersVetted ? 1 : 0);
+      this.newMembersVetted ? 1 : 0, this.includeHomework ? 1 : 0);
 
     this.auth.processing = true;
     this.loading = true;

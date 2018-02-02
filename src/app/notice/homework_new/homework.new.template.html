@@ -1,0 +1,192 @@
+<div *ngIf="loading" class="ping-loading-parent">
+  <div class="ping-loading preloader-wrapper active">
+    <div class="spinner-layer spinner-red-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div materialize class="container">
+
+  <div class="content">
+    <h2 class="inline-page-title center-align">
+      <a (click)="backToList()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Cancel</a>
+      {{title}}</h2>
+
+    <mat-accordion class="notice-headers-align">
+      <mat-expansion-panel hideToggle="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Homework Details
+          </mat-panel-title>
+          <mat-panel-description>
+            &nbsp;
+            <mat-icon>assignment</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+
+        <div class="row">
+          <div class="col s12">
+            <h6>The title of your notice</h6>
+            <input style="max-width:500px" class="validate" [(ngModel)]="notice.title" id="noticetitle" type="text"/>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col s6">
+            <h6 for="livedate">The date this homework update will be published</h6>
+            <ng2-datepicker name="livedate" id="livedate" [options]="showDateOptions"
+                            [(ngModel)]="showDateModel"></ng2-datepicker>
+
+          </div>
+          <div class="col s6">
+            <h6 for="enddate">The date this homework update will be un-published</h6>
+            <ng2-datepicker id="enddate" [options]="hideDateOptions"
+                            [(ngModel)]="hideDateModel"></ng2-datepicker>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col s6"><!--
+                            <img ng-show="!!notice.image" ng-src="{{notice.image}}">-->
+            <div class="file-field input-field">
+
+              <div class="btn">
+                <div class="upload-icon">
+                  <img src="/assets/upload.svg"/>
+                </div>
+                <span>Upload an image</span>
+                <input id="imageUpload" type="file">
+              </div>
+              <div class="file-path-wrapper center-align">
+                <img *ngIf="!!notice.image" src="{{ notice.image }}"
+                     style="max-width:90%;border:2px solid #EBEBEB;"/>
+                <input style="display: none" class="file-path" type="text">
+                <a *ngIf="!!notice.image" (click)="notice.image = null;" class="delete-upload">
+                  <img src="/assets/delete.svg"/>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col s6">
+            <div class="file-field input-field">
+              <div class="btn">
+                <div class="upload-icon">
+                  <img src="/assets/upload.svg"/>
+                </div>
+                <span>Upload an attachment</span>
+                <input id="fileUpload" type="file">
+              </div>
+              <div class="file-path-wrapper center-align">
+                <input style="display: none" class="file-path" type="text">
+                <a *ngIf="!!notice.attachment_link" target="_blank"
+                   href="{{ notice.attachment_link }}">View Document</a>
+                <a *ngIf="!!notice.attachment_link" (click)="notice.attachment_link = null;"
+                   class="delete-upload">
+                  <img src="/assets/delete.svg"/>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin:10px;">
+
+          <div class="s12">
+            <h6>Notification settings</h6>
+            <mat-radio-group class="ping-radio-group" [(ngModel)]="emailStatus">
+              <mat-radio-button class="ping-radio-button" [value]="1">
+                Email details of this homework update to *all* group members
+              </mat-radio-button>
+              <br>
+              <mat-radio-button class="ping-radio-button" [value]="2">
+                Email details of this homework update to *all* group members, *and* group invitees
+              </mat-radio-button>
+              <br>
+              <mat-radio-button class="ping-radio-button" [value]="3">
+                *Do not* email details of this homework update
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <!--<div class="s4">-->
+          <!--<input type="radio" name="emailStatus" id="radio1"-->
+          <!--[checked]="emailStatus === 1"-->
+          <!--(change)="onEmailStatusChange(1)">-->
+          <!--<label for="radio1">-->
+          <!--Email details of this notice to all group members-->
+          <!--</label>-->
+
+          <!--</div>-->
+          <!--<div class="s4">-->
+          <!--<input type="radio" name="emailStatus" id="radio2"-->
+          <!--[checked]="emailStatus === 2"-->
+          <!--(change)="onEmailStatusChange(2)">-->
+          <!--<label for="radio2">-->
+          <!--Email details of this notice to all group members, and group invitees-->
+          <!--</label>-->
+          <!--</div>-->
+          <!--<div class="s4">-->
+          <!--<input type="radio" name="emailStatus" id="radio3"-->
+          <!--[checked]="emailStatus === 0"-->
+          <!--(change)="onEmailStatusChange(0)">-->
+          <!--<label for="radio3">-->
+          <!--Do not send an notice on creation of this event-->
+          <!--</label>-->
+
+          <!--</div>-->
+
+        </div>
+
+
+      </mat-expansion-panel>
+      <!--[expanded]="step === 1" (opened)="setStep(1)" -->
+      <mat-expansion-panel hideToggle="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Message
+          </mat-panel-title>
+          <mat-panel-description>
+            &nbsp;
+            <mat-icon>comment</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <ckeditor [config]="ckEditorConfig" [(ngModel)]="notice.description" debounce="500"></ckeditor>
+
+      </mat-expansion-panel>
+
+    </mat-accordion>
+
+    <div class="row top-bottom-margin">
+
+      <div class="col s12 right-align">
+        <button mat-raised-button color="primary" (click)="createNotice()">Save Homework Details</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+

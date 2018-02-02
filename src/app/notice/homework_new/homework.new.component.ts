@@ -8,29 +8,29 @@ import {AuthService} from '../../../providers/auth-service';
 import {DateModel, DatePickerOptions} from 'ng2-datepicker';
 import {GroupService} from '../../group/group.service';
 import {DocumentSigningService} from '../../document_signing/services/document.signing.service';
-import {DocSigningSetupComponent} from '../../document_signing/doc.signing.setup.component';
+import {PingBaseComponent} from '../../ping.base.component';
 
 //  https://www.npmjs.com/package/ng2-datepicker
 
 @Component({
-  selector: 'app-notice-new-component',
-  templateUrl: './notice.new.template.html',
-  styleUrls: ['./notice.new.style.scss'],
+  selector: 'app-homework-new-component',
+  templateUrl: './homework.new.template.html',
+  styleUrls: ['../../notice/notice_new/notice.new.style.scss'],
   providers: [NoticeService, GroupService, DocumentSigningService],
   encapsulation: ViewEncapsulation.None
 })
-export class NewNoticeComponent extends DocSigningSetupComponent implements OnInit, AfterViewInit {
+export class NewHomeworkComponent extends PingBaseComponent implements OnInit, AfterViewInit {
 
   notice: Notice = this.initiateNewNotice();
   groupId = 0;
   schoolId = 0;
   noticeId = 0;
   noticeGroups: any[] = [];
-  groups: any[] = [];
   groupSummary: any = {};
-  title = 'Create new notice';
+  title = 'Homework for today';
   emailStatus = '1';
   step = 0;
+  error = '';
 
   showDateModel: DateModel;
   showDateOptions: DatePickerOptions;
@@ -38,19 +38,14 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
   hideDateModel: DateModel;
   hideDateOptions: DatePickerOptions;
 
-  paymentApplicable = false;
-  allowUsersToSetPaymentAmount = false;
-  appendPaymentRefUserLastName = false;
-
   constructor(private auth: AuthService,
               public noticeService: NoticeService,
               public groupService: GroupService,
               public storageService: StorageService,
-              public documentSigningService: DocumentSigningService,
               public router: Router,
               public route: ActivatedRoute) {
 
-    super(documentSigningService, storageService);
+    super();
 
   }
 
@@ -58,7 +53,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
 
     const showDate = new Date();
     const hideDate = new Date();
-    hideDate.setMonth(hideDate.getMonth() + 1);
+    hideDate.setDate(hideDate.getDate() + 1);
 
     this.showDateOptions = new DatePickerOptions({
       initialDate: showDate,
@@ -74,7 +69,6 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
   ngAfterViewInit(): void {
 
     this.setupFileUploadLogic();
-    this.setupDocSigningFileUploadLogic();
     this.getEditNoticeDetails();
 
   }
@@ -88,7 +82,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
     return new Notice(0, showDate.toString(),
       showDate.toString(), hideDate.toString(),
       '', '', '',
-      '', 0, '', '', '', '', '', 0, 0, '', '', '', '', '', '', 1, 0);
+      '', 0, '', '', '', '', '', 0, 0, '', '', '', '', '', '', 1, 1);
 
   }
 
@@ -114,7 +108,6 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
         this.schoolId = params['school_id'];
 
         this.getGroupSummary();
-        this.getSigningCategories();
 
         if (this.noticeId) {
 
@@ -137,11 +130,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
         this.notice.description = this.notice.description.replace("'", "").replace("'", "");
         console.log(this.notice);
         this.loading = false;
-        this.title = 'Edit notice';
-
-        this.allowUsersToSetPaymentAmount = !!this.notice.payment_allow_user_to_set;
-        this.appendPaymentRefUserLastName = !!this.notice.payment_ref_append_lastname;
-        this.paymentApplicable = !!this.notice.payment_applicable;
+        this.title = 'Edit homework item';
 
         this.showDateOptions = new DatePickerOptions({
           initialDate: new Date(this.notice.show_date),
@@ -152,10 +141,6 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
           initialDate: new Date(this.notice.hide_date),
           format: 'DD MMMM, YYYY'
         });
-
-        if (this.notice['signature_document_id'] && this.notice['signature_template_id']) {
-          this.getEntityDocumentForSigning(this.notice, this.schoolId, this.noticeId, 'notice');
-        }
 
       },
       error => {
@@ -174,19 +159,6 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
 
       },
       error => this.error = <any>error);
-  }
-
-
-  getMyGroups(): void {
-
-    this.groupService.getMyGroups().subscribe(
-      results => {
-        this.groups = results;
-
-      },
-      error => this.error = <any>error);
-
-
   }
 
   setupFileUploadLogic(): void {
@@ -234,24 +206,9 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
     this.notice.show_date = new Date(this.showDateModel.momentObj.toString()).toString();
     this.notice.hide_date = new Date(this.hideDateModel.momentObj.toString()).toString();
 
-    this.notice.payment_allow_user_to_set = this.allowUsersToSetPaymentAmount ? 1 : 0;
-    this.notice.payment_ref_append_lastname = this.appendPaymentRefUserLastName ? 1 : 0;
-    this.notice.payment_applicable = this.paymentApplicable ? 1 : 0;
-
     const postValue = {};
     for (const item in this.notice) {
       postValue[item] = this.notice[item];
-    }
-
-    let templateDetails = {};
-    if (this.documentTemplate) {
-      templateDetails = this.retrieveDocumentTemplateDetails(this.schoolId, 'notice');
-    }
-
-    if (this.documentTemplate && !templateDetails) {
-
-      alert('Please ensure all document fields are completed');
-      return;
     }
 
     postValue['group_ids'] = [this.groupId];
@@ -264,51 +221,8 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
       this.noticeService.editNotice(postValue).subscribe(
         result => {
 
-          if (this.documentTemplate && templateDetails['template_id']) {
-
-            templateDetails['entity_id'] = this.noticeId;
-
-            if (this.notice['signature_template_id'] && this.notice['signature_document_id'] &&
-              parseInt(this.notice['signature_template_id'], 10) === parseInt(templateDetails['template_id'], 10)) {
-
-              // this notice already had a digital document attached and it WASN'T changed
-              templateDetails['document_id'] = this.notice['signature_document_id'];
-              this.updateDocument(templateDetails).subscribe(
-                response => {
-                  this.loading = false;
-                  this.backToList();
-                }
-              );
-
-            } else {
-              this.createDocument(templateDetails).subscribe(
-                response => {
-                  this.loading = false;
-                  this.backToList();
-                }
-              );
-            }
-
-
-          } else {
-
-            if (this.notice['signature_template_id'] && this.notice['signature_document_id']) {
-
-              // this notice already had a digital document attached and it's BEEN REMOVED
-              templateDetails['document_id'] = this.notice['signature_document_id'];
-              this.removeDocument(templateDetails).subscribe(
-                response => {
-                  this.loading = false;
-                  this.backToList();
-                }
-              );
-
-            } else {
-              this.loading = false;
-              this.backToList();
-            }
-
-          }
+          this.loading = false;
+          this.backToList();
 
         },
         error => this.error = <any>error);
@@ -318,18 +232,8 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
       this.noticeService.createNotice(postValue).subscribe(
         result => {
 
-          if (this.documentTemplate && templateDetails['template_id']) {
-            templateDetails['entity_id'] = result.notice_id;
-            this.createDocument(templateDetails).subscribe(
-              res => {
-                this.loading = false;
-                this.backToList();
-              });
-          } else {
-            this.loading = false;
-            this.backToList();
-          }
-
+          this.loading = false;
+          this.backToList();
         },
         error => {
           this.loading = false;

@@ -60,6 +60,7 @@ import {SchoolAdministratorsComponent} from './school/school_administrators/scho
 import {MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, MatIconModule, MatRadioModule, MatSelectModule, MatSnackBarModule, MatTabsModule} from '@angular/material';
 import {DialogAreYouSureComponent} from './common/modals/are.you.sure.component';
 import {SignFromEmailComponent} from "./document_signing/sign.from.email.component";
+import {NewHomeworkComponent} from "./notice/homework_new/homework.new.component";
 
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
@@ -72,6 +73,7 @@ const appRoutes: Routes = [
 
   {path: 'notice-details', component: NoticeDetailsComponent, canActivate: [AuthGuard]},
   {path: 'new-notice', component: NewNoticeComponent, canActivate: [AuthGuard]},
+  {path: 'new-homework', component: NewHomeworkComponent, canActivate: [AuthGuard]},
   {path: 'my-notices-list', component: MyNoticeListComponent, canActivate: [AuthGuard]},
   {path: 'group-notices-list', component: GroupNoticeListComponent, canActivate: [AuthGuard]},
   {path: 'notice-payments-list', component: NoticePaymentListComponent, canActivate: [AuthGuard]},
@@ -121,6 +123,7 @@ const appRoutes: Routes = [
 
     NoticeDetailsComponent,
     NewNoticeComponent,
+    NewHomeworkComponent,
     MyNoticeListComponent,
     NoticePaymentListComponent,
     NoticePaymentDetailsComponent,

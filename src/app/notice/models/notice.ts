@@ -22,7 +22,8 @@ export class Notice {
               public link2_title: string,
               public link3_url: string,
               public link3_title: string,
-              public active: number) {
+              public active: number,
+              homework: number) {
   }
 
 
