@@ -122,6 +122,7 @@
       </div>
 
     </mat-tab>
+
     <mat-tab label="My Events">
 
       <div class="tab-content">
@@ -162,6 +163,46 @@
 
 
     </mat-tab>
+
+    <mat-tab label="My Homework">
+      <div class="tab-content">
+        <h2 *ngIf="myHomework && myHomework.length > 0" class="center-align" style="padding-bottom:0;">My Homework</h2>
+
+        <h3 class="no-items" *ngIf="myHomework.length === 0">You don't currently have any homework!</h3>
+
+        <mat-card class="home-card pointer" *ngFor="let notice of myHomework; let i = index">
+
+          <button (click)="hideEntity($event, 'notice', notice.id)" style="position:absolute;top:10px;right:10px;" mat-icon-button>
+            <mat-icon aria-label="Example icon-button with a heart icon">clear</mat-icon>
+          </button>
+
+          <button *ngIf="notice.group_member_role === 'admin' || notice.group_member_role === 'owner' || notice.school_member_role === 'admin' || notice.school_member_role === 'owner'"
+                  (click)="editEntity($event, 'homework', notice.id, notice.group_id, notice.school_id)"
+                  style="position:absolute;top:10px;right:60px;" mat-icon-button>
+            <mat-icon aria-label="Example icon-button with a heart icon">edit</mat-icon>
+          </button>
+
+          <mat-card-header (click)="viewNoticeDetails(notice)">
+            <div [ngStyle]="{'background-image': getUrl(notice.group_image)}" *ngIf="notice.group_image"
+                 mat-card-avatar class="home-header-image"></div>
+            <mat-card-title>{{ notice.title }}</mat-card-title>
+            <mat-card-subtitle>{{notice.group_name}}</mat-card-subtitle>
+          </mat-card-header>
+          <div class="center-align" *ngIf="notice.image">
+            <img class="home" (click)="viewNoticeDetails(notice)" mat-card-image src="{{notice.image}}" alt="{{notice.title}}">
+          </div>
+          <mat-card-content (click)="viewNoticeDetails(notice)">
+            <p class="notice-date">Published {{ notice.show_date }}</p>
+            <h5 *ngIf="!notice.school_wide" class="notice-sub-subtitle">{{notice.school_name}}</h5>
+            <div class="notice-details-description" [innerHTML]="notice.description"></div>
+
+          </mat-card-content>
+        </mat-card>
+
+      </div>
+
+    </mat-tab>
+
     <mat-tab label="My Groups">
 
       <div class="tab-content">

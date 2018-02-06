@@ -21,6 +21,7 @@ export class HomeComponent implements AfterViewInit {
 
   myGroups: any[] = [];
   myNotices: any[] = [];
+  myHomework: any[] = [];
   myEvents: any[] = [];
   mySchools: any[] = [];
   error = '';
@@ -41,6 +42,7 @@ export class HomeComponent implements AfterViewInit {
     this.auth.getFirebaseTokenAsPromise().then(() => {
       this.getMyGroups();
       this.getMyNotices();
+      this.getMyHomework();
       this.getMyEvents();
       this.getAllSchoolsIAdminister();
     });
@@ -115,6 +117,32 @@ export class HomeComponent implements AfterViewInit {
 
   }
 
+  getMyHomework() {
+
+    this.noticeService.getMyHomework().subscribe(
+      response => {
+        this.myHomework = response;
+
+        this.myHomework.forEach(notice => {
+
+          notice.description = notice.description.replace("'", "").replace("'", "");
+          console.log(notice.description);
+          notice.show_date = moment(new Date(notice.show_date)).fromNow();
+
+        });
+
+        this.auth.processing = false;
+        this.loading = false;
+
+      },
+      error => {
+        this.error = <any>error;
+        this.loading = false;
+      });
+
+
+  }
+
   editEntity($event, entityType, entityId, groupId, schoolId) {
 
     if (entityType === 'notice') {
@@ -129,6 +157,14 @@ export class HomeComponent implements AfterViewInit {
 
       this.router.navigate(['/new-event', {
         event_id: entityId, group_id: groupId,
+        school_id: schoolId
+      }]);
+
+
+    } else if (entityType === 'homework') {
+
+      this.router.navigate(['/new-homework', {
+        notice_id: entityId, group_id: groupId,
         school_id: schoolId
       }]);
 

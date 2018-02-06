@@ -16,6 +16,10 @@ export class NoticeService extends APIService {
     return this.get('/api/notice/my_notices');
   }
 
+  getMyHomework(): Observable<any> {
+    return this.get('/api/notice/my_homework');
+  }
+
   getNoticeDetails(noticeId: number): Observable<any> {
     return this.get(`/api/notice/notice_details/${noticeId}`);
   }
