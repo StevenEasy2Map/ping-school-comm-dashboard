@@ -86,9 +86,7 @@
     </mat-tab>
     <mat-tab label="My Notices">
       <div class="tab-content">
-        <h2 *ngIf="myNotices && myNotices.length > 0" class="center-align" style="padding-bottom:0;">My Notices</h2>
-
-        <h3 class="no-items" *ngIf="myNotices.length === 0">You don't currently have any live notices!</h3>
+        <h2 class="center-align" style="padding-bottom:0;">{{noticesTitle}}</h2>
 
         <mat-card class="home-card pointer" *ngFor="let notice of myNotices; let i = index">
 
@@ -127,9 +125,7 @@
 
       <div class="tab-content">
 
-        <h2 *ngIf="myEvents && myEvents.length > 0" class="center-align" style="padding-bottom:0;">My Events</h2>
-
-        <h3 class="no-items" *ngIf="myEvents.length === 0">You don't currently have any live events!</h3>
+        <h2 class="center-align" style="padding-bottom:0;">{{eventsTitle}}</h2>
 
         <mat-card class="home-card pointer" *ngFor="let event of myEvents; let i = index">
 
@@ -166,9 +162,7 @@
 
     <mat-tab label="My Homework">
       <div class="tab-content">
-        <h2 *ngIf="myHomework && myHomework.length > 0" class="center-align" style="padding-bottom:0;">My Homework</h2>
-
-        <h3 class="no-items" *ngIf="myHomework.length === 0">You don't currently have any homework!</h3>
+        <h2 class="center-align" style="padding-bottom:0;">{{homeworkTitle}}</h2>
 
         <mat-card class="home-card pointer" *ngFor="let notice of myHomework; let i = index">
 
@@ -209,21 +203,16 @@
 
         <button mat-raised-button color="accent" class="add-group" (click)="addNewGroup()">Create new Group</button>
 
-
-        <h2 *ngIf="myGroups && myGroups.length > 0" style="clear:both;" class="center-align" style="padding-bottom:0;">My Groups</h2>
-
-
-        <h3 class="no-items" *ngIf="myGroups.length === 0">You aren't currently the administrator of any groups. Why not create one!</h3>
-
+        <h2 style="clear:both;" class="center-align" style="padding-bottom:0;">{{groupsTitle}}</h2>
 
         <mat-card class="home-card" *ngFor="let group of myGroups; let i = index">
           <mat-card-header>
 
-            <button style="position:absolute;right:0;top:0;" (click)="editGroup(i)" mat-icon-button>
+            <button *ngIf="group.role !== 'member'" style="position:absolute;right:0;top:0;" (click)="editGroup(i)" mat-icon-button>
               <mat-icon aria-label="Edit">edit</mat-icon>
             </button>
 
-            <button style="position:absolute;right:40px;top:0;" (click)="inviteUsersToGroup(i)" mat-icon-button>
+            <button *ngIf="group.role !== 'member'" style="position:absolute;right:40px;top:0;" (click)="inviteUsersToGroup(i)" mat-icon-button>
               <mat-icon aria-label="Edit">share</mat-icon>
             </button>
 
@@ -241,7 +230,7 @@
             <div style="margin:0;padding:0;width: 100%;text-align: right;color:#a2a2a2;">
               <div (click)="viewEventsCalendar(i)" *ngIf="group.event_count" class="right">
                 <button mat-icon-button>
-                  <mat-icon aria-label="Edit">event_note</mat-icon>
+                  <mat-icon aria-label="Edit">event</mat-icon>
                 </button>
                 <span class="stats-total">{{ group.event_count}} live event<span *ngIf="group.event_count !== 1">s</span></span>
               </div>
@@ -253,11 +242,11 @@
               </div>
               <div (click)="viewGroupHomework(i)" *ngIf="group.homework_count" class="right">
                 <button mat-icon-button>
-                  <mat-icon aria-label="Edit">assignment</mat-icon>
+                  <mat-icon aria-label="Edit">note</mat-icon>
                 </button>
-                <span class="stats-total">{{ group.homework_count}} homework item<span *ngIf="group.homework_count !== 1">s</span></span>
+                <span class="stats-total">{{ group.homework_count}} homework<span *ngIf="group.homework_count !== 1">s</span></span>
               </div>
-              <div (click)="viewGroupMembers(i)" *ngIf="group.member_count" class="right">
+              <div (click)="viewGroupMembers(i)" *ngIf="group.member_count && group.role !== 'member'" class="right">
                 <button mat-icon-button>
                   <mat-icon aria-label="Edit">group</mat-icon>
                 </button>
@@ -268,7 +257,7 @@
 
             <div style="clear:both;" class="notice-details-description">{{group.description}}</div>
           </mat-card-content>
-          <mat-card-actions>
+          <mat-card-actions *ngIf="group.role !== 'member'">
             <button *ngIf="group.include_homework" mat-raised-button (click)="createHomework(i)">Add Homework</button>
             <button mat-raised-button (click)="createNotice(i)">Add Notice</button>
             <button mat-raised-button (click)="createEvent(i)">Add Event</button>

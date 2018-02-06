@@ -20,7 +20,7 @@
       <a routerLink="/" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Back</a>
       Homework Items</h2>
 
-    <a class="add-new-wrapper" (click)="addNewHomework()">
+    <a *ngIf="groupAdmin" class="add-new-wrapper" (click)="addNewHomework()">
       <div class="btn-floating btn-large waves-effect waves-light orange">
         <i class="material-icons">add</i>
       </div>
@@ -32,19 +32,27 @@
       <th>Title</th>
       <th class="center-align">Date Published</th>
       <th>Status</th>
-      <th class="center-align">Edit</th>
-      <th class="center-align">Delete</th>
+      <th *ngIf="groupAdmin" class="center-align">Edit</th>
+      <th *ngIf="groupAdmin" class="center-align">Delete</th>
       </thead>
       <tbody>
-      <tr ngClass="noticeStatusClass(notice)" *ngFor="let notice of notices; let i = index" [ngClass]="{'past-event' : notice && !notice.future_date}">
-        <td><a [ngClass]="{'past-event' : notice && !notice.future_date}" (click)="viewNoticeDetails(notice)">{{ notice.title | ellipsis:20 }}</a></td>
-        <td [ngClass]="{'past-event' : notice && !notice.future_date}" class="center-align">{{ notice.show_date | friendlydate }}</td>
-        <td [ngClass]="{'past-event' : notice && !notice.future_date}">{{ noticeActiveStatus(notice) ? 'Active' : 'Inactive' }}</td>
-        <td class="center-align">
-          <a [ngClass]="{'past-event' : notice && !notice.future_date}" (click)="editNotice(notice)"><i class="material-icons">create</i></a>
+      <tr ngClass="noticeStatusClass(notice)" *ngFor="let notice of notices; let i = index"
+          [ngClass]="{'past-event' : notice && !notice.future_date}">
+        <td><a [ngClass]="{'past-event' : notice && !notice.future_date}" (click)="viewNoticeDetails(notice)">{{
+          notice.title | ellipsis:20 }}</a></td>
+        <td [ngClass]="{'past-event' : notice && !notice.future_date}" class="center-align">{{ notice.show_date |
+          friendlydate }}
         </td>
-        <td class="center-align">
-          <a [ngClass]="{'past-event' : notice && !notice.future_date}" (click)="deleteNotice(notice, i)"><i class="material-icons">delete</i></a>
+        <td [ngClass]="{'past-event' : notice && !notice.future_date}">{{ noticeActiveStatus(notice) ? 'Active' :
+          'Inactive' }}
+        </td>
+        <td *ngIf="groupAdmin" class="center-align">
+          <a [ngClass]="{'past-event' : notice && !notice.future_date}" (click)="editNotice(notice)"><i
+            class="material-icons">create</i></a>
+        </td>
+        <td *ngIf="groupAdmin" class="center-align">
+          <a [ngClass]="{'past-event' : notice && !notice.future_date}" (click)="deleteNotice(notice, i)"><i
+            class="material-icons">delete</i></a>
         </td>
 
       </tr>

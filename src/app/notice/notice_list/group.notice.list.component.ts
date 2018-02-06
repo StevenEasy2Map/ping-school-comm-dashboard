@@ -22,6 +22,7 @@ export class GroupNoticeListComponent extends NoticeListComponent {
   groupId: string = '';
   schoolId: string = '';
   loading = true;
+  groupAdmin = false;
 
   constructor(private auth: AuthService,
               public noticeService: NoticeService,
@@ -42,6 +43,7 @@ export class GroupNoticeListComponent extends NoticeListComponent {
 
         this.noticeService.getGroupNotices(parseInt(this.groupId, 10)).subscribe(res => {
           this.notices = res;
+          this.groupAdmin = !!this.notices.find(notice => notice.group_admin === 1);
 
           this.notices.sort((a, b) => {
             return b.show_date - a.show_date;

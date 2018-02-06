@@ -26,7 +26,12 @@ export class HomeComponent implements AfterViewInit {
   mySchools: any[] = [];
   error = '';
   loading = true;
+  noticesTitle = 'My Notices';
+  eventsTitle = 'My Events';
+  groupsTitle = 'My Groups';
+  homeworkTitle = 'My Homework';
   selectedTabIndex = this.retrieveSavedTabIndex();
+
 
   constructor(private auth: AuthService, private groupService: GroupService,
               private schoolService: SchoolService,
@@ -71,10 +76,13 @@ export class HomeComponent implements AfterViewInit {
       response => {
         console.log(response);
         this.myGroups = response;
+        if (!this.myGroups || this.myGroups.length === 0) {
+          this.groupsTitle = 'You aren\'t a member of any groups.';
+        }
 
-        this.myGroups = this.myGroups.filter(group => {
-          return group.role !== 'member';
-        });
+        // this.myGroups = this.myGroups.filter(group => {
+        //   return group.role !== 'member';
+        // });
 
         console.log(this.myGroups);
         this.auth.processing = false;
@@ -94,6 +102,10 @@ export class HomeComponent implements AfterViewInit {
     this.noticeService.getMyNotices().subscribe(
       response => {
         this.myNotices = response;
+
+        if (!this.myNotices || this.myNotices.length === 0) {
+          this.noticesTitle = 'You don\'t have any live notices.';
+        }
 
         this.myNotices.forEach(notice => {
 
@@ -122,6 +134,10 @@ export class HomeComponent implements AfterViewInit {
     this.noticeService.getMyHomework().subscribe(
       response => {
         this.myHomework = response;
+
+        if (!this.myHomework || this.myHomework.length === 0) {
+          this.homeworkTitle = 'You don\'t have any homework.';
+        }
 
         this.myHomework.forEach(notice => {
 
@@ -216,6 +232,7 @@ export class HomeComponent implements AfterViewInit {
               this.getMyEvents();
             } else {
               this.getMyNotices();
+              this.getMyHomework();
             }
           }, 1500);
         });
@@ -230,6 +247,10 @@ export class HomeComponent implements AfterViewInit {
     this.eventService.getMyEvents().subscribe(
       response => {
         this.myEvents = response;
+
+        if (!this.myEvents || this.myEvents.length === 0) {
+          this.eventsTitle = 'You don\'t have any events.';
+        }
 
         this.myEvents.forEach(event => {
           event.description = event.description.replace("'", "").replace("'", "");
@@ -331,7 +352,11 @@ export class HomeComponent implements AfterViewInit {
 
   viewSchoolWideEventsCalendar(i): void {
     const school = this.mySchools[i];
-    this.router.navigate(['/group-events-calendar', {group_id: school.group_id, school_id: school.id, group_name: school.name}]);
+    this.router.navigate(['/group-events-calendar', {
+      group_id: school.group_id,
+      school_id: school.id,
+      group_name: school.name
+    }]);
   }
 
   createSchoolWideNotice(i): void {
@@ -363,7 +388,11 @@ export class HomeComponent implements AfterViewInit {
 
   viewEventsCalendar(i): void {
     const group = this.myGroups[i];
-    this.router.navigate(['/group-events-calendar', {group_id: group.id, school_id: group.school_id, group_name: group.name}]);
+    this.router.navigate(['/group-events-calendar', {
+      group_id: group.id,
+      school_id: group.school_id,
+      group_name: group.name
+    }]);
   }
 
   viewNoticeDetails(notice: any): void {
@@ -374,7 +403,11 @@ export class HomeComponent implements AfterViewInit {
   }
 
   viewEventDetails(event: any): void {
-    this.router.navigate(['/event-details', {event_id: event.id, group_id: event.group_id, school_id: event.school_id}]);
+    this.router.navigate(['/event-details', {
+      event_id: event.id,
+      group_id: event.group_id,
+      school_id: event.school_id
+    }]);
   }
 
   addNewGroup() {

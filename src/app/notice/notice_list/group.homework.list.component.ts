@@ -22,6 +22,7 @@ export class GroupHomeworkListComponent extends NoticeListComponent {
   groupId = '';
   schoolId = '';
   loading = true;
+  groupAdmin = false;
 
   constructor(private auth: AuthService,
               public noticeService: NoticeService,
@@ -43,9 +44,13 @@ export class GroupHomeworkListComponent extends NoticeListComponent {
         this.noticeService.getGroupHomework(parseInt(this.groupId, 10)).subscribe(res => {
           this.notices = res;
 
+          this.groupAdmin = !!this.notices.find(notice => notice.group_admin === 1);
+
           this.notices.sort((a, b) => {
             return b.show_date - a.show_date;
           });
+
+          console.log(this.notices);
 
           this.loading = false;
 

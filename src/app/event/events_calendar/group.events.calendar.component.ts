@@ -30,6 +30,7 @@ export class GroupEventsCalendarComponent extends EventListComponent implements 
   selectedEvents: any[] = [];
   selectedMonth = '';
   loading = true;
+  groupAdmin = false;
 
   colors: any = {
     red: {
@@ -137,6 +138,7 @@ export class GroupEventsCalendarComponent extends EventListComponent implements 
 
         this.eventService.getGroupEvents(parseInt(this.groupId, 10)).then(res => {
 
+          this.groupAdmin = res && !!res.find(event => event.group_admin === 1);
           this.group_events = res;
 
           console.log(this.group_events);
