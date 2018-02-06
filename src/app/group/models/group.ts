@@ -17,6 +17,7 @@ export class Group implements IGroup {
   member_count: number;
   event_count: number;
   notice_count: number;
+  homework_count: number;
   whatsapp_group_link: string;
   new_members_must_be_vetted: number;
   include_homework: number;
@@ -36,6 +37,7 @@ export class Group implements IGroup {
               member_count: number,
               event_count: number,
               notice_count: number,
+              homework_count: number,
               whatsapp_group_link: string,
               new_members_must_be_vetted: number,
               include_homework: number) {
@@ -55,6 +57,7 @@ export class Group implements IGroup {
     this.member_count = member_count;
     this.event_count = event_count;
     this.notice_count = notice_count;
+    this.homework_count = homework_count;
     this.whatsapp_group_link = whatsapp_group_link;
     this.new_members_must_be_vetted = new_members_must_be_vetted;
     this.include_homework = include_homework;

@@ -9,6 +9,7 @@ import {DateModel, DatePickerOptions} from 'ng2-datepicker';
 import {GroupService} from '../../group/group.service';
 import {DocumentSigningService} from '../../document_signing/services/document.signing.service';
 import {PingBaseComponent} from '../../ping.base.component';
+import * as moment from 'moment';
 
 //  https://www.npmjs.com/package/ng2-datepicker
 
@@ -79,9 +80,11 @@ export class NewHomeworkComponent extends PingBaseComponent implements OnInit, A
     const hideDate = new Date();
     hideDate.setMonth(hideDate.getMonth() + 1);
 
+
+
     return new Notice(0, showDate.toString(),
       showDate.toString(), hideDate.toString(),
-      '', '', '',
+      `Homework for ${moment().format('dddd Do MMM')}`, '', '',
       '', 0, '', '', '', '', '', 0, 0, '', '', '', '', '', '', 1, 1);
 
   }

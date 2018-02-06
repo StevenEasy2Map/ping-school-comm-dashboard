@@ -61,6 +61,7 @@ import {MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, Mat
 import {DialogAreYouSureComponent} from './common/modals/are.you.sure.component';
 import {SignFromEmailComponent} from "./document_signing/sign.from.email.component";
 import {NewHomeworkComponent} from "./notice/homework_new/homework.new.component";
+import {GroupHomeworkListComponent} from "./notice/notice_list/group.homework.list.component";
 
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
@@ -76,6 +77,7 @@ const appRoutes: Routes = [
   {path: 'new-homework', component: NewHomeworkComponent, canActivate: [AuthGuard]},
   {path: 'my-notices-list', component: MyNoticeListComponent, canActivate: [AuthGuard]},
   {path: 'group-notices-list', component: GroupNoticeListComponent, canActivate: [AuthGuard]},
+  {path: 'group-homework-list', component: GroupHomeworkListComponent, canActivate: [AuthGuard]},
   {path: 'notice-payments-list', component: NoticePaymentListComponent, canActivate: [AuthGuard]},
   {path: 'notice-payment-details', component: NoticePaymentDetailsComponent, canActivate: [AuthGuard]},
 
@@ -128,6 +130,7 @@ const appRoutes: Routes = [
     NoticePaymentListComponent,
     NoticePaymentDetailsComponent,
     GroupNoticeListComponent,
+    GroupHomeworkListComponent,
     GroupMemberDetailsComponent,
     GroupMembersComponent,
 

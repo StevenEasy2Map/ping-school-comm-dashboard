@@ -14,6 +14,7 @@ export interface IGroup {
   member_count: number;
   event_count: number;
   notice_count: number;
+  homework_count: number;
   whatsapp_group_link: string;
   new_members_must_be_vetted: number;
   include_homework: number;

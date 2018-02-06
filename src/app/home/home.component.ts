@@ -238,9 +238,19 @@ export class HomeComponent implements AfterViewInit {
     this.router.navigate(['/new-notice', {group_id: group.id, school_id: group.school_id}]);
   }
 
+  createHomework(i): void {
+    const group = this.myGroups[i];
+    this.router.navigate(['/new-homework', {group_id: group.id, school_id: group.school_id}]);
+  }
+
   viewGroupNotices(i): void {
     const group = this.myGroups[i];
     this.router.navigate(['/group-notices-list', {group_id: group.id, school_id: group.school_id}]);
+  }
+
+  viewGroupHomework(i): void {
+    const group = this.myGroups[i];
+    this.router.navigate(['/group-homework-list', {group_id: group.id, school_id: group.school_id}]);
   }
 
   createEvent(i): void {

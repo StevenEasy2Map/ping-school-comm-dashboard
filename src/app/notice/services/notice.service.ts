@@ -40,6 +40,10 @@ export class NoticeService extends APIService {
     return this.get(`/api/notice/group_notices/${groupId}`);
   }
 
+  getGroupHomework(groupId: number): Observable<any> {
+    return this.get(`/api/notice/group_homework/${groupId}`);
+  }
+
   getNoticeGroups(noticeId: number): Observable<any> {
     return this.get(`/api/notice/notice_groups/${noticeId}`);
   }

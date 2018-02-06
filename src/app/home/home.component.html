@@ -88,6 +88,8 @@
       <div class="tab-content">
         <h2 *ngIf="myNotices && myNotices.length > 0" class="center-align" style="padding-bottom:0;">My Notices</h2>
 
+        <h3 class="no-items" *ngIf="myNotices.length === 0">You don't currently have any live notices!</h3>
+
         <mat-card class="home-card pointer" *ngFor="let notice of myNotices; let i = index">
 
           <button (click)="hideEntity($event, 'notice', notice.id)" style="position:absolute;top:10px;right:10px;" mat-icon-button>
@@ -125,6 +127,8 @@
       <div class="tab-content">
 
         <h2 *ngIf="myEvents && myEvents.length > 0" class="center-align" style="padding-bottom:0;">My Events</h2>
+
+        <h3 class="no-items" *ngIf="myEvents.length === 0">You don't currently have any live events!</h3>
 
         <mat-card class="home-card pointer" *ngFor="let event of myEvents; let i = index">
 
@@ -168,6 +172,9 @@
         <h2 *ngIf="myGroups && myGroups.length > 0" style="clear:both;" class="center-align" style="padding-bottom:0;">My Groups</h2>
 
 
+        <h3 class="no-items" *ngIf="myGroups.length === 0">You aren't currently the administrator of any groups. Why not create one!</h3>
+
+
         <mat-card class="home-card" *ngFor="let group of myGroups; let i = index">
           <mat-card-header>
 
@@ -185,7 +192,8 @@
             <mat-card-subtitle>{{group.school_name}}</mat-card-subtitle>
           </mat-card-header>
           <div class="center-align" *ngIf="group.image">
-            <img (click)="viewEventsCalendar(i)" class="home" *ngIf="group.image" mat-card-image src="{{group.image}}" alt="{{group.name}}">
+            <img (click)="viewEventsCalendar(i)" class="home"
+                 *ngIf="group.image" mat-card-image src="{{group.image}}" alt="{{group.name}}">
           </div>
           <mat-card-content>
 
@@ -200,7 +208,13 @@
                 <button mat-icon-button>
                   <mat-icon aria-label="Edit">assignment</mat-icon>
                 </button>
-                <span class="stats-total">{{ group.notice_count}}  live notice<span *ngIf="group.notice_count !== 1">s</span></span>
+                <span class="stats-total">{{ group.notice_count}} live notice<span *ngIf="group.notice_count !== 1">s</span></span>
+              </div>
+              <div (click)="viewGroupHomework(i)" *ngIf="group.homework_count" class="right">
+                <button mat-icon-button>
+                  <mat-icon aria-label="Edit">assignment</mat-icon>
+                </button>
+                <span class="stats-total">{{ group.homework_count}} homework item<span *ngIf="group.homework_count !== 1">s</span></span>
               </div>
               <div (click)="viewGroupMembers(i)" *ngIf="group.member_count" class="right">
                 <button mat-icon-button>
@@ -214,6 +228,7 @@
             <div style="clear:both;" class="notice-details-description">{{group.description}}</div>
           </mat-card-content>
           <mat-card-actions>
+            <button *ngIf="group.include_homework" mat-raised-button (click)="createHomework(i)">Add Homework</button>
             <button mat-raised-button (click)="createNotice(i)">Add Notice</button>
             <button mat-raised-button (click)="createEvent(i)">Add Event</button>
             <div class="role">{{ group.role }}</div>

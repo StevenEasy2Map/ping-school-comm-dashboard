@@ -22,7 +22,7 @@
       {{title}}</h2>
 
     <mat-accordion class="notice-headers-align">
-      <mat-expansion-panel hideToggle="true">
+      <mat-expansion-panel expanded="true" hideToggle="true">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Homework Details
@@ -36,20 +36,20 @@
 
         <div class="row">
           <div class="col s12">
-            <h6>The title of your notice</h6>
+            <h6>Title</h6>
             <input style="max-width:500px" class="validate" [(ngModel)]="notice.title" id="noticetitle" type="text"/>
           </div>
         </div>
 
         <div class="row">
           <div class="col s6">
-            <h6 for="livedate">The date this homework update will be published</h6>
+            <h6 for="livedate">The date this item will be published</h6>
             <ng2-datepicker name="livedate" id="livedate" [options]="showDateOptions"
                             [(ngModel)]="showDateModel"></ng2-datepicker>
 
           </div>
           <div class="col s6">
-            <h6 for="enddate">The date this homework update will be un-published</h6>
+            <h6 for="enddate">The date this item will be un-published</h6>
             <ng2-datepicker id="enddate" [options]="hideDateOptions"
                             [(ngModel)]="hideDateModel"></ng2-datepicker>
 
@@ -107,15 +107,15 @@
             <h6>Notification settings</h6>
             <mat-radio-group class="ping-radio-group" [(ngModel)]="emailStatus">
               <mat-radio-button class="ping-radio-button" [value]="1">
-                Email details of this homework update to *all* group members
+                Email this item to *all* group members
               </mat-radio-button>
               <br>
               <mat-radio-button class="ping-radio-button" [value]="2">
-                Email details of this homework update to *all* group members, *and* group invitees
+                Email this item to *all* group members, *and* group invitees
               </mat-radio-button>
               <br>
               <mat-radio-button class="ping-radio-button" [value]="3">
-                *Do not* email details of this homework update
+                *Do not* email this item
               </mat-radio-button>
             </mat-radio-group>
           </div>
