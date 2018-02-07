@@ -1,0 +1,52 @@
+<div class="container row top-padding">
+  <div class="signup-parent">
+    <form #joinForm="ngForm" class="col s12">
+      <div class="row">
+        <div role="alert" *ngIf="error" class="col s12">
+          <span class="red-text text-darken-4">{{ error }}</span>
+        </div>
+      </div>
+
+      <a *ngIf="groupQuestions.length === 0 && !groupId" routerLink="/" class="back-nav"><img src="/assets/arrow-left.svg"/></a>
+      <h2 *ngIf="groupQuestions.length === 0 && !groupId" class="inline-page-title">Join Group</h2>
+
+      <div *ngIf="groupQuestions.length === 0 && !groupId" class="row">
+        <div class="input-field col s12">
+          <h6>Please enter the group's invite token</h6>
+          <input autocomplete="off" style="margin-bottom: 15px;width:500px;"
+                 id="token" required [(ngModel)]="token"
+                 name="token" type="text" class="validate form-control">
+          <label style="display: none" for="token">Token</label>
+        </div>
+      </div>
+
+      <div *ngIf="groupQuestions.length > 0 && groupId">
+        <h3 class="center-align">Welcome to {{groupName}}!</h3>
+
+        <h5>Please answer the following questions:</h5>
+        <div class="row" *ngFor="let question of groupQuestions; let i = index;">
+          <div class="input-field col s12">
+            <h6>{{ question.question_title }} <span style="margin-left:10px;font-style: italic;font-size:13px" *ngIf="question.required === 1">(required)</span></h6>
+            <input autocomplete="off" style="margin-bottom: 15px;width:500px;"
+                   id="question{{question.id}}" required [(ngModel)]="question.response"
+                   name="question{{question.id}}" type="text" class="validate form-control">
+            <label style="display: none" for="question{{question.id}}">{{ question.question_title }}</label>
+          </div>
+        </div>
+
+      </div>
+
+      <div *ngIf="groupQuestions.length === 0 && !groupId" class="row">
+        <div class="col s12 center-align top-padding">
+          <button [disabled]="!joinForm.form.valid" mat-raised-button color="primary" (click)="joinGroup()">Join Group</button>
+        </div>
+      </div>
+
+      <div *ngIf="groupQuestions.length > 0 && groupId" class="row">
+        <div class="col s12 center-align top-padding">
+          <button mat-raised-button color="primary" (click)="submitQuestionResponses()">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

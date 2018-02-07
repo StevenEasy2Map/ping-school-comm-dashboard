@@ -75,4 +75,12 @@ export class GroupService extends APIService {
     return this.post(invitation, '/api/group/invite_member');
   }
 
+  joinGroupViaToken(token: any): Observable<any> {
+    return this.post(token, '/api/group/join_via_token');
+  }
+
+  respondToGroupQuestions(responses: any): Observable<any> {
+    return this.post(responses, '/api/group_membership_questions/respond');
+  }
+
 }

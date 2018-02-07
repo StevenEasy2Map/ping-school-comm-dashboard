@@ -62,6 +62,7 @@ import {DialogAreYouSureComponent} from './common/modals/are.you.sure.component'
 import {SignFromEmailComponent} from "./document_signing/sign.from.email.component";
 import {NewHomeworkComponent} from "./notice/homework_new/homework.new.component";
 import {GroupHomeworkListComponent} from "./notice/notice_list/group.homework.list.component";
+import {JoinGroupComponent} from "./group/join_group/join.group.component";
 
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
@@ -82,6 +83,7 @@ const appRoutes: Routes = [
   {path: 'notice-payment-details', component: NoticePaymentDetailsComponent, canActivate: [AuthGuard]},
 
   {path: 'group-events-list', component: GroupEventListComponent, canActivate: [AuthGuard]},
+  {path: 'join-group', component: JoinGroupComponent, canActivate: [AuthGuard]},
   {path: 'group-events-calendar', component: GroupEventsCalendarComponent, canActivate: [AuthGuard]},
   {path: 'new-group-step-1', component: NewGroupStep1Component, canActivate: [AuthGuard]},
   {path: 'new-group-step-2', component: NewGroupStep2Component, canActivate: [AuthGuard]},
@@ -142,6 +144,7 @@ const appRoutes: Routes = [
     EditGroupComponent,
     EventPaymentListComponent,
     EventPaymentDetailsComponent,
+    JoinGroupComponent,
 
     EntityDocSignedListComponent,
     EntityPaymentsListComponent,

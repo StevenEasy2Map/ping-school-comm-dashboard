@@ -414,5 +414,9 @@ export class HomeComponent implements AfterViewInit {
     this.router.navigateByUrl('/new-group-step-1');
   }
 
+  joinGroup() {
+    this.router.navigateByUrl('/join-group');
+  }
+
 
 }
