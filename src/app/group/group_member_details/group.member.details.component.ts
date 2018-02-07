@@ -1,13 +1,13 @@
 import {AfterViewInit, Component, EventEmitter} from '@angular/core';
-import {UserService} from '../../security/user.service';
-import {Router, ActivatedRoute} from '@angular/router';
-import {StorageService} from '../../../providers/storage-service';
+import {ActivatedRoute, Router} from '@angular/router';
 import {GroupService} from '../group.service';
 import {GroupMembershipQuestion} from '../models/question';
 import {AuthService} from '../../../providers/auth-service';
 import {MaterializeAction} from 'angular2-materialize';
 import {HelperService} from '../../../providers/helper-service';
 import {GroupMembershipQuestionResponse} from '../models/response';
+import {MatDialog} from "@angular/material";
+import {DialogAreYouSureComponent} from "../../common/modals/are.you.sure.component";
 
 @Component({
   selector: 'app-group-member-details-component',
@@ -25,11 +25,11 @@ export class GroupMemberDetailsComponent implements AfterViewInit {
   memberDetails: any = {};
   questions: any = [];
   responses: any = [];
-  modalActions = new EventEmitter<string | MaterializeAction>();
 
   constructor(private auth: AuthService,
               private router: Router,
               private route: ActivatedRoute,
+              public dialog: MatDialog,
               private groupService: GroupService) {
   }
 
@@ -105,49 +105,74 @@ export class GroupMemberDetailsComponent implements AfterViewInit {
 
   validateGroupMember(): void {
 
-    // TODO: request confirmation via model
 
-    this.auth.processing = true;
-    this.loading = true;
-
-    this.groupService.adminValidateGroupMember({
-      group_id: this.groupId,
-      school_id: this.schoolId,
-      user_id: this.userId
-    }).subscribe(result => {
-
-      this.auth.processing = false;
-      this.loading = false;
-      this.memberDetails.validated = true;
-      this.backToList();
-
-    }, error => {
-      this.loading = false;
-      this.error = <any>error
-      this.auth.processing = false;
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      data: {
+        title: 'Validate this user'
+      }
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+
+        this.auth.processing = true;
+        this.loading = true;
+
+        this.groupService.adminValidateGroupMember({
+          group_id: this.groupId,
+          school_id: this.schoolId,
+          user_id: this.userId
+        }).subscribe(result => {
+
+          this.auth.processing = false;
+          this.loading = false;
+          this.memberDetails.validated = true;
+          this.backToList();
+
+        }, error => {
+          this.loading = false;
+          this.error = <any>error
+          this.auth.processing = false;
+        });
+
+
+      }
+    });
+
+
   }
 
   removeGroupMember(): void {
 
-    // TODO: request confirmation via model
-
-    this.auth.processing = true;
-
-    this.groupService.adminRemoveGroupMember({
-      group_id: this.groupId,
-      school_id: this.schoolId,
-      user_id: this.userId
-    }).subscribe(result => {
-
-      this.auth.processing = false;
-      this.memberDetails.validated = true;
-      this.backToList();
-
-    }, error => {
-      this.error = <any>error
-      this.auth.processing = false;
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      data: {
+        title: 'Remove this user'
+      }
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+
+        this.auth.processing = true;
+
+        this.groupService.adminRemoveGroupMember({
+          group_id: this.groupId,
+          school_id: this.schoolId,
+          user_id: this.userId
+        }).subscribe(result => {
+
+          this.auth.processing = false;
+          this.memberDetails.validated = true;
+          this.backToList();
+
+        }, error => {
+          this.error = <any>error
+          this.auth.processing = false;
+        });
+      }
+
+    });
+
   }
 
 

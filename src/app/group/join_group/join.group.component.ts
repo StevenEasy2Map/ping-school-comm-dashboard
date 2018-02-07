@@ -69,12 +69,18 @@ export class JoinGroupComponent implements AfterViewInit {
 
           } else {
 
-            const snackBarRef = this.snackBar.open(`Thank you, you membership of ${response.group_name} will be confirmed shortly by the group administrator!`);
+            if (!this.groupQuestions || this.groupQuestions.length === 0) {
 
-            setTimeout(() => {
-              snackBarRef.dismiss();
-              this.router.navigateByUrl('/home');
-            }, 1500);
+              const snackBarRef = this.snackBar.open(`Thank you, you membership of ${response.group_name} will be confirmed shortly by the group administrator!`);
+
+              setTimeout(() => {
+                snackBarRef.dismiss();
+                this.router.navigateByUrl('/home');
+              }, 1500);
+
+            }
+
+
           }
 
         }

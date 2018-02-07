@@ -19,14 +19,10 @@ export class HeaderComponent {
     this.authService = auth$;
     this.userService = user$;
 
-    console.log(auth$.authenticated);
-
   }
 
   logout() {
-
-    this.authService.signOut();
-
+    this.authService.signOut()
   }
 
 }

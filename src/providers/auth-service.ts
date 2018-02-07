@@ -45,10 +45,11 @@ export class AuthService {
   }
 
   signOut(): void {
-    this.user = null;
-    this.token = null;
-    this.afAuth.auth.signOut();
-    this.router.navigateByUrl('/landing');
+    this.afAuth.auth.signOut().then(() => {
+      this.user = null;
+      this.token = null;
+      this.router.navigateByUrl('/landing');
+    });
   }
 
   createUserWithEmailAndPassword(email: string, password: string): Promise<any> {
