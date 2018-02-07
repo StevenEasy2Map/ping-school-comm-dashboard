@@ -201,21 +201,20 @@
 
       <div class="tab-content">
 
-
         <button mat-raised-button color="accent" class="add-group" (click)="addNewGroup()">Create new Group</button>
 
         <button mat-raised-button color="primary" class="join-group" (click)="joinGroup()">Join Group</button>
 
-        <h2 style="clear:both;" class="center-align" style="padding-bottom:0;">{{groupsTitle}}</h2>
+        <h2 class="center-align" style="clear:both;margin-top:40px;padding-bottom:0;">{{groupsTitle}}</h2>
 
         <mat-card class="home-card" *ngFor="let group of myGroups; let i = index">
           <mat-card-header>
 
-            <button *ngIf="group.role !== 'member'" style="position:absolute;right:0;top:0;" (click)="editGroup(i)" mat-icon-button>
+            <button *ngIf="group.role !== 'member' && group.validated" style="position:absolute;right:0;top:0;" (click)="editGroup(i)" mat-icon-button>
               <mat-icon aria-label="Edit">edit</mat-icon>
             </button>
 
-            <button *ngIf="group.role !== 'member'" style="position:absolute;right:40px;top:0;" (click)="inviteUsersToGroup(i)" mat-icon-button>
+            <button *ngIf="group.role !== 'member' && group.validated" style="position:absolute;right:40px;top:0;" (click)="inviteUsersToGroup(i)" mat-icon-button>
               <mat-icon aria-label="Edit">share</mat-icon>
             </button>
 
@@ -231,25 +230,25 @@
           <mat-card-content>
 
             <div style="margin:0;padding:0;width: 100%;text-align: right;color:#a2a2a2;">
-              <div (click)="viewEventsCalendar(i)" *ngIf="group.event_count" class="right">
+              <div (click)="viewEventsCalendar(i)" *ngIf="group.event_count && group.validated" class="right">
                 <button mat-icon-button>
                   <mat-icon aria-label="Edit">event</mat-icon>
                 </button>
                 <span class="stats-total">{{ group.event_count}} live event<span *ngIf="group.event_count !== 1">s</span></span>
               </div>
-              <div (click)="viewGroupNotices(i)" *ngIf="group.notice_count" class="right">
+              <div (click)="viewGroupNotices(i)" *ngIf="group.notice_count && group.validated" class="right">
                 <button mat-icon-button>
                   <mat-icon aria-label="Edit">assignment</mat-icon>
                 </button>
                 <span class="stats-total">{{ group.notice_count}} live notice<span *ngIf="group.notice_count !== 1">s</span></span>
               </div>
-              <div (click)="viewGroupHomework(i)" *ngIf="group.homework_count" class="right">
+              <div (click)="viewGroupHomework(i)" *ngIf="group.homework_count && group.validated" class="right">
                 <button mat-icon-button>
                   <mat-icon aria-label="Edit">note</mat-icon>
                 </button>
                 <span class="stats-total">{{ group.homework_count}} homework<span *ngIf="group.homework_count !== 1">s</span></span>
               </div>
-              <div (click)="viewGroupMembers(i)" *ngIf="group.member_count && group.role !== 'member'" class="right">
+              <div (click)="viewGroupMembers(i)" *ngIf="group.member_count && group.role !== 'member' && group.validated" class="right">
                 <button mat-icon-button>
                   <mat-icon aria-label="Edit">group</mat-icon>
                 </button>
@@ -260,11 +259,12 @@
 
             <div style="clear:both;" class="notice-details-description">{{group.description}}</div>
           </mat-card-content>
-          <mat-card-actions *ngIf="group.role !== 'member'">
-            <button *ngIf="group.include_homework" mat-raised-button (click)="createHomework(i)">Add Homework</button>
-            <button mat-raised-button (click)="createNotice(i)">Add Notice</button>
-            <button mat-raised-button (click)="createEvent(i)">Add Event</button>
-            <div class="role">{{ group.role }}</div>
+          <mat-card-actions>
+            <button *ngIf="group.role !== 'member' && group.validated && group.include_homework" mat-raised-button (click)="createHomework(i)">Add Homework</button>
+            <button *ngIf="group.role !== 'member' && group.validated" mat-raised-button (click)="createNotice(i)">Add Notice</button>
+            <button *ngIf="group.role !== 'member' && group.validated" mat-raised-button (click)="createEvent(i)">Add Event</button>
+            <div *ngIf="group.validated" class="role">{{ group.role }}</div>
+            <div *ngIf="!group.validated" class="awaiting-validation">Awaiting validation</div>
           </mat-card-actions>
         </mat-card>
       </div>

@@ -15,6 +15,7 @@
 </div>
 
 <div *ngIf="!loading" class="container row top-padding">
+
   <form #loginForm="ngForm" class="col s12">
     <div class="row">
       <div role="alert" *ngIf="error" class="col s12">
@@ -29,18 +30,22 @@
 
     <div class="row">
       <div class="input-field col s12">
-        <p>Email: {{memberDetails.email }}</p>
-        <p>Date joined : {{ memberDetails.date_joined | friendlydate }}</p>
-        <p>Role: {{ memberDetails.role }}</p>
-        <p>Validated: {{ memberDetails.validated ? 'Yes' : 'No' }}</p>
+        <h3>Member Details</h3>
+        <p><span style="font-weight:bold">Email address:</span> {{memberDetails.email }}</p>
+        <p><span style="font-weight:bold">Date joined:</span> {{ memberDetails.date_joined | friendlydate }}</p>
+        <p><span style="font-weight:bold">Role:</span> {{ memberDetails.role }}</p>
+        <p><span style="font-weight:bold">Validated:</span> {{ memberDetails.validated ? 'Yes' : 'No' }}</p>
       </div>
     </div>
 
     <div *ngIf="responses && responses.length > 0" class="row">
 
       <div class="input-field col s12">
+        <h3>Membership Questions &amp; Responses</h3>
+      </div>
+      <div class="input-field col s12">
 
-        <div style="margin-top:30px;" *ngFor="let item of responses; let i = index;">
+        <div style="margin-top:20px;" *ngFor="let item of responses; let i = index;">
           <h4>{{i + 1}}: {{ item.question.question_title }} {{ !!item.question.required ? '*' : '*' }}</h4>
           <p>{{item.response}}</p>
 
@@ -52,26 +57,14 @@
     <div *ngIf="memberDetails.validated === 0" class="row">
       <div class="col s12 submit-button-parent">
 
-        <button (click)="validateGroupMember()"
-                class="btn waves-effect waves-light"
-                style="" type="button" name="action">
-          Validate User
-          <i class="material-icons right">thumb_up</i>
-        </button>
+        <button mat-raised-button color="primary" (click)="validateGroupMember()">Validate User</button>
 
       </div>
     </div>
 
     <div class="row">
       <div class="col s12 submit-button-parent">
-
-        <button (click)="removeGroupMember()"
-                class="btn waves-effect waves-light"
-                style="" type="button" name="action">
-          Remove From Group
-          <i class="material-icons right">delete</i>
-        </button>
-
+        <button mat-raised-button color="warn" (click)="removeGroupMember()">Remove From Group</button>
       </div>
     </div>
 
