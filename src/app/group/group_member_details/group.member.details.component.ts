@@ -121,7 +121,8 @@ export class GroupMemberDetailsComponent implements AfterViewInit {
         this.groupService.adminValidateGroupMember({
           group_id: this.groupId,
           school_id: this.schoolId,
-          user_id: this.userId
+          user_id: this.userId,
+          validated: this.memberDetails.validated ? 1 : 0
         }).subscribe(result => {
 
           this.auth.processing = false;
