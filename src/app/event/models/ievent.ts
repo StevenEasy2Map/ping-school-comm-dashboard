@@ -24,6 +24,7 @@ export interface IEvent {
   link3_url: string;
   link3_title: string;
   active: number;
+  payment_auto_increment: number;
 }
 
 

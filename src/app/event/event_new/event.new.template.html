@@ -455,7 +455,6 @@
           </div>
         </div>
 
-
         <div *ngIf="paymentApplicable" class="row">
           <div class="col s6">
             <h6 *ngIf="allowUsersToSetPaymentAmount" for="paymentamount">Default payment amount (R)</h6>
@@ -503,6 +502,20 @@
             <label style="font-size:13px !important;margin-top:5px;" class="small-text" for="lastname_ref">Append
               user's lastname to reference</label>
 
+
+          </div>
+
+        </div>
+
+
+        <div *ngIf="paymentApplicable" class="row">
+
+          <div class="col s12">
+
+            <input [(ngModel)]="event.payment_auto_increment" name="payment_auto_increment"
+                   type="checkbox" id="payment_auto_increment"/>
+            <label style="font-size:13px !important;margin-top:5px;" class="small-text" for="payment_auto_increment">Automatically increment amount
+              by 3% payment gateway transaction fee</label>
 
           </div>
 

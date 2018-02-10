@@ -500,6 +500,19 @@
         </div>
 
         <div *ngIf="paymentApplicable" class="row">
+
+          <div class="col s12">
+
+            <input [(ngModel)]="notice.payment_auto_increment" name="payment_auto_increment"
+                   type="checkbox" id="payment_auto_increment"/>
+            <label style="font-size:13px !important;margin-top:5px;" class="small-text" for="payment_auto_increment">Automatically increment amount
+              by 3% payment gateway transaction fee</label>
+
+          </div>
+
+        </div>
+
+        <div *ngIf="paymentApplicable" class="row">
           <div class="input-field col s12">
             <h6>Payment description / notes <span class="small-text">(if applicable)</span></h6>
             <textarea [(ngModel)]="notice.payment_instructions"

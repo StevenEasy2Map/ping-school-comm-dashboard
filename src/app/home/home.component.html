@@ -234,13 +234,13 @@
                 <button mat-icon-button>
                   <mat-icon aria-label="Edit">event</mat-icon>
                 </button>
-                <span class="stats-total">{{ group.event_count}} live event<span *ngIf="group.event_count !== 1">s</span></span>
+                <span class="stats-total">{{ group.event_count}} event<span *ngIf="group.event_count !== 1">s</span></span>
               </div>
               <div (click)="viewGroupNotices(i)" *ngIf="group.notice_count && group.validated" class="right">
                 <button mat-icon-button>
                   <mat-icon aria-label="Edit">assignment</mat-icon>
                 </button>
-                <span class="stats-total">{{ group.notice_count}} live notice<span *ngIf="group.notice_count !== 1">s</span></span>
+                <span class="stats-total">{{ group.notice_count}} notice<span *ngIf="group.notice_count !== 1">s</span></span>
               </div>
               <div (click)="viewGroupHomework(i)" *ngIf="group.homework_count && group.validated" class="right">
                 <button mat-icon-button>
@@ -253,6 +253,12 @@
                   <mat-icon aria-label="Edit">group</mat-icon>
                 </button>
                 <span class="stats-total">{{ group.member_count}} member<span *ngIf="group.member_count !== 1">s</span></span>
+              </div>
+              <div (click)="viewGroupMembers(i)" *ngIf="group.awaiting_validation_count && group.role !== 'member' && group.validated" class="right">
+                <button mat-icon-button>
+                  <mat-icon aria-label="Edit">star</mat-icon>
+                </button>
+                <span class="stats-total user-awaiting-validation">{{ group.awaiting_validation_count}} user<span *ngIf="group.awaiting_validation_count !== 1">s</span> awaiting validation</span>
               </div>
 
             </div>

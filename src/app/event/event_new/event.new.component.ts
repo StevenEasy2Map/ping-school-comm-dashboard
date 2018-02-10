@@ -100,7 +100,8 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
     const currentDate = new Date();
 
     return new Event(0, currentDate.toString(),
-      currentDate.toString(), currentDate.toString(), '', '', '', '', 0, '', '', '', '', '', 0, 0, 0, '', '', '', '', '', '', 1);
+      currentDate.toString(), currentDate.toString(), '', '', '', '', 0, '', '', '', '', '',
+      0, 0, 0, '', '', '', '', '', '', 1, 1);
 
   }
 

@@ -24,6 +24,7 @@ export interface INotice {
   link3_title: string;
   active: number;
   homework: number;
+  payment_auto_increment: number;
 }
 
 

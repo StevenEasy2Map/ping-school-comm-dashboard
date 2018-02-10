@@ -58,8 +58,8 @@ button.join-group {
     margin-top: 30px;
   }
 
-  h3.no-items{
-    margin-top:50px;
+  h3.no-items {
+    margin-top: 50px;
     text-align: center;
   }
 
@@ -79,14 +79,14 @@ button.join-group {
 
   }
 
-  img.home{
-    opacity:0.5;
-    max-width:400px;
-    max-height:400px;
+  img.home {
+    opacity: 0.5;
+    max-width: 300px;
+    max-height: 300px;
     margin-left: auto;
     margin-right: auto;
-    border:1px solid #AAAAAA;
-    cursor:pointer;
+    border: 1px solid #AAAAAA;
+    cursor: pointer;
   }
 
   .pointer {
@@ -101,8 +101,8 @@ button.join-group {
     background-size: cover;
   }
 
-  mat-card-title{
-    font-size:18px;
+  mat-card-title {
+    font-size: 18px;
   }
 
 }
@@ -123,8 +123,17 @@ span.stats-total {
   margin-left: -9px;
   margin-top: 15px;
   cursor: pointer;
+
+  .user-awaiting-validation {
+    color: #bb3d41 !important;
+  }
+
 }
 
 span.stats-total:hover {
   color: #4b4b4b;
+}
+
+span.stats-total.user-awaiting-validation:hover {
+  color: #8f2c30;
 }

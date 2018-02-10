@@ -80,12 +80,10 @@ export class NewHomeworkComponent extends PingBaseComponent implements OnInit, A
     const hideDate = new Date();
     hideDate.setMonth(hideDate.getMonth() + 1);
 
-
-
     return new Notice(0, showDate.toString(),
       showDate.toString(), hideDate.toString(),
       `Homework for ${moment().format('dddd Do MMM')}`, '', '',
-      '', 0, '', '', '', '', '', 0, 0, '', '', '', '', '', '', 1, 1);
+      '', 0, '', '', '', '', '', 0, 0, '', '', '', '', '', '', 1, 1, 1);
 
   }
 
