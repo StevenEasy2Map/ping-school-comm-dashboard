@@ -232,13 +232,18 @@
         <h2 class="center-align" style="clear:both;margin-top:40px;padding-bottom:0;">{{groupsTitle}}</h2>
 
         <mat-card class="home-card" *ngFor="let group of myGroups; let i = index">
+
+          <button (click)="leaveGroup($event, group.id)" style="position:absolute;top:0px;right:0px;" mat-icon-button>
+            <mat-icon aria-label="Example icon-button with a heart icon">clear</mat-icon>
+          </button>
+
           <mat-card-header>
 
-            <button *ngIf="group.role !== 'member' && group.validated" style="position:absolute;right:0;top:0;" (click)="editGroup(i)" mat-icon-button>
+            <button *ngIf="group.role !== 'member' && group.validated" style="position:absolute;right:40px;top:0;" (click)="editGroup(i)" mat-icon-button>
               <mat-icon aria-label="Edit">edit</mat-icon>
             </button>
 
-            <button *ngIf="group.role !== 'member' && group.validated" style="position:absolute;right:40px;top:0;" (click)="inviteUsersToGroup(i)" mat-icon-button>
+            <button *ngIf="group.role !== 'member' && group.validated" style="position:absolute;right:80px;top:0;" (click)="inviteUsersToGroup(i)" mat-icon-button>
               <mat-icon aria-label="Edit">share</mat-icon>
             </button>
 

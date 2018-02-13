@@ -290,6 +290,41 @@ export class HomeComponent implements AfterViewInit {
 
   }
 
+
+  leaveGroup($event, groupId) {
+
+    $event.preventDefault();
+
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      data: {
+        title: 'Leave this group?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loading = true;
+
+        const payload = {
+          group_id: groupId
+        };
+        this.groupService.leaveGroup(payload).subscribe(t => {
+          this.loading = false;
+          this.snackBar.open('You have successfully left this group');
+          setTimeout(() => {
+            this.snackBar.dismiss();
+            this.getMyGroups();
+            this.getMyNotices();
+            this.getMyHomework();
+            this.getMyEvents();
+          }, 1500);
+        });
+
+      }
+    });
+  }
+
+
   createNotice(i): void {
     const group = this.myGroups[i];
     this.router.navigate(['/new-notice', {group_id: group.id, school_id: group.school_id}]);
