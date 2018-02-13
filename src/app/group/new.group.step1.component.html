@@ -81,7 +81,7 @@
 
     <div class="row">
       <div class="col s12 left submit-button-parent top-bottom-margin">
-        <button mat-raised-button color="primary" type="submit" name="action" (click)="createSchool()">Create School</button>
+        <button  [ngClass]="{'disabled': auth.processing}"  mat-raised-button color="primary" type="submit" name="action" (click)="createSchool()">Create School</button>
       </div>
     </div>
 

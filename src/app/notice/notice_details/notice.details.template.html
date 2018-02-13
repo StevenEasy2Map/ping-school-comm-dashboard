@@ -39,10 +39,16 @@
   </div>
 
   <div *ngIf="notice && notice.payment_applicable && !notice.amount_paid_by_user && !processPayment"
-       class="center-align top-bottom-margin">
-    <p class="details-description-parent">{{notice.payment_instructions}}</p>
-    <button (click)="processPayment = true" mat-raised-button color="primary">Go to online payment page</button>
+       class="top-bottom-margin">
+    <pre class="details-description-parent">{{notice.payment_instructions}}</pre>
+    <button (click)="processPayment = true" mat-raised-button color="primary">Make online payment</button>
   </div>
+
+  <div *ngIf="notice && notice.payment_applicable && notice.amount_paid_by_user && !processPayment"
+       class="top-bottom-margin">
+    {{notice.amount_paid_by_user | number : '1.2'}} {{notice.currency}} payment received, thank you
+  </div>
+
 </div>
 
 <div *ngIf="processPayment" class="container top-bottom-margin">
@@ -56,11 +62,11 @@
       <input *ngIf="notice.payment_allow_user_to_set" style="max-width:250px;" class="validate short" [(ngModel)]="notice.payment_amount"
              placeholder="Payment Amount" id="paymentAmount" type="text">
     </div>
-    <div class="col s12">
+    <div class="col s12 m6">
       <h6>Your Credit Card Number</h6>
       <input style="max-width:250px;" class="validate short" [(ngModel)]="cardNumber" placeholder="Your Credit Card Number" id="CreditCardNumber" type="number">
     </div>
-    <div class="col s12">
+    <div class="col s12 m6">
       <h6>Your CVC Number</h6>
       <input style="max-width:250px;" class="validate short" [(ngModel)]="cvcNumber" placeholder="Your CVC Number" size="4" id="cvcNumber" type="number">
     </div>
@@ -87,7 +93,10 @@
     </div>
   </div>
   <div class="row top-bottom-margin">
-    <div class="col s12">
+    <div class="col s6">
+      <button (click)="processPayment = false;" mat-raised-button>Cancel</button>
+    </div>
+    <div class="col s6">
       <button (click)="pay()" mat-raised-button color="primary">Make Payment</button>
     </div>
 

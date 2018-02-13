@@ -115,6 +115,17 @@
             <div class="notice-details-description" [innerHTML]="notice.description"></div>
 
           </mat-card-content>
+          <mat-card-actions>
+
+            <div *ngIf="notice.signature_document_id && (!notice.signature_user_document_status || notice.signature_user_document_status !== 'complete')" class="signature-due">Signature Required</div>
+            <div *ngIf="notice.signature_document_id && notice.signature_user_document_status === 'complete'" class="signature-due signed">Signature Received</div>
+
+            <div *ngIf="notice.payment_applicable && !notice.notice_payment_amount" class="payment">Payment Applicable</div>
+            <div *ngIf="notice.payment_applicable
+            && notice.notice_payment_amount
+            && notice.notice_payment_currency" class="payment paid">{{notice.notice_payment_currency}} {{ notice.notice_payment_amount | number:'1.2' }} paid
+            </div>
+          </mat-card-actions>
         </mat-card>
 
       </div>
@@ -153,6 +164,18 @@
             <h5 *ngIf="!event.school_wide" class="notice-sub-subtitle">{{event.school_name}}</h5>
             <div [innerHTML]="event.description" class="notice-details-description"></div>
           </mat-card-content>
+          <mat-card-actions>
+
+            <div *ngIf="event.signature_document_id && (!event.signature_user_document_status || event.signature_user_document_status !== 'complete')" class="signature-due">Signature Required</div>
+            <div *ngIf="event.signature_document_id && event.signature_user_document_status === 'complete'" class="signature-due signed">Signature Received</div>
+
+            <div *ngIf="event.payment_applicable && !event.event_payment_amount" class="payment">Payment Applicable</div>
+            <div *ngIf="event.payment_applicable
+            && event.event_payment_amount
+            && event.event_payment_currency" class="payment paid">{{event.event_payment_currency}} {{ event.event_payment_amount | number:'1.2' }} paid
+            </div>
+          </mat-card-actions>
+
         </mat-card>
 
       </div>
@@ -191,6 +214,7 @@
             <div class="notice-details-description" [innerHTML]="notice.description"></div>
 
           </mat-card-content>
+
         </mat-card>
 
       </div>

@@ -110,7 +110,7 @@ export class HomeComponent implements AfterViewInit {
         this.myNotices.forEach(notice => {
 
           notice.description = notice.description.replace("'", "").replace("'", "");
-          console.log(notice.description);
+          console.log(notice);
 
           console.log(notice.show_date);
           notice.show_date = moment(new Date(notice.show_date)).fromNow();

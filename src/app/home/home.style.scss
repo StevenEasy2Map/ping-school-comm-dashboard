@@ -28,6 +28,43 @@ div.role {
   font-weight: 500;
   font-family: Ubuntu;
 
+  .payment {
+    color: #ad454a;
+  }
+
+}
+
+div.payment {
+
+  position: absolute;
+  right: 18px;
+  bottom: 5px;
+  font-weight: 500;
+  font-size:0.9em;
+  font-family: Ubuntu;
+  color: #ad454a;
+
+}
+
+div.paid {
+  color: #338945 !important;
+}
+
+
+div.signature-due {
+
+  position: absolute;
+  left: 18px;
+  bottom: 5px;
+  font-weight: 500;
+  font-size:0.9em;
+  font-family: Ubuntu;
+  color: #ad454a;
+
+}
+
+div.signed {
+  color: #338945 !important;
 }
 
 div.awaiting-validation {
