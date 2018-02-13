@@ -33,6 +33,18 @@ export class NewHomeworkComponent extends PingBaseComponent implements OnInit, A
   step = 0;
   error = '';
 
+  ckEditorConfig = {
+    'uiColor': '#EBEBEB',
+    'toolbarGroups': [
+      {'name': 'styles'},
+      {'name': 'basicstyles', 'groups': ['basicstyles', 'cleanup']},
+      {'name': 'links'},
+      {'name': 'editing', 'groups': ['find', 'selection', 'spellchecker', 'editing']},
+      {'name': 'paragraph', 'groups': ['list', 'indent', 'blocks', 'align']}
+    ],
+    'removeButtons': 'Source,Save,Templates,Find,Replace,Scayt,SelectAll'
+  };
+
   showDateModel: DateModel;
   showDateOptions: DatePickerOptions;
 
