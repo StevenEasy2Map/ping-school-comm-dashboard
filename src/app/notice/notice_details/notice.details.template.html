@@ -53,7 +53,7 @@
 
 <div *ngIf="processPayment" class="container top-bottom-margin">
   <div class="row">
-    <div class="col s12"><h3>Make Payment</h3></div>
+    <div class="col s12"><h3>{{notice.payment_title || 'Make Payment'}}</h3></div>
 
     <div class="col s12">
       <h6 *ngIf="notice.payment_allow_user_to_set">Payment amount (R)</h6>

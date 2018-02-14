@@ -513,6 +513,16 @@
         </div>
 
         <div *ngIf="paymentApplicable" class="row">
+
+          <div class="input-field col s12">
+            <h6>Payment title</h6>
+            <input class="validate short"
+                   style="max-width:500px;"
+                   [(ngModel)]="notice.payment_title"
+                   placeholder="Payment Title"
+                   id="payment_title" type="text">
+          </div>
+
           <div class="input-field col s12">
             <h6>Payment description / notes <span class="small-text">(if applicable)</span></h6>
             <textarea [(ngModel)]="notice.payment_instructions"

@@ -96,6 +96,23 @@ export class EventDetailsComponent extends DetailsBaseComponent implements After
     window.history.back();
   }
 
+  pay() {
+    this.loading = true;
+    this.makePayment(this.event.payment_reference, 'notice', this.event.id, this.event.payment_amount).then(res => {
+      this.loading = false;
+      this.event.amount_paid_by_user = this.event.payment_amount;
+      this.snackBar.open('Thank you, your payment has been received!');
+      this.processPayment = false;
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 4000);
+
+    }, err => {
+      this.error = <any>err;
+      this.loading = false;
+    });
+  }
+
   getEventGroups(): void {
 
     this.eventService.getEventGroups(this.eventId).subscribe(

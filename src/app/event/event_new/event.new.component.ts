@@ -101,7 +101,7 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
 
     return new Event(0, currentDate.toString(),
       currentDate.toString(), currentDate.toString(), '', '', '', '', 0, '', '', '', '', '',
-      0, 0, 0, '', '', '', '', '', '', 1, 1);
+      0, 0, 0, '', '', '', '', '', '', 1, 1, 'Make payment');
 
   }
 

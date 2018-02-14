@@ -24,7 +24,8 @@ export class Event {
               public link3_url: string,
               public link3_title: string,
               public active: number,
-              public payment_auto_increment: number) {
+              public payment_auto_increment: number,
+              public payment_title: string) {
 
   }
 

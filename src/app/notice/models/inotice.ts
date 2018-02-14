@@ -25,6 +25,7 @@ export interface INotice {
   active: number;
   homework: number;
   payment_auto_increment: number;
+  payment_title: string;
 }
 
 
