@@ -63,7 +63,6 @@ import {SignFromEmailComponent} from "./document_signing/sign.from.email.compone
 import {NewHomeworkComponent} from "./notice/homework_new/homework.new.component";
 import {GroupHomeworkListComponent} from "./notice/notice_list/group.homework.list.component";
 import {JoinGroupComponent} from "./group/join_group/join.group.component";
-
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
   {path: 'signup', component: SignUpComponent},
@@ -148,7 +147,6 @@ const appRoutes: Routes = [
 
     EntityDocSignedListComponent,
     EntityPaymentsListComponent,
-    EntityPaymentProcessComponent,
 
     UploadSignedDocComponent,
 
