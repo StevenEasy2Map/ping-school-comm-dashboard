@@ -148,6 +148,7 @@ const appRoutes: Routes = [
 
     EntityDocSignedListComponent,
     EntityPaymentsListComponent,
+    EntityPaymentProcessComponent,
 
     UploadSignedDocComponent,
 
