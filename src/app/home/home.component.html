@@ -31,7 +31,9 @@
 
       <div class="tab-content">
 
-        <h2 class="center-align" style="padding-bottom:0;">My Schools</h2>
+        <h2 class="center-align" style="padding-bottom:0;position:relative;">My Schools
+
+        </h2>
 
         <mat-card class="home-card" *ngFor="let school of mySchools; let i = index">
           <mat-card-header>
@@ -46,9 +48,7 @@
 
             <mat-card-title>{{ school.name }}</mat-card-title>
           </mat-card-header>
-          <div class="center-align" *ngIf="school.logo">
-            <img (click)="viewSchoolWideEventsCalendar(i)" class="home" *ngIf="school.logo" mat-card-image src="{{school.logo}}" alt="{{school.logo}}">
-          </div>
+          <div class="home-card-image" (click)="viewSchoolWideEventsCalendar(i)" *ngIf="school.logo" [ngStyle]="{'background-image': getUrl(school.logo)}"></div>
           <mat-card-content>
 
             <div style="margin:0;padding:0;width: 100%;text-align: right;color:#a2a2a2;">
@@ -86,7 +86,11 @@
     </mat-tab>
     <mat-tab label="My Notices">
       <div class="tab-content">
-        <h2 class="center-align" style="padding-bottom:0;">{{noticesTitle}}</h2>
+        <h2 class="center-align" style="padding-bottom:0;position:relative">
+          <div style="position:absolute;top:0;right:5px;border:1px solid #EBEBEB; border-radius:50%;background-color:#ff685b;color:#FFFFFF;font-size:12px;text-align: center;padding:3px;width:10px;height:10px;">{{myNotices.length}}</div>
+
+
+          {{noticesTitle}}</h2>
 
         <mat-card class="home-card pointer" *ngFor="let notice of myNotices; let i = index">
 
@@ -106,9 +110,7 @@
             <mat-card-title>{{ notice.title }}</mat-card-title>
             <mat-card-subtitle>{{notice.group_name}}</mat-card-subtitle>
           </mat-card-header>
-          <div class="center-align" *ngIf="notice.image">
-            <img class="home" (click)="viewNoticeDetails(notice)" mat-card-image src="{{notice.image}}" alt="{{notice.title}}">
-          </div>
+          <div class="home-card-image" (click)="viewNoticeDetails(notice)" *ngIf="notice.image" [ngStyle]="{'background-image': getUrl(notice.image)}"></div>
           <mat-card-content (click)="viewNoticeDetails(notice)">
             <p class="notice-date">Published {{ notice.show_date }}</p>
             <h5 *ngIf="!notice.school_wide" class="notice-sub-subtitle">{{notice.school_name}}</h5>
@@ -156,11 +158,9 @@
             <mat-card-title>{{ event.title }}</mat-card-title>
             <mat-card-subtitle>{{event.group_name}}</mat-card-subtitle>
           </mat-card-header>
-          <div class="center-align" *ngIf="event.image">
-            <img class="home" (click)="viewEventDetails(event)" *ngIf="event.image" mat-card-image src="{{event.image}}" alt="{{event.title}}">
-          </div>
+          <div class="home-card-image" (click)="viewEventDetails(event)" *ngIf="event.image" [ngStyle]="{'background-image': getUrl(event.image)}"></div>
           <mat-card-content (click)="viewEventDetails(event)">
-            <p class="notice-date">{{ event.start_date | friendlydatetime }}</p>
+            <p class="notice-date">{{ event.start_date | eventdatetime }}</p>
             <h5 *ngIf="!event.school_wide" class="notice-sub-subtitle">{{event.school_name}}</h5>
             <div [innerHTML]="event.description" class="notice-details-description"></div>
           </mat-card-content>
@@ -205,9 +205,7 @@
             <mat-card-title>{{ notice.title }}</mat-card-title>
             <mat-card-subtitle>{{notice.group_name}}</mat-card-subtitle>
           </mat-card-header>
-          <div class="center-align" *ngIf="notice.image">
-            <img class="home" (click)="viewNoticeDetails(notice)" mat-card-image src="{{notice.image}}" alt="{{notice.title}}">
-          </div>
+          <div class="home-card-image" (click)="viewNoticeDetails(notice)" *ngIf="notice.image" [ngStyle]="{'background-image': getUrl(notice.image)}"></div>
           <mat-card-content (click)="viewNoticeDetails(notice)">
             <p class="notice-date">Published {{ notice.show_date }}</p>
             <h5 *ngIf="!notice.school_wide" class="notice-sub-subtitle">{{notice.school_name}}</h5>
@@ -252,10 +250,7 @@
             <mat-card-title>{{ group.name }}</mat-card-title>
             <mat-card-subtitle>{{group.school_name}}</mat-card-subtitle>
           </mat-card-header>
-          <div class="center-align" *ngIf="group.image">
-            <img (click)="viewEventsCalendar(i)" class="home"
-                 *ngIf="group.image" mat-card-image src="{{group.image}}" alt="{{group.name}}">
-          </div>
+          <div class="home-card-image" (click)="viewEventsCalendar(i)" *ngIf="group.image" [ngStyle]="{'background-image': getUrl(group.image)}"></div>
           <mat-card-content>
 
             <div style="margin:0;padding:0;width: 100%;text-align: right;color:#a2a2a2;">

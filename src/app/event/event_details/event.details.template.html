@@ -14,7 +14,7 @@
   </div>
 </div>
 
-<div *ngIf="event && !loading" class="container event">
+<div *ngIf="!loading && !processPayment" class="container event">
   <h2 class="inline-page-title center-align">
     <a (click)="goBack()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Back</a>
   </h2>
@@ -41,8 +41,8 @@
 
   <div *ngIf="event && event.payment_applicable && !event.amount_paid_by_user && !processPayment"
        class="top-bottom-margin">
-    <pre class="details-description-parent">{{notice.payment_instructions}}</pre>
-    <button (click)="processPayment = true" mat-raised-button color="primary">Make online payment</button>
+    <pre class="details-description-parent">{{event.payment_instructions}}</pre>
+    <button (click)="processPayment = true" mat-raised-button color="primary">{{event.payment_title}}</button>
   </div>
 
   <div *ngIf="event && event.payment_applicable && event.amount_paid_by_user && !processPayment"
@@ -50,71 +50,72 @@
     {{event.amount_paid_by_user | number : '1.2'}} {{event.currency}} payment received, thank you
   </div>
 
+</div>
 
-  <div *ngIf="processPayment" class="container top-bottom-margin">
-    <div class="row">
-      <div class="col s12"><h3>{{event.payment_title || 'Make Payment'}}</h3></div>
 
-      <div class="col s12">
-        <h6 *ngIf="event.payment_allow_user_to_set">Payment amount (R)</h6>
-        <h6 *ngIf="!event.payment_allow_user_to_set">Payment amount - R {{event.payment_amount}}</h6>
+<div *ngIf="processPayment" class="container top-bottom-margin">
+  <div class="row">
+    <div class="col s12"><h3>{{event.payment_title || 'Make Payment'}}</h3></div>
 
-        <input *ngIf="event.payment_allow_user_to_set" style="max-width:250px;" class="validate short" [(ngModel)]="event.payment_amount"
-               placeholder="Payment Amount" id="paymentAmount" type="text">
-      </div>
-      <div class="col s12 m6">
-        <h6>Your Credit Card Number</h6>
-        <input style="max-width:250px;" class="validate short" [(ngModel)]="cardNumber" placeholder="Your Credit Card Number" id="CreditCardNumber" type="number">
-      </div>
-      <div class="col s12 m6">
-        <h6>Your CVC Number</h6>
-        <input style="max-width:250px;" class="validate short" [(ngModel)]="cvcNumber" placeholder="Your CVC Number" size="4" id="cvcNumber" type="number">
-      </div>
+    <div class="col s12">
+      <h6 *ngIf="event.payment_allow_user_to_set">Payment amount (R)</h6>
+      <h6 *ngIf="!event.payment_allow_user_to_set">Payment amount - R {{event.payment_amount}}</h6>
+
+      <input *ngIf="event.payment_allow_user_to_set" style="max-width:250px;" class="validate short" [(ngModel)]="event.payment_amount"
+             placeholder="Payment Amount" id="paymentAmount" type="text">
     </div>
-    <div class="row top-bottom-margin">
-      <div class="col s6">
-        <mat-form-field style="min-width:400px;">
-          <mat-select style="width:100%" [(ngModel)]="cardExpiryMonth" placeholder="Select expiry month">
-            <mat-option *ngFor="let month of expiryMonths" [value]="month">
-              {{month}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col s6">
-        <mat-form-field style="min-width:400px;">
-          <mat-select style="width:100%" [(ngModel)]="cardExpiryYear" placeholder="Select expiry year">
-            <mat-option *ngFor="let year of expiryYears" [value]="year">
-              {{year}}
-            </mat-option>
-          </mat-select>
-
-        </mat-form-field>
-      </div>
+    <div class="col s12 m6">
+      <h6>Your Credit Card Number</h6>
+      <input style="max-width:250px;" class="validate short" [(ngModel)]="cardNumber" placeholder="Your Credit Card Number" id="CreditCardNumber" type="number">
     </div>
-    <div class="row top-bottom-margin">
-      <div class="col s6">
-        <button (click)="processPayment = false;" mat-raised-button>Cancel</button>
-      </div>
-      <div class="col s6">
-        <button (click)="pay()" mat-raised-button color="primary">Make Payment</button>
-      </div>
-
+    <div class="col s12 m6">
+      <h6>Your CVC Number</h6>
+      <input style="max-width:250px;" class="validate short" [(ngModel)]="cvcNumber" placeholder="Your CVC Number" size="4" id="cvcNumber" type="number">
     </div>
   </div>
+  <div class="row top-bottom-margin">
+    <div class="col s6">
+      <mat-form-field style="min-width:400px;">
+        <mat-select style="width:100%" [(ngModel)]="cardExpiryMonth" placeholder="Select expiry month">
+          <mat-option *ngFor="let month of expiryMonths" [value]="month">
+            {{month}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col s6">
+      <mat-form-field style="min-width:400px;">
+        <mat-select style="width:100%" [(ngModel)]="cardExpiryYear" placeholder="Select expiry year">
+          <mat-option *ngFor="let year of expiryYears" [value]="year">
+            {{year}}
+          </mat-option>
+        </mat-select>
 
-
-  <div *ngIf="event && event.signature_template_id && event.signature_document_id && event.signature_user_document_status !== 'complete'"
-       class="center-align top-bottom-margin">
-    <h4 class="darkGreyHeader top-bottom-margin center-align">{{event.signature_document_title}}</h4>
-    <p class="details-description-parent">{{event.signature_document_signature}}</p>
-
-    <button (click)="signDocument()" mat-raised-button color="primary">{{event.signature_document_call_to_action}}</button>
-    <h4 *ngIf="event.signature_document_attachment" class="darkGreyHeader top-bottom-margin center-align">OR</h4>
-    <button *ngIf="event.signature_document_attachment" (click)="manuallySignDocument(event.signature_document_attachment)" mat-raised-button color="accent">Download document to sign manually</button>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row top-bottom-margin">
+    <div class="col s6">
+      <button (click)="processPayment = false;" mat-raised-button>Cancel</button>
+    </div>
+    <div class="col s6">
+      <button (click)="pay()" mat-raised-button color="primary">Make Payment</button>
+    </div>
 
   </div>
+</div>
+
+
+<div *ngIf="!processPayment && event && event.signature_template_id && event.signature_document_id && event.signature_user_document_status !== 'complete'"
+     class="container top-bottom-margin">
+  <h4 class="darkGreyHeader top-bottom-margin center-align">{{event.signature_document_title}}</h4>
+  <p class="details-description-parent">{{event.signature_document_signature}}</p>
+
+  <button (click)="signDocument()" mat-raised-button color="primary">{{event.signature_document_call_to_action}}</button>
+  <h4 *ngIf="event.signature_document_attachment" class="darkGreyHeader top-bottom-margin center-align">OR</h4>
+  <button *ngIf="event.signature_document_attachment" (click)="manuallySignDocument(event.signature_document_attachment)" mat-raised-button color="accent">Download document to sign manually</button>
 
 </div>
+
 
 <div style="height:200px">&nbsp;</div>

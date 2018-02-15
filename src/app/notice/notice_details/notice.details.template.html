@@ -41,7 +41,7 @@
   <div *ngIf="notice && notice.payment_applicable && !notice.amount_paid_by_user && !processPayment"
        class="top-bottom-margin">
     <pre class="details-description-parent">{{notice.payment_instructions}}</pre>
-    <button (click)="processPayment = true" mat-raised-button color="primary">Make online payment</button>
+    <button (click)="processPayment = true" mat-raised-button color="primary">{{notice.payment_title}}</button>
   </div>
 
   <div *ngIf="notice && notice.payment_applicable && notice.amount_paid_by_user && !processPayment"
@@ -103,8 +103,8 @@
   </div>
 </div>
 
-<div *ngIf="notice && notice.signature_template_id && notice.signature_document_id && notice.signature_user_document_status !== 'complete' && !processPayment"
-     class="center-align top-bottom-margin container">
+<div *ngIf="!processPayment && notice && notice.signature_template_id && notice.signature_document_id && notice.signature_user_document_status !== 'complete' && !processPayment"
+     class="top-bottom-margin container">
   <h4 class="darkGreyHeader top-bottom-margin center-align">{{notice.signature_document_title}}</h4>
   <p class="details-description-parent">{{notice.signature_document_signature}}</p>
 

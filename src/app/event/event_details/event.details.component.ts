@@ -98,7 +98,7 @@ export class EventDetailsComponent extends DetailsBaseComponent implements After
 
   pay() {
     this.loading = true;
-    this.makePayment(this.event.payment_reference, 'notice', this.event.id, this.event.payment_amount).then(res => {
+    this.makePayment(this.event.payment_reference, 'event', this.event.id, this.event.payment_amount).then(res => {
       this.loading = false;
       this.event.amount_paid_by_user = this.event.payment_amount;
       this.snackBar.open('Thank you, your payment has been received!');

@@ -385,7 +385,7 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
 
       this.eventService.createEvent(postValue).subscribe(
         (result) => {
-          if (this.documentTemplate) {
+          if (this.documentTemplate && typeof this.documentTemplate['id'] !== 'undefined') {
             templateDetails['entity_id'] = result.event_id;
             this.createDocument(templateDetails).subscribe(
               res => {
