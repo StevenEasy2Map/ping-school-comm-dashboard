@@ -12,7 +12,7 @@ export class EventDateTimePipe implements PipeTransform {
     }
 
     const date = new Date(value);
-    return moment(date).format('MMMM Do YYYY, h:mm:ss a');
+    return moment(date).format('ddd MMMM Do, h:mm a');
 
   }
 }

@@ -25,7 +25,7 @@
 
     <h3 class="notice-subtitle">{{event.group_name}}</h3>
     <h5 class="notice-sub-subtitle">{{event.school_name}}</h5>
-    <p class="notice-date">{{ event.start_date | friendlydatetime }}</p>
+    <p class="notice-date">{{ event.start_date | eventdatetimefromto: [event.start_date,event.end_date] }}</p>
 
     <div class="image-parent">
       <img class="details-image" *ngIf="event.image" src="{{ event.image }}"/>
@@ -46,7 +46,7 @@
   </div>
 
   <div *ngIf="event && event.payment_applicable && event.amount_paid_by_user && !processPayment"
-       class="top-bottom-margin">
+       class="top-bottom-margin payment-received-thank-you">
     {{event.amount_paid_by_user | number : '1.2'}} {{event.currency}} payment received, thank you
   </div>
 
@@ -58,8 +58,10 @@
     <div class="col s12"><h3>{{event.payment_title || 'Make Payment'}}</h3></div>
 
     <div class="col s12">
-      <h6 *ngIf="event.payment_allow_user_to_set">Payment amount (R)</h6>
-      <h6 *ngIf="!event.payment_allow_user_to_set">Payment amount - R {{event.payment_amount}}</h6>
+      <h6 class="payment-amount-due" *ngIf="event.payment_allow_user_to_set">Payment amount (R)</h6>
+      <h6 class="payment-amount-due" *ngIf="!event.payment_allow_user_to_set">Payment amount - R {{event.payment_amount | number:'1.0'}}
+        <span *ngIf="event.payment_auto_increment && feeAmount" class="fee-explanation">(includes R{{feeAmount | number: '1.0'}} processing fee)</span>
+      </h6>
 
       <input *ngIf="event.payment_allow_user_to_set" style="max-width:250px;" class="validate short" [(ngModel)]="event.payment_amount"
              placeholder="Payment Amount" id="paymentAmount" type="text">

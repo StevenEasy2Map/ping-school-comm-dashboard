@@ -22,7 +22,7 @@ export class HeaderComponent {
   }
 
   logout() {
-    this.authService.signOut()
+    this.authService.signOut();
   }
 
 }

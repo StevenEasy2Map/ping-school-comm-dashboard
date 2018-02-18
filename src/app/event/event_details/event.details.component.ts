@@ -26,6 +26,7 @@ export class EventDetailsComponent extends DetailsBaseComponent implements After
   eventGroups: any[] = [];
   error = '';
   loading = true;
+  feeAmount = 0;
 
   constructor(private auth: AuthService,
               public eventService: EventService,
@@ -62,6 +63,13 @@ export class EventDetailsComponent extends DetailsBaseComponent implements After
         this.event.description = this.event.description.replace("'", "").replace("'", "");
         this.event.start_date = HelperService.timeZoneAdjustedDate(this.event.start_date, this.event.timezone_offset);
         this.event.end_date = HelperService.timeZoneAdjustedDate(this.event.end_date, this.event.timezone_offset);
+
+        if (this.event.payment_amount && this.event.payment_auto_increment) {
+          this.event.payment_amount = Math.round(this.event.payment_amount * 1.03);
+          this.feeAmount = Math.round(this.event.payment_amount * 0.03);
+        } else {
+          this.feeAmount = 0;
+        }
 
         console.log(this.event);
         this.loading = false;

@@ -59,11 +59,12 @@ import {InviteSchoolMemberComponent} from './school/invite.school.member.compone
 import {SchoolAdministratorsComponent} from './school/school_administrators/school.administrators.component';
 import {MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, MatIconModule, MatRadioModule, MatSelectModule, MatSnackBarModule, MatTabsModule} from '@angular/material';
 import {DialogAreYouSureComponent} from './common/modals/are.you.sure.component';
-import {SignFromEmailComponent} from "./document_signing/sign.from.email.component";
-import {NewHomeworkComponent} from "./notice/homework_new/homework.new.component";
-import {GroupHomeworkListComponent} from "./notice/notice_list/group.homework.list.component";
-import {JoinGroupComponent} from "./group/join_group/join.group.component";
-import {EventDateTimePipe} from "./common/pipes/event.date.time.pipe";
+import {SignFromEmailComponent} from './document_signing/sign.from.email.component';
+import {NewHomeworkComponent} from './notice/homework_new/homework.new.component';
+import {GroupHomeworkListComponent} from './notice/notice_list/group.homework.list.component';
+import {JoinGroupComponent} from './group/join_group/join.group.component';
+import {EventDateTimePipe} from './common/pipes/event.date.time.pipe';
+import {EventDateTimeFromToPipe} from "./common/pipes/event.date.time.from.to.pipe";
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
   {path: 'signup', component: SignUpComponent},
@@ -161,6 +162,7 @@ const appRoutes: Routes = [
     EllipsisPipe,
     NumberPadPipe,
     EventDateTimePipe,
+    EventDateTimeFromToPipe,
 
     DialogAreYouSureComponent
 

@@ -12,6 +12,7 @@ export class AuthService {
   user: Observable<firebase.User>;
   private token: string;
   public processing = false;
+  public currentUser: firebase.User = null;
 
   constructor(public afAuth: AngularFireAuth, private router: Router) {
     this.user = this.afAuth.authState;
@@ -37,7 +38,8 @@ export class AuthService {
   }
 
   get authenticated(): boolean {
-    return !!this.afAuth.auth.currentUser;
+    this.currentUser = this.afAuth.auth.currentUser;
+    return !!this.currentUser;
   }
 
   signInWithPassword(email: string, password: string): Promise<any> {

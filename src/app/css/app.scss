@@ -222,7 +222,7 @@ h5.large-orange {
 
 p.notice-date {
   text-align: center;
-  font-size: 15px;
+  font-size: 17px;
   color: #3c3c3c;
   padding-bottom: 4px;
   margin-top: -6px;
@@ -1180,6 +1180,26 @@ input.short {
 div.wide-container {
   width: 96%;
   margin: auto;
+}
+
+div.payment-received-thank-you {
+  font-size: 17px;
+  font-weight: 500;
+  color: #676666;
+  margin: 20px 0;
+  text-align: right;
+}
+
+h6.payment-amount-due{
+  margin: 15px 0 20px 0;
+    font-size: 18px;
+    color: #555555;
+
+  span.fee-explanation{
+    font-size:13px;
+    color:#777777;
+    font-style:italic;
+  }
 }
 
 

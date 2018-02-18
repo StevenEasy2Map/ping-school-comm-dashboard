@@ -45,7 +45,7 @@
   </div>
 
   <div *ngIf="notice && notice.payment_applicable && notice.amount_paid_by_user && !processPayment"
-       class="top-bottom-margin">
+       class="top-bottom-margin payment-received-thank-you">
     {{notice.amount_paid_by_user | number : '1.2'}} {{notice.currency}} payment received, thank you
   </div>
 

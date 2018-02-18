@@ -194,7 +194,7 @@
 
 
       </mat-expansion-panel>
-<!--[expanded]="step === 1" (opened)="setStep(1)" -->
+      <!--[expanded]="step === 1" (opened)="setStep(1)" -->
       <mat-expansion-panel hideToggle="true">
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -439,6 +439,33 @@
         </div>
 
         <div *ngIf="paymentApplicable" class="row">
+          <div class="col s12 m4">
+            <h6 *ngIf="allowUsersToSetPaymentAmount" for="paymentamount">Default payment amount (R)</h6>
+            <h6 *ngIf="!allowUsersToSetPaymentAmount" for="paymentamount">Payment amount (R)</h6>
+            <input class="validate short"
+                   [(ngModel)]="notice.payment_amount"
+                   placeholder="Payment Amount"
+                   id="paymentamount" type="text">
+          </div>
+
+          <div class="col s12 m4">
+            <h6 *ngIf="allowUsersToSetPaymentAmount" for="minpaymentamount">Minimum payment amount (R)</h6>
+            <input *ngIf="allowUsersToSetPaymentAmount" class="validate short"
+                   [(ngModel)]="notice.min_payment_amount"
+                   placeholder="Minimum Payment Amount"
+                   id="minpaymentamount" type="text">
+          </div>
+
+          <div class="col s12 m4">
+            <h6 *ngIf="allowUsersToSetPaymentAmount" for="maxpaymentamount">Maximum payment amount (R)</h6>
+            <input *ngIf="allowUsersToSetPaymentAmount" class="validate short"
+                   [(ngModel)]="notice.max_payment_amount"
+                   placeholder="Maximum Payment Amount"
+                   id="maxpaymentamount" type="text">
+          </div>
+        </div>
+
+        <div *ngIf="paymentApplicable" class="row">
           <div class="col s12 top-padding">
             <input class="filled-in" [(ngModel)]="allowUsersToSetPaymentAmount" name="allow_user_set"
                    type="checkbox" id="allow_user_set"/>
@@ -446,39 +473,6 @@
           </div>
         </div>
 
-
-        <div *ngIf="paymentApplicable" class="row">
-          <div class="col s6">
-            <h6 *ngIf="allowUsersToSetPaymentAmount" for="paymentamount">Default payment amount (R)</h6>
-            <h6 *ngIf="!allowUsersToSetPaymentAmount" for="paymentamount">Payment amount (R)</h6>
-            <input class="validate short"
-                   [(ngModel)]="notice.payment_amount"
-                   placeholder="Payment Amount"
-                   id="paymentamount" type="text">
-
-
-          </div>
-          <div class="col s6">
-            <h6 *ngIf="allowUsersToSetPaymentAmount" for="minpaymentamount">Minimum payment amount (R)</h6>
-            <input *ngIf="allowUsersToSetPaymentAmount" class="validate short"
-                   [(ngModel)]="notice.min_payment_amount"
-                   placeholder="Minimum Payment Amount"
-                   id="minpaymentamount" type="text">
-          </div>
-        </div>
-        <div *ngIf="paymentApplicable" class="row">
-          <div class="col s6">
-            <h6 *ngIf="allowUsersToSetPaymentAmount" for="maxpaymentamount">Maximum payment amount (R)</h6>
-            <input *ngIf="allowUsersToSetPaymentAmount" class="validate short"
-                   [(ngModel)]="notice.max_payment_amount"
-                   placeholder="Maximum Payment Amount"
-                   id="maxpaymentamount" type="text">
-          </div>
-
-          <div class="col s6">
-
-          </div>
-        </div>
         <div *ngIf="paymentApplicable" class="row">
 
           <div class="col s12">

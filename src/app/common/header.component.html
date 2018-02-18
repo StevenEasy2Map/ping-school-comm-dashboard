@@ -1,6 +1,8 @@
 <nav>
   <div class="nav-wrapper">
     <a href="#" class="brand-logo"><img src="/assets/logo.svg" style="width:45px"></a>
+    <div *ngIf="authService.authenticated" style="text-align: left;margin-left:80px;display:inline;">{{authService.currentUser.email}}</div>
+
     <ul class="right">
       <!--<li><a style="color:#FAFAFA" *ngIf="!authService.authenticated" routerLink="/signin">Sign In</a></li>
       <li><a style="color:#FAFAFA" *ngIf="!authService.authenticated" routerLink="/signup">Sign Up</a></li>-->

@@ -84,13 +84,9 @@
       </div>
 
     </mat-tab>
-    <mat-tab label="My Notices">
+    <mat-tab label="My Notices ({{myNotices.length}})">
       <div class="tab-content">
-        <h2 class="center-align" style="padding-bottom:0;position:relative">
-          <div style="position:absolute;top:0;right:5px;border:1px solid #EBEBEB; border-radius:50%;background-color:#ff685b;color:#FFFFFF;font-size:12px;text-align: center;padding:3px;width:10px;height:10px;">{{myNotices.length}}</div>
-
-
-          {{noticesTitle}}</h2>
+        <h2 class="center-align" style="padding-bottom:0;position:relative">{{noticesTitle}}</h2>
 
         <mat-card class="home-card pointer" *ngFor="let notice of myNotices; let i = index">
 
@@ -134,7 +130,7 @@
 
     </mat-tab>
 
-    <mat-tab label="My Events">
+    <mat-tab label="Upcoming Events ({{myEvents.length}})">
 
       <div class="tab-content">
 
@@ -183,7 +179,7 @@
 
     </mat-tab>
 
-    <mat-tab label="My Homework">
+    <mat-tab label="My Homework ({{myHomework.length}})">
       <div class="tab-content">
         <h2 class="center-align" style="padding-bottom:0;">{{homeworkTitle}}</h2>
 
