@@ -6,6 +6,7 @@ import {HelperService} from '../../../providers/helper-service';
 import {CalendarEvent} from 'angular-calendar';
 import {EventListComponent} from '../event_list/event.list.component';
 import * as moment from 'moment';
+import {GroupService} from '../../group/group.service';
 
 
 //  https://mattlewis92.github.io/angular-calendar/docs
@@ -30,7 +31,6 @@ export class GroupEventsCalendarComponent extends EventListComponent implements 
   selectedEvents: any[] = [];
   selectedMonth = '';
   loading = true;
-  groupAdmin = false;
 
   colors: any = {
     red: {
@@ -50,17 +50,30 @@ export class GroupEventsCalendarComponent extends EventListComponent implements 
 
   constructor(private auth: AuthService,
               public eventService: EventService,
+              public groupService: GroupService,
               public router: Router,
               public route: ActivatedRoute) {
 
-    super(router);
+    super(router, groupService);
 
   }
 
   ngAfterViewInit(): void {
 
     this.auth.getFirebaseTokenAsPromise().then(() => {
-      this.getEvents();
+      this.getEvents()
+      .then(() => {
+        return this.isGroupAdmin(parseInt(this.schoolId, 10), parseInt(this.groupId, 10));
+      })
+      .then(() => {
+        this.loading = false;
+        this.auth.processing = false;
+      })
+      .catch(err => {
+        console.log(err);
+        this.loading = false;
+        this.auth.processing = false;
+      });
     });
 
   }
@@ -128,54 +141,62 @@ export class GroupEventsCalendarComponent extends EventListComponent implements 
     this.selectedEvents = [];
   }
 
-  getEvents(): void {
+  getEvents(): Promise<any> {
 
-    this.auth.processing = true;
-    this.route.params.subscribe(params => {
+    return new Promise((resolve, reject) => {
+
+      this.auth.processing = true;
+      this.route.params.subscribe(params => {
         this.groupId = params['group_id'];
         this.schoolId = params['school_id'];
         this.groupName = params['group_name'];
 
-        this.eventService.getGroupEvents(parseInt(this.groupId, 10)).then(res => {
+        this.eventService.getGroupEvents(parseInt(this.groupId, 10))
+          .then(res => {
 
-          this.groupAdmin = res && !!res.find(event => event.group_admin === 1);
-          this.group_events = res;
+            this.group_events = res;
 
-          console.log(this.group_events);
+            console.log(this.group_events);
 
-          const tempEvents = [];
+            const tempEvents = [];
 
-          this.group_events.forEach(event => {
+            this.group_events.forEach(event => {
 
-            event.start_date = HelperService.timeZoneAdjustedDate(event.start_date, event.timezone_offset);
-            event.end_date = HelperService.timeZoneAdjustedDate(event.end_date, event.timezone_offset);
+              event.start_date = HelperService.timeZoneAdjustedDate(event.start_date, event.timezone_offset);
+              event.end_date = HelperService.timeZoneAdjustedDate(event.end_date, event.timezone_offset);
 
-            tempEvents.push({
+              tempEvents.push({
 
-              id: event.id,
-              title: event.title,
-              start: event.start_date,
-              end: event.end_date,
-              future_date: event.future_date,
-              signature_document_id: event.signature_document_id,
-              signature_document_template_id: event.signature_document_template_id,
-              payment_applicable: event.payment_applicable,
-              color: event.future_date ? this.colors.blue : this.colors.grey
+                id: event.id,
+                title: event.title,
+                start: event.start_date,
+                end: event.end_date,
+                future_date: event.future_date,
+                signature_document_id: event.signature_document_id,
+                signature_document_template_id: event.signature_document_template_id,
+                payment_applicable: event.payment_applicable,
+                color: event.future_date ? this.colors.blue : this.colors.grey
+              });
+
             });
+
+            const month = moment(new Date());
+            this.selectedMonth = month.format('MMMM');
+
+            this.events = tempEvents;
+            resolve(this.events);
 
           });
 
-          const month = moment(new Date());
-          this.selectedMonth = month.format('MMMM');
+      }, err => {
 
-          this.events = tempEvents;
-          this.auth.processing = false;
-          this.loading = false;
+        reject(err);
 
-        });
 
-      }
-    );
+      });
+
+
+    });
 
   }
 

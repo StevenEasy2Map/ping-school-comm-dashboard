@@ -1,13 +1,9 @@
 import {Component} from '@angular/core';
 
-import {Router, ActivatedRoute} from "@angular/router";
-import {NoticeService} from "../services/notice.service";
-import {Notice} from "../models/notice";
-
-import {FriendlyDatePipe} from "../../common/pipes/friendly.date.pipe";
-import {EllipsisPipe} from "../../common/pipes/ellipsis.pipe";
-import {AuthService} from "../../../providers/auth-service";
-import {NoticeListComponent} from "./notice.list.component";
+import {Router, ActivatedRoute} from '@angular/router';
+import {NoticeService} from '../services/notice.service';
+import {NoticeListComponent} from './notice.list.component';
+import {GroupService} from "../../group/group.service";
 
 @Component({
   selector: 'my-notice-list-component',
@@ -18,24 +14,31 @@ import {NoticeListComponent} from "./notice.list.component";
 export class MyNoticeListComponent extends NoticeListComponent {
 
   notices: any[] = [];
-  groupId: string = "";
+  groupId: string = '';
 
   constructor(public noticeService: NoticeService,
+              public groupService: GroupService,
               public router: Router,
               public route: ActivatedRoute) {
 
-    super(router);
+    super(router, groupService);
     this.getNotices();
 
   }
 
-  getNotices(): void {
+  getNotices(): Promise<any> {
 
-    this.noticeService.getMyNotices().subscribe(res => {
-      this.notices = res;
+    return new Promise((resolve, reject) => {
 
-      this.notices.sort((a, b) => {
-        return b.show_date - a.show_date;
+      this.noticeService.getMyNotices().subscribe(res => {
+        this.notices = res;
+
+        this.notices.sort((a, b) => {
+          return b.show_date - a.show_date;
+        });
+
+        resolve(this.notices);
+
       });
 
     });

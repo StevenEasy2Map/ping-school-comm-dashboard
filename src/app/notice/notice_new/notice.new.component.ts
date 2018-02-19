@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import {Notice} from '../models/notice';
@@ -68,16 +68,15 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
       initialDate: hideDate,
       format: 'DD MMMM, YYYY'
     });
-
+    this.getEditNoticeDetails();
   }
 
   ngAfterViewInit(): void {
 
     this.setupFileUploadLogic();
     this.setupDocSigningFileUploadLogic();
-    this.getEditNoticeDetails();
-
   }
+
 
   initiateNewNotice(): Notice {
 

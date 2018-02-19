@@ -1,5 +1,3 @@
-
-
 import {GroupService} from '../../group/group.service';
 
 export abstract class ListComponent {
@@ -15,7 +13,9 @@ export abstract class ListComponent {
 
       this.groupService.isGroupAdmin(schoolId, groupId).subscribe(res => {
 
-        this.groupAdmin = !!res;
+        console.log(res);
+
+        this.groupAdmin = res.admin;
         resolve(this.groupAdmin);
 
       }, err => {
