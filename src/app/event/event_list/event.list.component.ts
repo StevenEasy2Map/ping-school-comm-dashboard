@@ -1,11 +1,16 @@
-import {Router} from "@angular/router";
-import {Event} from "../models/event";
+import {Router} from '@angular/router';
+import {Event} from '../models/event';
+import {ListComponent} from './list.component';
+import {GroupService} from '../../group/group.service';
 
-export abstract class EventListComponent {
+export abstract class EventListComponent extends ListComponent {
 
   events: any[] = [];
 
-  constructor(public router: Router) {
+  constructor(public router: Router, public groupService: GroupService) {
+
+    super(groupService);
+
   }
 
   editEvent(event: any, groupId: any, schoolId: any): void {

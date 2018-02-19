@@ -60,11 +60,12 @@ export class HomeComponent implements AfterViewInit {
     if (typeof(Storage) !== 'undefined') {
       window.localStorage.setItem('ping-home-tab-index', tabChangeEvent.index.toString());
     }
-  };
+  }
 
   retrieveSavedTabIndex() {
     if (typeof(Storage) !== 'undefined') {
       const index = window.localStorage.getItem('ping-home-tab-index') || '0';
+      console.log(`retrieveSavedTabIndex=${index}`);
       return parseInt(index, 10);
     }
     return 0;

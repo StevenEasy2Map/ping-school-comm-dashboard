@@ -1,10 +1,15 @@
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
+import {ListComponent} from '../../event/event_list/list.component';
+import {GroupService} from '../../group/group.service';
 
-export abstract class NoticeListComponent {
+export abstract class NoticeListComponent extends ListComponent {
 
   notices: any[] = [];
 
-  constructor(public router: Router) {
+  constructor(public router: Router, public groupService: GroupService) {
+
+    super(groupService);
+
   }
 
   editNotice(notice: any): void {
@@ -15,12 +20,14 @@ export abstract class NoticeListComponent {
 
   setLineStyle(notice: any): any {
 
-    if (!notice || !notice.show_date) return {};
-    let now = new Date();
+    if (!notice || !notice.show_date) {
+      return {};
+    }
+    const now = new Date();
     if ((new Date(notice.hide_date)).getTime() - now.getTime() > 0) {
       return {};
     }
-    return {"background-color": "#d66262"};
+    return {'background-color': '#d66262'};
 
   }
 

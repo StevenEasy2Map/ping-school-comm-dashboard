@@ -9,11 +9,12 @@ import {EllipsisPipe} from '../../common/pipes/ellipsis.pipe';
 import {AuthService} from '../../../providers/auth-service';
 import {NoticeListComponent} from './notice.list.component';
 import {MaterializeAction} from 'angular2-materialize';
+import {GroupService} from "../../group/group.service";
 
 @Component({
   selector: 'app-group-homework-list-component',
   templateUrl: 'group.homework.list.template.html',
-  providers: [NoticeService],
+  providers: [NoticeService, GroupService],
   styleUrls: ['notice.list.style.scss']
 })
 export class GroupHomeworkListComponent extends NoticeListComponent {
@@ -25,46 +26,57 @@ export class GroupHomeworkListComponent extends NoticeListComponent {
   groupAdmin = false;
 
   constructor(private auth: AuthService,
+              public groupService: GroupService,
               public noticeService: NoticeService,
               public router: Router,
               public route: ActivatedRoute) {
 
-    super(router);
-    this.getHomework();
+    super(router, groupService);
 
+    this.getHomework()
+      .then(() => {
+        return this.isGroupAdmin(parseInt(this.schoolId, 10), parseInt(this.groupId, 10));
+      })
+      .then(() => {
+        this.loading = false;
+      })
+      .catch(err => {
+        console.log(err);
+        this.loading = false;
+      });
   }
 
-  getHomework(): void {
+  getHomework(): Promise<any> {
 
-    this.auth.getFirebaseTokenAsPromise().then(() => {
-      this.route.params.subscribe(params => {
-        this.groupId = params['group_id'];
-        this.schoolId = params['school_id'];
+    return new Promise((resolve, reject) => {
 
-        this.noticeService.getGroupHomework(parseInt(this.groupId, 10)).subscribe(res => {
-          this.notices = res;
+      this.auth.getFirebaseTokenAsPromise().then(() => {
+        this.route.params.subscribe(params => {
+          this.groupId = params['group_id'];
+          this.schoolId = params['school_id'];
 
-          this.groupAdmin = !!this.notices.find(notice => notice.group_admin === 1);
+          this.noticeService.getGroupHomework(parseInt(this.groupId, 10)).subscribe(res => {
+            this.notices = res;
 
-          this.notices.sort((a, b) => {
-            return b.show_date - a.show_date;
+            this.notices.sort((a, b) => {
+              return b.show_date - a.show_date;
+            });
+
+            resolve(this.notices);
+
           });
-
-          console.log(this.notices);
-
-          this.loading = false;
 
         });
 
+      }).catch(error => {
+
+        reject(error);
+
       });
-
-    }).catch(error => {
-
-      this.loading = false;
-
     });
 
   }
+
 
   editNotice(notice): void {
     this.router.navigate(['/new-homework', {

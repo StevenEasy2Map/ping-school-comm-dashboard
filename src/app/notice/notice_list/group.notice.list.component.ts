@@ -9,11 +9,12 @@ import {EllipsisPipe} from '../../common/pipes/ellipsis.pipe';
 import {AuthService} from '../../../providers/auth-service';
 import {NoticeListComponent} from './notice.list.component';
 import {MaterializeAction} from 'angular2-materialize';
+import {GroupService} from "../../group/group.service";
 
 @Component({
   selector: 'app-group-notice-list-component',
   templateUrl: 'group.notice.list.template.html',
-  providers: [NoticeService],
+  providers: [NoticeService, GroupService],
   styleUrls: ['notice.list.style.scss']
 })
 export class GroupNoticeListComponent extends NoticeListComponent {
@@ -25,40 +26,53 @@ export class GroupNoticeListComponent extends NoticeListComponent {
   groupAdmin = false;
 
   constructor(private auth: AuthService,
+              public groupService: GroupService,
               public noticeService: NoticeService,
               public router: Router,
               public route: ActivatedRoute) {
 
-    super(router);
-    this.getNotices();
+    super(router, groupService);
+    this.getNotices()
+      .then(() => {
+        return this.isGroupAdmin(parseInt(this.schoolId, 10), parseInt(this.groupId, 10));
+      })
+      .then(() => {
+        this.loading = false;
+      })
+      .catch(err => {
+        console.log(err);
+        this.loading = false;
+      });
 
   }
 
-  getNotices(): void {
+  getNotices(): Promise<any> {
 
-    this.auth.getFirebaseTokenAsPromise().then(() => {
-      this.route.params.subscribe(params => {
-        this.groupId = params['group_id'];
-        this.schoolId = params['school_id'];
+    return new Promise((resolve, reject) => {
 
-        this.noticeService.getGroupNotices(parseInt(this.groupId, 10)).subscribe(res => {
-          this.notices = res;
-          this.groupAdmin = !!this.notices.find(notice => notice.group_admin === 1);
+      this.auth.getFirebaseTokenAsPromise().then(() => {
+        this.route.params.subscribe(params => {
+          this.groupId = params['group_id'];
+          this.schoolId = params['school_id'];
 
-          this.notices.sort((a, b) => {
-            return b.show_date - a.show_date;
+          this.noticeService.getGroupNotices(parseInt(this.groupId, 10)).subscribe(res => {
+            this.notices = res;
+
+            this.notices.sort((a, b) => {
+              return b.show_date - a.show_date;
+            });
+
+            resolve(this.notices);
+
           });
-
-          this.loading = false;
 
         });
 
+      }).catch(error => {
+
+        reject(error);
+
       });
-
-    }).catch(error => {
-
-      this.loading = false;
-
     });
 
   }

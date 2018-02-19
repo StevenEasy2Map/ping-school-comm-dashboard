@@ -47,6 +47,10 @@ export class GroupService extends APIService {
     return this.get(`/api/group/get_admin_group_member_details/${schoolId}/${groupId}/${userId}`);
   }
 
+  isGroupAdmin(schoolId: any, groupId: number): Observable<any> {
+    return this.get(`/api/group/is_group_admin/${schoolId}/${groupId}`);
+  }
+
   adminValidateGroupMember(payload: any): Observable<any> {
     return this.post(payload, '/api/group/admin_validate_member');
   }
