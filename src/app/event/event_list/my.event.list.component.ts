@@ -1,13 +1,9 @@
 import {Component} from '@angular/core';
 
-import {Router, ActivatedRoute} from "@angular/router";
-import {EventService} from "../services/event.service";
-import {Event} from "../models/event";
-
-import {FriendlyDatePipe} from "../../common/pipes/friendly.date.pipe";
-import {EllipsisPipe} from "../../common/pipes/ellipsis.pipe";
-import {AuthService} from "../../../providers/auth-service";
-import {EventListComponent} from "./event.list.component";
+import {ActivatedRoute, Router} from '@angular/router';
+import {EventService} from '../services/event.service';
+import {EventListComponent} from './event.list.component';
+import {GroupService} from '../../group/group.service';
 
 @Component({
   selector: 'my-event-list-component',
@@ -18,13 +14,14 @@ import {EventListComponent} from "./event.list.component";
 export class MyEventListComponent extends EventListComponent {
 
   events: any[] = [];
-  groupId: string = "";
+  groupId = '';
 
   constructor(public eventService: EventService,
+              public groupService: GroupService,
               public router: Router,
               public route: ActivatedRoute) {
 
-    super(router);
+    super(router, groupService);
     this.getEvents();
 
   }
