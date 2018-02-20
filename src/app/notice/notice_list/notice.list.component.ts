@@ -18,6 +18,26 @@ export abstract class NoticeListComponent extends ListComponent {
 
   }
 
+  noticeActiveStatus(notice) {
+
+    const hideDate = (new Date(notice.hide_date)).getTime();
+    const showDate = (new Date(notice.show_date)).getTime();
+    const currentTime = (new Date()).getTime();
+
+    console.log(notice.show_date);
+
+    if (showDate <= currentTime && hideDate > currentTime) {
+      return 'Active';
+    }
+
+    if (showDate > currentTime) {
+      return 'Future';
+    }
+
+    return 'Past';
+
+  }
+
   setLineStyle(notice: any): any {
 
     if (!notice || !notice.show_date) {

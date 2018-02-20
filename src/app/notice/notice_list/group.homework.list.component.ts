@@ -94,36 +94,6 @@ export class GroupHomeworkListComponent extends NoticeListComponent {
 
   }
 
-  noticeActiveStatus(notice) {
-
-    const hideDate = (new Date(notice.hide_date)).getTime();
-    const showDate = (new Date(notice.show_date)).getTime();
-    const currentTime = (new Date()).getTime();
-
-    console.log(notice.show_date);
-
-    if (showDate <= currentTime && hideDate > currentTime) {
-      return 'Active';
-    }
-
-    if (showDate > currentTime) {
-      return 'Future';
-    }
-
-    return 'Past';
-
-  }
-
-  noticeStatusClass(notice) {
-
-    if (this.noticeActiveStatus(notice)) {
-      return '';
-    }
-
-    return 'inactive';
-
-  }
-
   deleteNotice(notice, i): void {
 
     this.auth.getFirebaseTokenAsPromise().then(() => {

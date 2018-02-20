@@ -15,7 +15,7 @@ import {GroupService} from '../../group/group.service';
 @Component({
   selector: 'app-group-events-calendar-component',
   templateUrl: './group.events.calendar.template.html',
-  providers: [EventService],
+  providers: [EventService, GroupService],
   styleUrls: ['./events.calendar.style.scss']
 })
 

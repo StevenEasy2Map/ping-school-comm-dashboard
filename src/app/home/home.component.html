@@ -58,17 +58,17 @@
                 </button>
               </div>
 
-              <div (click)="viewSchoolWideEventsCalendar(i)" *ngIf="school.event_count" class="right">
+              <div (click)="viewSchoolWideEventsCalendar(i)" *ngIf="school.school_wide_event_count" class="right">
                 <button mat-icon-button>
-                  <mat-icon aria-label="Edit">event_note</mat-icon>
+                  <mat-icon aria-label="Edit">event</mat-icon>
                 </button>
-                <span class="stats-total">{{ school.event_count}} live event<span *ngIf="school.event_count !== 1">s</span></span>
+                <span class="stats-total">{{ school.school_wide_event_count}} event<span *ngIf="school.school_wide_event_count !== 1">s</span></span>
               </div>
-              <div (click)="viewSchoolWideNotices(i)" *ngIf="school.notice_count" class="right">
+              <div (click)="viewSchoolWideNotices(i)" *ngIf="school.school_wide_notice_count" class="right">
                 <button mat-icon-button>
                   <mat-icon aria-label="Edit">assignment</mat-icon>
                 </button>
-                <span class="stats-total">{{ school.notice_count}}  live notice<span *ngIf="school.notice_count !== 1">s</span></span>
+                <span class="stats-total">{{ school.school_wide_notice_count}} notice<span *ngIf="school.school_wide_notice_count !== 1">s</span></span>
               </div>
 
             </div>

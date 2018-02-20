@@ -39,7 +39,10 @@ export class EventPaymentListComponent {
         this.schoolId = params['school_id'];
         this.eventId = params['event_id'];
 
-        this.eventService.getEventPayments(parseInt(this.eventId), parseInt(this.groupId), parseInt(this.schoolId)).subscribe(res => {
+        this.eventService.getEventPayments(
+          parseInt(this.eventId),
+          parseInt(this.groupId),
+          parseInt(this.schoolId)).subscribe(res => {
           this.eventPayments = res;
 
           this.eventPayments.sort((a, b) => {

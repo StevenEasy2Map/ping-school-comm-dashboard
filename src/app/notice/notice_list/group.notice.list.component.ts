@@ -119,22 +119,6 @@ export class GroupNoticeListComponent extends NoticeListComponent {
 
   }
 
-  noticeActiveStatus(notice) {
-
-    return (new Date(notice.hide_date)).getTime() > (new Date()).getTime();
-
-  }
-
-  noticeStatusClass(notice) {
-
-    if (this.noticeActiveStatus(notice)) {
-      return '';
-    }
-
-    return 'inactive';
-
-  }
-
   deleteNotice(notice, i): void {
 
     this.auth.getFirebaseTokenAsPromise().then(() => {
