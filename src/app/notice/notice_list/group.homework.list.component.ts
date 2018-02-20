@@ -96,7 +96,21 @@ export class GroupHomeworkListComponent extends NoticeListComponent {
 
   noticeActiveStatus(notice) {
 
-    return (new Date(notice.hide_date)).getTime() > (new Date()).getTime();
+    const hideDate = (new Date(notice.hide_date)).getTime();
+    const showDate = (new Date(notice.show_date)).getTime();
+    const currentTime = (new Date()).getTime();
+
+    console.log(notice.show_date);
+
+    if (showDate <= currentTime && hideDate > currentTime) {
+      return 'Active';
+    }
+
+    if (showDate > currentTime) {
+      return 'Future';
+    }
+
+    return 'Past';
 
   }
 

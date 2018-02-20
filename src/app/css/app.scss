@@ -147,7 +147,13 @@ select {
 }
 
 .past-event {
-  color: #858585;
+  color: #696969;
+  background-color: #f2f2f2;
+}
+
+.upcoming-event{
+  background-color: #e7cfcc;
+  font-style:italic;
 }
 
 .error-message-header-parent {

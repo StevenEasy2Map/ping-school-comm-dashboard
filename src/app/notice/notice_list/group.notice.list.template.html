@@ -38,10 +38,10 @@
       <th *ngIf="groupAdmin" class="center-align">Delete</th>
       </thead>
       <tbody>
-      <tr ngClass="noticeStatusClass(notice)" *ngFor="let notice of notices; let i = index" [ngClass]="{'past-event' : notice && !notice.future_date}">
+      <tr ngClass="noticeStatusClass(notice)" *ngFor="let notice of notices; let i = index" [ngClass]="[{'past-event' : notice && !notice.future_date}, {'future-event' : notice && notice.upcoming_date}]">
         <td><a [ngClass]="{'past-event' : notice && !notice.future_date}" (click)="viewNoticeDetails(notice)">{{ notice.title | ellipsis:20 }}</a></td>
         <td [ngClass]="{'past-event' : notice && !notice.future_date}" class="center-align">{{ notice.show_date | friendlydate }}</td>
-        <td [ngClass]="{'past-event' : notice && !notice.future_date}">{{ noticeActiveStatus(notice) ? 'Active' : 'Inactive' }}</td>
+        <td [ngClass]="{'past-event' : notice && !notice.future_date}">{{ noticeActiveStatus(notice) }}</td>
         <td *ngIf="groupAdmin" class="center-align">
 
           <a [ngClass]="{'past-event' : notice && !notice.future_date}" *ngIf="notice.signature_document_id && notice.signature_document_template_id" (click)="viewNoticeSignedDocs(notice);">
