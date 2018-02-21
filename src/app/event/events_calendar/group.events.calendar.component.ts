@@ -7,6 +7,8 @@ import {CalendarEvent} from 'angular-calendar';
 import {EventListComponent} from '../event_list/event.list.component';
 import * as moment from 'moment';
 import {GroupService} from '../../group/group.service';
+import {MatDialog} from '@angular/material';
+import {DialogAreYouSureComponent} from '../../common/modals/are.you.sure.component';
 
 
 //  https://mattlewis92.github.io/angular-calendar/docs
@@ -52,6 +54,7 @@ export class GroupEventsCalendarComponent extends EventListComponent implements 
               public eventService: EventService,
               public groupService: GroupService,
               public router: Router,
+              public dialog: MatDialog,
               public route: ActivatedRoute) {
 
     super(router, groupService);
@@ -62,18 +65,18 @@ export class GroupEventsCalendarComponent extends EventListComponent implements 
 
     this.auth.getFirebaseTokenAsPromise().then(() => {
       this.getEvents()
-      .then(() => {
-        return this.isGroupAdmin(parseInt(this.schoolId, 10), parseInt(this.groupId, 10));
-      })
-      .then(() => {
-        this.loading = false;
-        this.auth.processing = false;
-      })
-      .catch(err => {
-        console.log(err);
-        this.loading = false;
-        this.auth.processing = false;
-      });
+        .then(() => {
+          return this.isGroupAdmin(parseInt(this.schoolId, 10), parseInt(this.groupId, 10));
+        })
+        .then(() => {
+          this.loading = false;
+          this.auth.processing = false;
+        })
+        .catch(err => {
+          console.log(err);
+          this.loading = false;
+          this.auth.processing = false;
+        });
     });
 
   }
@@ -110,19 +113,34 @@ export class GroupEventsCalendarComponent extends EventListComponent implements 
 
   deleteEvent(event, i): void {
 
-    this.auth.getFirebaseTokenAsPromise().then(() => {
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      data: {
+        title: 'Delete this event?'
+      }
+    });
 
-      this.eventService.deleteEvent(event).subscribe(res => {
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loading = true;
 
-        this.getEvents();
+        this.auth.getFirebaseTokenAsPromise().then(() => {
 
-      }, error => {
+          this.eventService.deleteEvent(event).subscribe(res => {
 
-        console.log(error);
+            this.loading = false;
+            this.getEvents();
 
-      });
+          }, error => {
+
+            console.log(error);
+            this.loading = false;
+
+          });
 
 
+        });
+
+      }
     });
 
 

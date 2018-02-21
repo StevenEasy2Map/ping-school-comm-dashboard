@@ -10,6 +10,8 @@ import {AuthService} from '../../../providers/auth-service';
 import {NoticeListComponent} from './notice.list.component';
 import {MaterializeAction} from 'angular2-materialize';
 import {GroupService} from "../../group/group.service";
+import {MatDialog} from "@angular/material";
+import {DialogAreYouSureComponent} from "../../common/modals/are.you.sure.component";
 
 @Component({
   selector: 'app-group-homework-list-component',
@@ -29,6 +31,7 @@ export class GroupHomeworkListComponent extends NoticeListComponent {
               public groupService: GroupService,
               public noticeService: NoticeService,
               public router: Router,
+              public dialog: MatDialog,
               public route: ActivatedRoute) {
 
     super(router, groupService);
@@ -96,21 +99,34 @@ export class GroupHomeworkListComponent extends NoticeListComponent {
 
   deleteNotice(notice, i): void {
 
-    this.auth.getFirebaseTokenAsPromise().then(() => {
-
-      this.noticeService.deleteNotice(notice).subscribe(res => {
-
-        this.notices.splice(i, 1);
-
-      }, error => {
-
-        console.log(error);
-
-      });
-
-
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      data: {
+        title: 'Delete this homework item?'
+      }
     });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loading = true;
+
+        this.auth.getFirebaseTokenAsPromise().then(() => {
+
+          this.noticeService.deleteNotice(notice).subscribe(res => {
+
+            this.notices.splice(i, 1);
+            this.loading = false;
+
+          }, error => {
+
+            console.log(error);
+            this.loading = false;
+
+          });
+
+        });
+
+      }
+    });
 
   }
 

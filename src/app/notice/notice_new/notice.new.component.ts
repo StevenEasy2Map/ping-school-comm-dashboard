@@ -56,19 +56,28 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
 
   ngOnInit() {
 
-    const showDate = new Date();
-    const hideDate = new Date();
-    hideDate.setMonth(hideDate.getMonth() + 1);
+    this.getEditNoticeDetails().then((dates) => {
 
-    this.showDateOptions = new DatePickerOptions({
-      initialDate: showDate,
-      format: 'DD MMMM, YYYY'
+      console.log('here')
+
+      console.log(dates);
+
+      this.showDateOptions = new DatePickerOptions({
+        initialDate: new Date(dates.showDate),
+        format: 'DD MMMM, YYYY'
+      });
+
+      this.hideDateOptions = new DatePickerOptions({
+        initialDate: new Date(dates.hideDate),
+        format: 'DD MMMM, YYYY'
+      });
+
+      this.loading = false;
+      this.auth.processing = false;
+
+    }).catch(err => {
+      console.log(err);
     });
-    this.hideDateOptions = new DatePickerOptions({
-      initialDate: hideDate,
-      format: 'DD MMMM, YYYY'
-    });
-    this.getEditNoticeDetails();
   }
 
   ngAfterViewInit(): void {
@@ -91,88 +100,131 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
 
   }
 
-  getGroupSummary(): void {
+  getGroupSummary(): Promise<any> {
 
-    this.groupService.getGroupSummary(this.groupId).subscribe(
-      response => {
+    return new Promise((resolve, reject) => {
 
-        this.groupSummary = response.group_summary;
+      this.groupService.getGroupSummary(this.groupId).subscribe(
+        response => {
 
-      }, error => {
-        this.error = <any>error;
-      });
+          this.groupSummary = response.group_summary;
+          resolve(true);
 
-  }
+        }, error => {
+          reject(error);
+        });
 
-  getEditNoticeDetails(): void {
-
-    this.auth.getFirebaseTokenAsPromise().then(() => {
-      this.route.params.subscribe(params => {
-        this.noticeId = params['notice_id'];
-        this.groupId = params['group_id'];
-        this.schoolId = params['school_id'];
-
-        this.getGroupSummary();
-        this.getSigningCategories();
-
-        if (this.noticeId) {
-
-          this.getNoticeDetails();
-          this.getNoticeGroups();
-
-        } else {
-          this.loading = false;
-        }
-
-      });
     });
-  }
 
-  getNoticeDetails(): void {
-
-    this.noticeService.getNoticeDetails(this.noticeId).subscribe(
-      response => {
-        this.notice = response;
-        this.notice.description = this.notice.description.replace("'", "").replace("'", "");
-        console.log(this.notice);
-        this.loading = false;
-        this.title = 'Edit notice';
-
-        this.allowUsersToSetPaymentAmount = !!this.notice.payment_allow_user_to_set;
-        this.appendPaymentRefUserLastName = !!this.notice.payment_ref_append_lastname;
-        this.paymentApplicable = !!this.notice.payment_applicable;
-
-        this.showDateOptions = new DatePickerOptions({
-          initialDate: new Date(this.notice.show_date),
-          format: 'DD MMMM, YYYY'
-        });
-
-        this.hideDateOptions = new DatePickerOptions({
-          initialDate: new Date(this.notice.hide_date),
-          format: 'DD MMMM, YYYY'
-        });
-
-        if (this.notice['signature_document_id'] && this.notice['signature_template_id']) {
-          this.getEntityDocumentForSigning(this.notice, this.schoolId, this.noticeId, 'notice');
-        }
-
-      },
-      error => {
-        this.error = <any>error;
-        this.loading = false;
-      });
 
   }
 
-  getNoticeGroups(): void {
+  getEditNoticeDetails(): Promise<any> {
 
-    this.noticeService.getNoticeGroups(this.noticeId).subscribe(
-      response => {
-        this.noticeGroups = response;
-        console.log(this.noticeGroups);
+    return new Promise((resolve, reject) => {
 
-      },
-      error => this.error = <any>error);
+      this.auth.getFirebaseTokenAsPromise()
+        .then(() => {
+          this.route.params.subscribe(params => {
+
+            this.noticeId = params['notice_id'];
+            this.groupId = params['group_id'];
+            this.schoolId = params['school_id'];
+
+            this.getGroupSummary()
+              .then(() => {
+                return this.getSigningCategories();
+              })
+              .then(() => {
+
+                if (this.noticeId) {
+
+                  this.getNoticeGroups()
+                    .then(this.getNoticeDetails).then(() => {
+                    resolve({showDate: this.notice.show_date, hideDate: this.notice.hide_date});
+                  });
+
+                } else {
+
+                  const showDate = new Date();
+                  const hideDate = new Date();
+                  hideDate.setMonth(hideDate.getMonth() + 1);
+                  resolve({showDate: showDate, hideDate: hideDate});
+                }
+
+              });
+
+          });
+        });
+
+
+    });
+
+
+  }
+
+  getNoticeDetails(): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+
+      this.noticeService.getNoticeDetails(this.noticeId).subscribe(
+        response => {
+          this.notice = response;
+          this.notice.description = this.notice.description.replace("'", "").replace("'", "");
+          console.log(this.notice);
+          this.loading = false;
+          this.title = 'Edit notice';
+
+          this.allowUsersToSetPaymentAmount = !!this.notice.payment_allow_user_to_set;
+          this.appendPaymentRefUserLastName = !!this.notice.payment_ref_append_lastname;
+          this.paymentApplicable = !!this.notice.payment_applicable;
+
+          this.showDateOptions = new DatePickerOptions({
+            initialDate: new Date(this.notice.show_date),
+            format: 'DD MMMM, YYYY'
+          });
+
+          this.hideDateOptions = new DatePickerOptions({
+            initialDate: new Date(this.notice.hide_date),
+            format: 'DD MMMM, YYYY'
+          });
+
+          if (this.notice['signature_document_id'] && this.notice['signature_template_id']) {
+            this.getEntityDocumentForSigning(this.notice, this.schoolId, this.noticeId, 'notice');
+            resolve(this.notice);
+          } else {
+            resolve(this.notice);
+          }
+
+        },
+        error => {
+          this.error = <any>error;
+          this.loading = false;
+          reject(error);
+        });
+
+    });
+
+
+  }
+
+  getNoticeGroups(): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+
+      this.noticeService.getNoticeGroups(this.noticeId).subscribe(
+        response => {
+          this.noticeGroups = response;
+          console.log(this.noticeGroups);
+          resolve(true);
+
+        },
+        error => {
+          this.error = <any>error;
+          reject(error);
+        });
+
+    });
   }
 
 
