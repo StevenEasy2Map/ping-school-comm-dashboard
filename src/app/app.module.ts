@@ -57,7 +57,7 @@ import {OwnMySchoolComponent} from './school/own.my.school.component';
 import {UpdateMySchoolComponent} from './school/update.my.school.component';
 import {InviteSchoolMemberComponent} from './school/invite.school.member.component';
 import {SchoolAdministratorsComponent} from './school/school_administrators/school.administrators.component';
-import {MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, MatIconModule, MatRadioModule, MatSelectModule, MatSnackBarModule, MatTabsModule} from '@angular/material';
+import {DateAdapter, MAT_DATE_FORMATS, MatButtonModule, MatCardModule, MatDatepickerModule, MatDialogModule, MatExpansionModule, MatIconModule, MatNativeDateModule, MatRadioModule, MatSelectModule, MatSnackBarModule, MatTabsModule} from '@angular/material';
 import {DialogAreYouSureComponent} from './common/modals/are.you.sure.component';
 import {SignFromEmailComponent} from './document_signing/sign.from.email.component';
 import {NewHomeworkComponent} from './notice/homework_new/homework.new.component';
@@ -65,6 +65,8 @@ import {GroupHomeworkListComponent} from './notice/notice_list/group.homework.li
 import {JoinGroupComponent} from './group/join_group/join.group.component';
 import {EventDateTimePipe} from './common/pipes/event.date.time.pipe';
 import {EventDateTimeFromToPipe} from "./common/pipes/event.date.time.from.to.pipe";
+import {MomentDateAdapter} from "./common/adapters/moment.date.adapter";
+
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
   {path: 'signup', component: SignUpComponent},
@@ -109,6 +111,16 @@ const appRoutes: Routes = [
   {path: '', component: HomeComponent, canActivate: [AuthGuard]}
 
 ];
+
+const MOMENT_FORMATS = {
+    parse: {
+        dateInput: 'LL',
+    },
+    display: {
+        monthYearLabel: 'MMM YYYY',
+        // See DateFormats for other required formats.
+    },
+};
 
 @NgModule({
   declarations: [
@@ -187,9 +199,13 @@ const appRoutes: Routes = [
     BootstrapModalModule,
 
     AngularFireModule.initializeApp(environment.firebase),
-    MatTabsModule, MatCardModule, MatButtonModule, MatIconModule, MatSnackBarModule, MatExpansionModule, MatRadioModule, MatSelectModule, MatDialogModule
+    MatTabsModule, MatCardModule, MatButtonModule, MatIconModule, MatSnackBarModule,
+    MatExpansionModule, MatRadioModule, MatSelectModule, MatDialogModule, MatDatepickerModule, MatNativeDateModule
   ],
-  providers: [AppComponent, AuthService, AuthGuard, StorageService, APIService, HelperService, AngularFireAuth],
+  providers: [AppComponent, AuthService, AuthGuard, StorageService,
+    APIService, HelperService, AngularFireAuth,
+    {provide: DateAdapter, useClass: MomentDateAdapter},
+    {provide: MAT_DATE_FORMATS, useValue: MOMENT_FORMATS}],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -9,14 +9,17 @@ import {DateModel, DatePickerOptions} from 'ng2-datepicker';
 import {GroupService} from '../../group/group.service';
 import {DocumentSigningService} from '../../document_signing/services/document.signing.service';
 import {DocSigningSetupComponent} from '../../document_signing/doc.signing.setup.component';
+import {DateAdapter, MatDatepicker, MatDatepickerInput, MatDatepickerToggle, MatNativeDateModule, NativeDateAdapter} from "@angular/material";
+import * as moment from "moment";
 
 //  https://www.npmjs.com/package/ng2-datepicker
+
 
 @Component({
   selector: 'app-notice-new-component',
   templateUrl: './notice.new.template.html',
   styleUrls: ['./notice.new.style.scss'],
-  providers: [NoticeService, GroupService, DocumentSigningService],
+  providers: [NoticeService, GroupService, DocumentSigningService, MatDatepicker, MatDatepickerInput, MatDatepickerToggle, NativeDateAdapter],
   encapsulation: ViewEncapsulation.None
 })
 export class NewNoticeComponent extends DocSigningSetupComponent implements OnInit, AfterViewInit {
@@ -31,6 +34,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
   title = 'Create new notice';
   emailStatus = '1';
   step = 0;
+  myDate = new moment();
 
   showDateModel: DateModel;
   showDateOptions: DatePickerOptions;
@@ -48,6 +52,9 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
               public storageService: StorageService,
               public documentSigningService: DocumentSigningService,
               public router: Router,
+              public matDatePicker: MatDatepicker<any>,
+              public matDatePickerInput: MatDatepickerInput<any>,
+              public matDatePickerToggle: MatDatepickerToggle<any>,
               public route: ActivatedRoute) {
 
     super(documentSigningService, storageService);

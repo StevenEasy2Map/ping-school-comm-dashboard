@@ -310,7 +310,7 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
 
     postValue['group_ids'] = [this.groupId];
     postValue['school_id'] = this.schoolId;
-    postValue['email_status'] = this.emailStatus;
+    postValue['email_status'] = parseInt(this.emailStatus, 10);
     console.log(postValue['email_status']);
 
     let templateDetails = {};

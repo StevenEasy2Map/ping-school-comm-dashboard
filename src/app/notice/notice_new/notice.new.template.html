@@ -44,9 +44,17 @@
         <div class="row">
           <div class="col s6">
             <h6 for="livedate">The date this notice will be published</h6>
+            {{notice.show_date}}
+            <br>
+            {{myDate}}
 
-            <ng2-datepicker name="livedate" id="livedate" [options]="showDateOptions"
-                            [(ngModel)]="showDateModel"></ng2-datepicker>
+              <input matInput [(ngModel)]="myDate" [matDatepicker]="myDatepicker" style="width:200px;">
+              <mat-datepicker-toggle [for]="myDatepicker"></mat-datepicker-toggle>
+              <mat-datepicker #myDatepicker></mat-datepicker>
+
+
+            <!--<ng2-datepicker name="livedate" id="livedate" [options]="showDateOptions"-->
+            <!--[(ngModel)]="showDateModel"></ng2-datepicker>-->
 
           </div>
           <div class="col s6">
