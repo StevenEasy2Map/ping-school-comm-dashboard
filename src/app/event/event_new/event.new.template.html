@@ -42,14 +42,19 @@
           </div>
         </div>
 
+
         <div class="row">
           <div class="col s6">
             <h6 for="startdate">Start date</h6>
-            <ng2-datepicker id="startdate" [options]="startDateOptions" [(ngModel)]="startDateModel"></ng2-datepicker>
+
+            <input style="width:200px;" matInput [matDatepicker]="fromdatepicker" placeholder="Publish Date" [(ngModel)]="startDate">
+            <mat-datepicker-toggle matSuffix [for]="fromdatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #fromdatepicker></mat-datepicker>
+
           </div>
           <div class="col s6">
 
-            <label>Start time</label>
+            <h6>Start time</h6>
             <div class="row">
 
               <div class="col s2 time-select">
@@ -76,19 +81,18 @@
 
           </div>
         </div>
-
         <div class="row">
           <div class="col s6">
-
             <h6 for="enddate">End Date</h6>
 
-            <ng2-datepicker id="enddate" [options]="endDateOptions"
-                            [(ngModel)]="endDateModel"></ng2-datepicker>
+            <input style="width:200px;" matInput [matDatepicker]="todatepicker" placeholder="Un-Publish Date" [(ngModel)]="endDate">
+            <mat-datepicker-toggle matSuffix [for]="todatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #todatepicker></mat-datepicker>
 
           </div>
           <div class="col s6">
 
-            <label>End time</label>
+            <h6>End time</h6>
             <div class="row">
 
               <div class="col s2 time-select">

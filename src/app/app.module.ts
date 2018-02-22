@@ -28,7 +28,6 @@ import {MaterializeModule} from 'angular2-materialize';
 import {FriendlyDatePipe} from './common/pipes/friendly.date.pipe';
 import {FriendlyDateTimePipe} from './common/pipes/friendly.date.time.pipe';
 import {EllipsisPipe} from './common/pipes/ellipsis.pipe';
-import {DatePickerModule} from 'ng2-datepicker/lib-dist/ng2-datepicker.module';
 import {AuthService} from '../providers/auth-service';
 import {StorageService} from '../providers/storage-service';
 import {APIService} from '../providers/api-service';
@@ -57,14 +56,15 @@ import {OwnMySchoolComponent} from './school/own.my.school.component';
 import {UpdateMySchoolComponent} from './school/update.my.school.component';
 import {InviteSchoolMemberComponent} from './school/invite.school.member.component';
 import {SchoolAdministratorsComponent} from './school/school_administrators/school.administrators.component';
-import {MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, MatIconModule, MatRadioModule, MatSelectModule, MatSnackBarModule, MatTabsModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatDatepickerModule, MatDialogModule, MatExpansionModule, MatIconModule, MatRadioModule, MatSelectModule, MatSnackBarModule, MatTabsModule, MatNativeDateModule, DateAdapter} from '@angular/material';
 import {DialogAreYouSureComponent} from './common/modals/are.you.sure.component';
 import {SignFromEmailComponent} from './document_signing/sign.from.email.component';
 import {NewHomeworkComponent} from './notice/homework_new/homework.new.component';
 import {GroupHomeworkListComponent} from './notice/notice_list/group.homework.list.component';
 import {JoinGroupComponent} from './group/join_group/join.group.component';
 import {EventDateTimePipe} from './common/pipes/event.date.time.pipe';
-import {EventDateTimeFromToPipe} from "./common/pipes/event.date.time.from.to.pipe";
+import {EventDateTimeFromToPipe} from './common/pipes/event.date.time.from.to.pipe';
+
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
   {path: 'signup', component: SignUpComponent},
@@ -172,7 +172,6 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     MaterializeModule,
-    DatePickerModule,
     FormsModule,
     CKEditorModule,
     HttpModule,
@@ -187,7 +186,8 @@ const appRoutes: Routes = [
     BootstrapModalModule,
 
     AngularFireModule.initializeApp(environment.firebase),
-    MatTabsModule, MatCardModule, MatButtonModule, MatIconModule, MatSnackBarModule, MatExpansionModule, MatRadioModule, MatSelectModule, MatDialogModule
+    MatTabsModule, MatCardModule, MatButtonModule, MatIconModule, MatSnackBarModule, MatExpansionModule,
+    MatRadioModule, MatSelectModule, MatDialogModule, MatDatepickerModule, MatNativeDateModule
   ],
   providers: [AppComponent, AuthService, AuthGuard, StorageService, APIService, HelperService, AngularFireAuth],
   bootstrap: [AppComponent]

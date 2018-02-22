@@ -4,22 +4,23 @@ import 'rxjs/add/operator/switchMap';
 import {Event} from '../models/event';
 import {StorageService} from '../../../providers/storage-service';
 import {EventService} from '../services/event.service';
-import {HelperService} from '../../../providers/helper-service';
 import {AuthService} from '../../../providers/auth-service';
-import {DateModel, DatePickerOptions} from 'ng2-datepicker';
 import {GroupService} from '../../group/group.service';
 import * as moment from 'moment';
 import {DocSigningSetupComponent} from '../../document_signing/doc.signing.setup.component';
 import {DocumentSigningService} from '../../document_signing/services/document.signing.service';
+import {DATE_FORMATS} from '../../common/moment.date.formats';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material';
+import {MomentDateAdapter} from '@angular/material-moment-adapter';
 
-
-// https://www.npmjs.com/package/ng2-datepicker
 
 @Component({
   selector: 'app-event-new-component',
   templateUrl: 'event.new.template.html',
   styleUrls: ['../../notice/notice_new/notice.new.style.scss'],
-  providers: [EventService, GroupService, DocumentSigningService],
+  providers: [EventService, GroupService, DocumentSigningService,
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS}],
   encapsulation: ViewEncapsulation.None
 })
 export class NewEventComponent extends DocSigningSetupComponent implements OnInit, AfterViewInit {
@@ -36,11 +37,9 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
   step = 0;
 
   error = '';
-  startDateModel: DateModel;
-  startDateOptions: DatePickerOptions;
 
-  endDateModel: DateModel;
-  endDateOptions: DatePickerOptions;
+  startDate = moment().add(1, 'days');
+  endDate = moment().add(1, 'days');
 
   startTimeHours = this.padNumber((new Date()).getHours());
   startTimeMinutes = '00';
@@ -68,19 +67,6 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
   }
 
   ngOnInit() {
-
-    const currentDate = new Date();
-
-    this.startDateOptions = new DatePickerOptions({
-      initialDate: currentDate,
-      format: 'DD MMMM, YYYY'
-    });
-
-    this.endDateOptions = new DatePickerOptions({
-      initialDate: currentDate,
-      format: 'DD MMMM, YYYY'
-    });
-
     this.getEditEventDetails();
 
   }
@@ -162,43 +148,21 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
 
         this.loading = false;
 
-        const startDate: Date = HelperService.timeZoneAdjustedDate(this.event.start_date, this.event.timezone_offset);
-        const endDate: Date = HelperService.timeZoneAdjustedDate(this.event.end_date, this.event.timezone_offset);
-
-        const startDateModel: DateModel = new DateModel();
-        const startMomentObj = moment(startDate, 'DD MMMM, YYYY');
-        startDateModel.momentObj = startMomentObj;
-        startDateModel.formatted = moment(startDate).format('DD MMMM, YYYY');
-        this.startDateModel = startDateModel;
-
-        this.startDateOptions = new DatePickerOptions({
-          initialDate: startDate,
-          format: 'DD MMMM, YYYY'
-        });
-
-        const endDateModel: DateModel = new DateModel();
-        const endMomentObj = moment(endDate, 'DD MMMM, YYYY');
-        endDateModel.momentObj = endMomentObj;
-        endDateModel.formatted = moment(endDate).format('DD MMMM, YYYY');
-        this.endDateModel = endDateModel;
-
-        this.endDateOptions = new DatePickerOptions({
-          initialDate: endDate,
-          format: 'DD MMMM, YYYY'
-        });
+        this.startDate = moment(new Date(this.event.start_date));
+        this.endDate = moment(new Date(this.event.end_date));
 
         this.allowUsersToSetPaymentAmount = !!this.event.payment_allow_user_to_set;
         this.appendPaymentRefUserLastName = !!this.event.payment_ref_append_lastname;
         this.paymentApplicable = !!this.event.payment_applicable;
 
         if (this.event.start_date) {
-          this.startTimeHours = this.padNumber(startDate.getHours());
-          this.startTimeMinutes = this.padNumber(startDate.getMinutes());
+          this.startTimeHours = this.padNumber((new Date(this.event.start_date)).getHours());
+          this.startTimeMinutes = this.padNumber((new Date(this.event.start_date)).getMinutes());
         }
 
         if (this.event.end_date) {
-          this.endTimeHours = this.padNumber(endDate.getHours());
-          this.endTimeMinutes = this.padNumber(endDate.getMinutes());
+          this.endTimeHours = this.padNumber((new Date(this.event.end_date)).getHours());
+          this.endTimeMinutes = this.padNumber((new Date(this.event.end_date)).getMinutes());
         }
 
         if (this.event['signature_document_id'] && this.event['signature_template_id']) {
@@ -282,8 +246,8 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
 
   createEvent(): void {
 
-    this.event.start_date = new Date(this.startDateModel.momentObj.toString()).toString();
-    this.event.end_date = new Date(this.endDateModel.momentObj.toString()).toString();
+    this.event.start_date = this.startDate.toDate().toString();
+    this.event.end_date = this.endDate.toDate().toString();
 
     this.event.payment_allow_user_to_set = this.allowUsersToSetPaymentAmount ? 1 : 0;
     this.event.payment_ref_append_lastname = this.appendPaymentRefUserLastName ? 1 : 0;

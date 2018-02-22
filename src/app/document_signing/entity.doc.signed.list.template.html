@@ -52,8 +52,10 @@
       </div>
       <div class="col s6">
         <h6 for="paymentdate">The date of signing</h6>
-        <ng2-datepicker name="signdate" id="signdate" [options]="signDateOptions"
-                        [(ngModel)]="signDateModel"></ng2-datepicker>
+        <input style="width:200px;" matInput [matDatepicker]="fromdatepicker" placeholder="Sign Date" [(ngModel)]="signDate">
+        <mat-datepicker-toggle matSuffix [for]="fromdatepicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromdatepicker></mat-datepicker>
+
       </div>
       <div class="col s6">
         <h6>Signed Document</h6>

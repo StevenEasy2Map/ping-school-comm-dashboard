@@ -5,19 +5,20 @@ import {Notice} from '../models/notice';
 import {StorageService} from '../../../providers/storage-service';
 import {NoticeService} from '../services/notice.service';
 import {AuthService} from '../../../providers/auth-service';
-import {DateModel, DatePickerOptions} from 'ng2-datepicker';
 import {GroupService} from '../../group/group.service';
-import {DocumentSigningService} from '../../document_signing/services/document.signing.service';
 import {PingBaseComponent} from '../../ping.base.component';
+import {MomentDateAdapter} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import * as moment from 'moment';
-
-//  https://www.npmjs.com/package/ng2-datepicker
+import {DATE_FORMATS} from '../../common/moment.date.formats';
 
 @Component({
   selector: 'app-homework-new-component',
   templateUrl: './homework.new.template.html',
   styleUrls: ['../../notice/notice_new/notice.new.style.scss'],
-  providers: [NoticeService, GroupService, DocumentSigningService],
+  providers: [NoticeService, GroupService,
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS}],
   encapsulation: ViewEncapsulation.None
 })
 export class NewHomeworkComponent extends PingBaseComponent implements OnInit, AfterViewInit {
@@ -45,11 +46,8 @@ export class NewHomeworkComponent extends PingBaseComponent implements OnInit, A
     'removeButtons': 'Source,Save,Templates,Find,Replace,Scayt,SelectAll'
   };
 
-  showDateModel: DateModel;
-  showDateOptions: DatePickerOptions;
-
-  hideDateModel: DateModel;
-  hideDateOptions: DatePickerOptions;
+  showDate = moment();
+  hideDate = moment().add(1, 'days');
 
   constructor(private auth: AuthService,
               public noticeService: NoticeService,
@@ -63,20 +61,6 @@ export class NewHomeworkComponent extends PingBaseComponent implements OnInit, A
   }
 
   ngOnInit() {
-
-    const showDate = new Date();
-    const hideDate = new Date();
-    hideDate.setDate(hideDate.getDate() + 1);
-
-    this.showDateOptions = new DatePickerOptions({
-      initialDate: showDate,
-      format: 'DD MMMM, YYYY'
-    });
-    this.hideDateOptions = new DatePickerOptions({
-      initialDate: hideDate,
-      format: 'DD MMMM, YYYY'
-    });
-
   }
 
   ngAfterViewInit(): void {
@@ -145,15 +129,8 @@ export class NewHomeworkComponent extends PingBaseComponent implements OnInit, A
         this.loading = false;
         this.title = 'Edit homework item';
 
-        this.showDateOptions = new DatePickerOptions({
-          initialDate: new Date(this.notice.show_date),
-          format: 'DD MMMM, YYYY'
-        });
-
-        this.hideDateOptions = new DatePickerOptions({
-          initialDate: new Date(this.notice.hide_date),
-          format: 'DD MMMM, YYYY'
-        });
+        this.showDate = moment(new Date(this.notice.show_date));
+        this.hideDate = moment(new Date(this.notice.hide_date));
 
       },
       error => {
@@ -216,8 +193,8 @@ export class NewHomeworkComponent extends PingBaseComponent implements OnInit, A
 
   createNotice(): void {
 
-    this.notice.show_date = new Date(this.showDateModel.momentObj.toString()).toString();
-    this.notice.hide_date = new Date(this.hideDateModel.momentObj.toString()).toString();
+    this.notice.show_date = this.showDate.toDate().toString();
+    this.notice.hide_date = this.hideDate.toDate().toString();
 
     const postValue = {};
     for (const item in this.notice) {

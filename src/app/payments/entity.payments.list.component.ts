@@ -2,15 +2,21 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../providers/auth-service';
 import {PaymentsService} from './services/payments.service';
-import {DateModel, DatePickerOptions} from 'ng2-datepicker';
 import {PingBaseComponent} from '../ping.base.component';
-import {MatDialog, MatSnackBar} from "@angular/material";
-import {DialogAreYouSureComponent} from "../common/modals/are.you.sure.component";
+import {MatDialog, MatSnackBar} from '@angular/material';
+import {DialogAreYouSureComponent} from '../common/modals/are.you.sure.component';
+
+import {MomentDateAdapter} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import * as moment from 'moment';
+import {DATE_FORMATS} from '../common/moment.date.formats';
 
 @Component({
   selector: 'app-entity-payments-list-list-component',
   templateUrl: 'entity.payments.list.template.html',
-  providers: [PaymentsService],
+  providers: [PaymentsService,
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS}],
   styleUrls: ['payments.style.scss']
 })
 export class EntityPaymentsListComponent extends PingBaseComponent implements OnInit, AfterViewInit {
@@ -31,9 +37,7 @@ export class EntityPaymentsListComponent extends PingBaseComponent implements On
   paymentUser = 0;
   paymentReference = '';
   processManualPayment = false;
-
-  paymentDateModel: DateModel;
-  paymentDateOptions: DatePickerOptions;
+  paymentDate = moment();
 
   constructor(private auth: AuthService,
               public paymentsService: PaymentsService,
@@ -47,14 +51,6 @@ export class EntityPaymentsListComponent extends PingBaseComponent implements On
   }
 
   ngOnInit() {
-
-    const paymentDate = new Date();
-
-    this.paymentDateOptions = new DatePickerOptions({
-      initialDate: paymentDate,
-      format: 'DD MMMM, YYYY'
-    });
-
   }
 
   ngAfterViewInit(): void {
@@ -136,7 +132,7 @@ export class EntityPaymentsListComponent extends PingBaseComponent implements On
 
   makeManualPayment() {
 
-    const paymentDate = new Date(this.paymentDateModel.momentObj.toString()).toString();
+    const paymentDate = this.paymentDate.toDate().toString();
     this.paymentAmount = parseFloat(this.paymentAmount.toString());
 
     if (!Number.isFinite(this.paymentAmount) || this.paymentAmount < 0) {

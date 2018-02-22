@@ -1,25 +1,31 @@
-import {AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import {Notice} from '../models/notice';
 import {StorageService} from '../../../providers/storage-service';
 import {NoticeService} from '../services/notice.service';
 import {AuthService} from '../../../providers/auth-service';
-import {DateModel, DatePickerOptions} from 'ng2-datepicker';
 import {GroupService} from '../../group/group.service';
 import {DocumentSigningService} from '../../document_signing/services/document.signing.service';
 import {DocSigningSetupComponent} from '../../document_signing/doc.signing.setup.component';
-
-//  https://www.npmjs.com/package/ng2-datepicker
+import {MomentDateAdapter} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import * as moment from 'moment';
+import {DATE_FORMATS} from '../../common/moment.date.formats';
 
 @Component({
   selector: 'app-notice-new-component',
   templateUrl: './notice.new.template.html',
   styleUrls: ['./notice.new.style.scss'],
-  providers: [NoticeService, GroupService, DocumentSigningService],
+  providers: [NoticeService, GroupService, DocumentSigningService,
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS}],
   encapsulation: ViewEncapsulation.None
 })
 export class NewNoticeComponent extends DocSigningSetupComponent implements OnInit, AfterViewInit {
+
+  showDate = moment();
+  hideDate = moment().add(1, 'months');
 
   notice: Notice = this.initiateNewNotice();
   groupId = 0;
@@ -31,12 +37,6 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
   title = 'Create new notice';
   emailStatus = '1';
   step = 0;
-
-  showDateModel: DateModel;
-  showDateOptions: DatePickerOptions;
-
-  hideDateModel: DateModel;
-  hideDateOptions: DatePickerOptions;
 
   paymentApplicable = false;
   allowUsersToSetPaymentAmount = false;
@@ -54,30 +54,9 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
 
   }
 
+
   ngOnInit() {
-
-    this.getEditNoticeDetails().then((dates) => {
-
-      console.log('here')
-
-      console.log(dates);
-
-      this.showDateOptions = new DatePickerOptions({
-        initialDate: new Date(dates.showDate),
-        format: 'DD MMMM, YYYY'
-      });
-
-      this.hideDateOptions = new DatePickerOptions({
-        initialDate: new Date(dates.hideDate),
-        format: 'DD MMMM, YYYY'
-      });
-
-      this.loading = false;
-      this.auth.processing = false;
-
-    }).catch(err => {
-      console.log(err);
-    });
+    this.getEditNoticeDetails();
   }
 
   ngAfterViewInit(): void {
@@ -100,131 +79,81 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
 
   }
 
-  getGroupSummary(): Promise<any> {
+  getGroupSummary(): void {
 
-    return new Promise((resolve, reject) => {
+    this.groupService.getGroupSummary(this.groupId).subscribe(
+      response => {
 
-      this.groupService.getGroupSummary(this.groupId).subscribe(
-        response => {
+        this.groupSummary = response.group_summary;
 
-          this.groupSummary = response.group_summary;
-          resolve(true);
-
-        }, error => {
-          reject(error);
-        });
-
-    });
-
+      }, error => {
+        this.error = <any>error;
+      });
 
   }
 
-  getEditNoticeDetails(): Promise<any> {
+  getEditNoticeDetails(): void {
 
-    return new Promise((resolve, reject) => {
+    this.auth.getFirebaseTokenAsPromise().then(() => {
+      this.route.params.subscribe(params => {
+        this.noticeId = params['notice_id'];
+        this.groupId = params['group_id'];
+        this.schoolId = params['school_id'];
 
-      this.auth.getFirebaseTokenAsPromise()
-        .then(() => {
-          this.route.params.subscribe(params => {
+        this.getGroupSummary();
+        this.getSigningCategories();
 
-            this.noticeId = params['notice_id'];
-            this.groupId = params['group_id'];
-            this.schoolId = params['school_id'];
+        if (this.noticeId) {
 
-            this.getGroupSummary()
-              .then(() => {
-                return this.getSigningCategories();
-              })
-              .then(() => {
+          this.getNoticeDetails();
+          this.getNoticeGroups();
 
-                if (this.noticeId) {
-
-                  this.getNoticeGroups()
-                    .then(this.getNoticeDetails).then(() => {
-                    resolve({showDate: this.notice.show_date, hideDate: this.notice.hide_date});
-                  });
-
-                } else {
-
-                  const showDate = new Date();
-                  const hideDate = new Date();
-                  hideDate.setMonth(hideDate.getMonth() + 1);
-                  resolve({showDate: showDate, hideDate: hideDate});
-                }
-
-              });
-
-          });
-        });
-
-
-    });
-
-
-  }
-
-  getNoticeDetails(): Promise<any> {
-
-    return new Promise((resolve, reject) => {
-
-      this.noticeService.getNoticeDetails(this.noticeId).subscribe(
-        response => {
-          this.notice = response;
-          this.notice.description = this.notice.description.replace("'", "").replace("'", "");
-          console.log(this.notice);
+        } else {
           this.loading = false;
-          this.title = 'Edit notice';
+        }
 
-          this.allowUsersToSetPaymentAmount = !!this.notice.payment_allow_user_to_set;
-          this.appendPaymentRefUserLastName = !!this.notice.payment_ref_append_lastname;
-          this.paymentApplicable = !!this.notice.payment_applicable;
-
-          this.showDateOptions = new DatePickerOptions({
-            initialDate: new Date(this.notice.show_date),
-            format: 'DD MMMM, YYYY'
-          });
-
-          this.hideDateOptions = new DatePickerOptions({
-            initialDate: new Date(this.notice.hide_date),
-            format: 'DD MMMM, YYYY'
-          });
-
-          if (this.notice['signature_document_id'] && this.notice['signature_template_id']) {
-            this.getEntityDocumentForSigning(this.notice, this.schoolId, this.noticeId, 'notice');
-            resolve(this.notice);
-          } else {
-            resolve(this.notice);
-          }
-
-        },
-        error => {
-          this.error = <any>error;
-          this.loading = false;
-          reject(error);
-        });
-
+      });
     });
+  }
 
+  getNoticeDetails(): void {
+
+    this.noticeService.getNoticeDetails(this.noticeId).subscribe(
+      response => {
+        this.notice = response;
+        this.notice.description = this.notice.description.replace("'", "").replace("'", "");
+        console.log(this.notice);
+        this.loading = false;
+        this.title = 'Edit notice';
+
+        this.allowUsersToSetPaymentAmount = !!this.notice.payment_allow_user_to_set;
+        this.appendPaymentRefUserLastName = !!this.notice.payment_ref_append_lastname;
+        this.paymentApplicable = !!this.notice.payment_applicable;
+
+        this.showDate = moment(new Date(this.notice.show_date));
+        this.hideDate = moment(new Date(this.notice.hide_date));
+
+        if (this.notice['signature_document_id'] && this.notice['signature_template_id']) {
+          this.getEntityDocumentForSigning(this.notice, this.schoolId, this.noticeId, 'notice');
+        }
+
+      },
+      error => {
+        this.error = <any>error;
+        this.loading = false;
+      });
 
   }
 
-  getNoticeGroups(): Promise<any> {
+  getNoticeGroups(): void {
 
-    return new Promise((resolve, reject) => {
+    this.noticeService.getNoticeGroups(this.noticeId).subscribe(
+      response => {
+        this.noticeGroups = response;
+        console.log(this.noticeGroups);
 
-      this.noticeService.getNoticeGroups(this.noticeId).subscribe(
-        response => {
-          this.noticeGroups = response;
-          console.log(this.noticeGroups);
-          resolve(true);
-
-        },
-        error => {
-          this.error = <any>error;
-          reject(error);
-        });
-
-    });
+      },
+      error => this.error = <any>error);
   }
 
 
@@ -282,8 +211,8 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
 
   createNotice(): void {
 
-    this.notice.show_date = new Date(this.showDateModel.momentObj.toString()).toString();
-    this.notice.hide_date = new Date(this.hideDateModel.momentObj.toString()).toString();
+    this.notice.show_date = this.showDate.toDate().toString();
+    this.notice.hide_date = this.hideDate.toDate().toString();
 
     this.notice.payment_allow_user_to_set = this.allowUsersToSetPaymentAmount ? 1 : 0;
     this.notice.payment_ref_append_lastname = this.appendPaymentRefUserLastName ? 1 : 0;

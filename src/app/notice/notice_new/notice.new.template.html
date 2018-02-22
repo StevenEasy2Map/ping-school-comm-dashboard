@@ -45,14 +45,17 @@
           <div class="col s6">
             <h6 for="livedate">The date this notice will be published</h6>
 
-            <ng2-datepicker name="livedate" id="livedate" [options]="showDateOptions"
-                            [(ngModel)]="showDateModel"></ng2-datepicker>
+            <input style="width:200px;" matInput [matDatepicker]="fromdatepicker" placeholder="Publish Date" [(ngModel)]="showDate">
+            <mat-datepicker-toggle matSuffix [for]="fromdatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #fromdatepicker></mat-datepicker>
 
           </div>
           <div class="col s6">
             <h6 for="enddate">The date this notice will be un-published</h6>
-            <ng2-datepicker id="enddate" [options]="hideDateOptions"
-                            [(ngModel)]="hideDateModel"></ng2-datepicker>
+
+            <input style="width:200px;" matInput [matDatepicker]="todatepicker" placeholder="Un-Publish Date" [(ngModel)]="hideDate">
+            <mat-datepicker-toggle matSuffix [for]="todatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #todatepicker></mat-datepicker>
 
           </div>
         </div>

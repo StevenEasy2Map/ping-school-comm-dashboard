@@ -74,8 +74,11 @@
       </div>
       <div class="col s6">
         <h6 for="paymentdate">The date of payment</h6>
-        <ng2-datepicker name="paymentdate" id="paymentdate" [options]="paymentDateOptions"
-                        [(ngModel)]="paymentDateModel"></ng2-datepicker>
+
+        <input style="width:200px;" matInput [matDatepicker]="paymentdatepicker" placeholder="Publish Date" [(ngModel)]="paymentDate">
+            <mat-datepicker-toggle matSuffix [for]="paymentdatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #paymentdatepicker></mat-datepicker>
+
       </div>
       <div class="col s6">
         <h6>Payment amount (R)</h6>
