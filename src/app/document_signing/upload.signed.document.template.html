@@ -9,8 +9,10 @@
     <div class="row">
       <div class="col s12">
         <h6 for="livedate">Date of signing</h6>
-        <ng2-datepicker name="signed" id="signed" [options]="signedDateOptions"
-                        [(ngModel)]="signedDateModel"></ng2-datepicker>
+
+        <input style="width:200px;" matInput [matDatepicker]="fromdatepicker" placeholder="Sign Date" [(ngModel)]="signDate">
+        <mat-datepicker-toggle matSuffix [for]="fromdatepicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromdatepicker></mat-datepicker>
 
       </div>
 

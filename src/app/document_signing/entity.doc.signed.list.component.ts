@@ -1,25 +1,31 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {DocumentSigningService} from "./services/document.signing.service";
-import {AuthService} from "../../providers/auth-service";
-import {StorageService} from "../../providers/storage-service";
-import {DateModel, DatePickerOptions} from 'ng2-datepicker';
+import {DocumentSigningService} from './services/document.signing.service';
+import {AuthService} from '../../providers/auth-service';
+import {StorageService} from '../../providers/storage-service';
+import {MomentDateAdapter} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import * as moment from 'moment';
+import {DATE_FORMATS} from '../common/moment.date.formats';
+
 
 @Component({
-  selector: 'entity-doc-signed-list-component',
+  selector: 'app-entity-doc-signed-list-component',
   templateUrl: 'entity.doc.signed.list.template.html',
-  providers: [DocumentSigningService],
+  providers: [DocumentSigningService,
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS}],
   styleUrls: ['doc.signed.style.scss']
 })
 export class EntityDocSignedListComponent implements OnInit, AfterViewInit {
 
   documents: any[] = [];
   documentDetails = {};
-  entityId: string = '';
-  schoolId: string = '';
+  entityId = '';
+  schoolId = '';
   groupId = '';
-  documentId: string = '';
-  templateId: string = '';
+  documentId = '';
+  templateId = '';
   entityType = '';
   entityTitle = '';
 
@@ -27,9 +33,7 @@ export class EntityDocSignedListComponent implements OnInit, AfterViewInit {
   signUser = 0;
   processManualSignature = false;
   outstandingSignatures = false;
-
-  signDateModel: DateModel;
-  signDateOptions: DatePickerOptions;
+  signDate = moment();
 
   constructor(private auth: AuthService,
               public documentSignService: DocumentSigningService,
@@ -41,13 +45,6 @@ export class EntityDocSignedListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-
-    const signDate = new Date();
-
-    this.signDateOptions = new DatePickerOptions({
-      initialDate: signDate,
-      format: 'DD MMMM, YYYY'
-    });
 
   }
 
@@ -71,11 +68,11 @@ export class EntityDocSignedListComponent implements OnInit, AfterViewInit {
 
   getDocumentDetails(): void {
 
-    this.documentSignService.getDocumentDetails(this.documentId, this.schoolId, this.templateId, this.entityId, this.entityType).subscribe(res => {
+    this.documentSignService.getDocumentDetails(this.documentId, this.schoolId,
+      this.templateId, this.entityId, this.entityType).subscribe(res => {
       this.documentDetails = res.document;
 
     });
-
 
   }
 
@@ -91,7 +88,7 @@ export class EntityDocSignedListComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    const signatureDate = new Date(this.signDateModel.momentObj.toString()).toString();
+    const signatureDate = this.signDate.toDate().toString();
 
     for (let i = 0; i < this.documents.length; i++) {
 
@@ -118,7 +115,6 @@ export class EntityDocSignedListComponent implements OnInit, AfterViewInit {
         break;
 
       }
-
 
     }
 
@@ -151,7 +147,7 @@ export class EntityDocSignedListComponent implements OnInit, AfterViewInit {
       if (!document.document_status || document.document_status !== 'complete') {
         result.push(document);
       }
-    })
+    });
 
     return result;
   }

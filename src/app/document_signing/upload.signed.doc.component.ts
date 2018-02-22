@@ -2,13 +2,18 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DocumentSigningService} from './services/document.signing.service';
 import {AuthService} from '../../providers/auth-service';
-import {DateModel, DatePickerOptions} from 'ng2-datepicker';
 import {StorageService} from '../../providers/storage-service';
+import {MomentDateAdapter} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import * as moment from 'moment';
+import {DATE_FORMATS} from '../common/moment.date.formats';
 
 @Component({
   selector: 'app-upload-signed-doc-component',
   templateUrl: 'upload.signed.document.template.html',
-  providers: [DocumentSigningService],
+  providers: [DocumentSigningService,
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS}],
   styleUrls: ['doc.signed.style.scss']
 })
 export class UploadSignedDocComponent implements OnInit, AfterViewInit {
@@ -26,28 +31,16 @@ export class UploadSignedDocComponent implements OnInit, AfterViewInit {
   userId = '';
   userEmail = '';
   userName = '';
-
-  signedDateModel: DateModel;
-  signedDateOptions: DatePickerOptions;
+  signDate = moment();
 
   constructor(private auth: AuthService,
               public documentSignService: DocumentSigningService,
               public router: Router,
               public storageService: StorageService,
               public route: ActivatedRoute) {
-
-
   }
 
   ngOnInit() {
-
-    const now = new Date();
-
-    this.signedDateOptions = new DatePickerOptions({
-      initialDate: now,
-      format: 'DD MMMM, YYYY'
-    });
-
   }
 
   ngAfterViewInit(): void {
@@ -109,7 +102,7 @@ export class UploadSignedDocComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.documentDate = new Date(this.signedDateModel.momentObj.toString()).toString();
+    this.documentDate = this.signDate.toDate().toString();
 
 
   }
