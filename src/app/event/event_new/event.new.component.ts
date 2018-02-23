@@ -77,10 +77,6 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
     this.setupDocSigningFileUploadLogic();
   }
 
-  onEmailStatusChange(val) {
-    this.emailStatus = val;
-  }
-
   initiateNewEvent(): Event {
 
     const currentDate = new Date();
