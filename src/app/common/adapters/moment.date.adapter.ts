@@ -1,6 +1,6 @@
-import {Moment} from "moment";
-import {DateAdapter} from "@angular/material";
-import moment = require("moment");
+import {DateAdapter} from '@angular/material';
+import {Moment} from 'moment';
+import * as moment from 'moment';
 
 export class MomentDateAdapter extends DateAdapter<Moment> {
   getYear(date: moment.Moment): number {
