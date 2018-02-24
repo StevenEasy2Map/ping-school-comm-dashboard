@@ -7,6 +7,8 @@ import {Group} from '../models/group';
 import {GroupMembershipQuestion} from '../models/question';
 import {AuthService} from '../../../providers/auth-service';
 import {MaterializeAction} from 'angular2-materialize';
+import {MatDialog, MatSnackBar} from "@angular/material";
+import {DialogAreYouSureComponent} from "../../common/modals/are.you.sure.component";
 
 @Component({
   selector: 'app-edit-group-component',
@@ -32,6 +34,8 @@ export class EditGroupComponent implements AfterViewInit {
               private userService: UserService,
               private router: Router,
               private route: ActivatedRoute,
+              public dialog: MatDialog,
+              public snackBar: MatSnackBar,
               private storageService: StorageService,
               private groupService: GroupService) {
   }
@@ -222,6 +226,43 @@ export class EditGroupComponent implements AfterViewInit {
         });
 
     }
+
+  }
+
+  deleteGroup() {
+
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      data: {
+        title: 'Delete this group? This action is not reversible.'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loading = true;
+        this.auth.processing = true;
+
+        this.groupService.deleteGroup({id: this.groupId, school_id: this.schoolId}).subscribe(
+          response => {
+            console.log(response);
+
+            this.loading = false;
+            this.auth.processing = false;
+
+            this.snackBar.open('You have successfully deleted this group');
+            setTimeout(() => {
+              this.snackBar.dismiss();
+              window.history.back();
+            }, 1500);
+
+          }, error => {
+            this.error = <any>error;
+            this.auth.processing = false;
+            this.loading = false;
+          });
+      }
+
+    });
 
   }
 

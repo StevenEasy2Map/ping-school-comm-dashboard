@@ -63,6 +63,10 @@ export class GroupService extends APIService {
     return this.post(payload, '/api/group/remove_member');
   }
 
+  deleteGroup(payload: any): Observable<any> {
+    return this.post(payload, '/api/group/delete_group');
+  }
+
   getMyGroups(): Observable<any> {
     return this.get('/api/group/my_groups');
   }
