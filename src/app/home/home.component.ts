@@ -30,132 +30,148 @@ export class HomeComponent implements AfterViewInit {
   eventsTitle = 'My Events';
   groupsTitle = 'My Groups';
   homeworkTitle = 'My Homework';
-  selectedTabIndex = this.retrieveSavedTabIndex();
+  selectedTabIndex = 0;
 
-
-  constructor(private auth: AuthService, private groupService: GroupService,
-              private schoolService: SchoolService,
-              private noticeService: NoticeService,
-              private eventService: EventService,
+  constructor(public auth: AuthService,
+              public groupService: GroupService,
+              public schoolService: SchoolService,
+              public noticeService: NoticeService,
+              public eventService: EventService,
               public dialog: MatDialog,
               public snackBar: MatSnackBar,
-              private router: Router) {
+              public router: Router) {
   }
 
   ngAfterViewInit(): void {
 
     this.auth.getFirebaseTokenAsPromise().then(() => {
-      this.getMyGroups();
-      this.getMyNotices();
-      this.getMyHomework();
-      this.getMyEvents();
-      this.getAllSchoolsIAdminister();
+
+      this.getAllSchoolsIAdminister()
+        .then(() => {
+          return this.getMyGroups();
+        })
+        .then(() => {
+          return this.getMyNotices();
+        })
+        .then(() => {
+          return this.getMyHomework();
+        })
+        .then(() => {
+          return this.getMyEvents();
+        })
+        .then(() => {
+          this.auth.processing = false;
+          this.loading = false;
+          this.selectedTabIndex = this.retrieveSavedTabIndex();
+        }).catch(err => {
+        this.error = <any>err;
+        this.auth.processing = false;
+        this.loading = false;
+      });
+
     });
 
   }
 
   tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
-    console.log('tabChangeEvent => ', tabChangeEvent);
-    console.log('index => ', tabChangeEvent.index);
     if (typeof(Storage) !== 'undefined') {
       window.localStorage.setItem('ping-home-tab-index', tabChangeEvent.index.toString());
+      this.selectedTabIndex = tabChangeEvent.index;
     }
   }
 
   retrieveSavedTabIndex() {
     if (typeof(Storage) !== 'undefined') {
       const index = window.localStorage.getItem('ping-home-tab-index') || '0';
-      console.log(`retrieveSavedTabIndex=${index}`);
-      return parseInt(index, 10);
+      return this.selectedTabIndex = parseInt(index, 10);
     }
     return 0;
   }
 
-  getMyGroups() {
+  getMyGroups(): Promise<any> {
 
-    this.groupService.getMyGroups().subscribe(
-      response => {
-        console.log(response);
-        this.myGroups = response;
-        if (!this.myGroups || this.myGroups.length === 0) {
-          this.groupsTitle = 'You aren\'t a member of any groups.';
-        }
+    const self = this;
 
-        // this.myGroups = this.myGroups.filter(group => {
-        //   return group.role !== 'member';
-        // });
+    return new Promise((resolve, reject) => {
 
-        console.log(this.myGroups);
-        this.auth.processing = false;
-        this.loading = false;
+      self.groupService.getMyGroups().subscribe(
+        response => {
+          self.myGroups = response;
+          if (!self.myGroups || self.myGroups.length === 0) {
+            self.groupsTitle = 'You aren\'t a member of any groups.';
+          }
 
-      },
-      error => {
-        this.error = <any>error;
-        this.loading = false;
-      });
+          resolve();
 
+        },
+        error => {
+          reject(error);
+        });
+
+    });
 
   }
 
-  getMyNotices() {
+  getMyNotices(): Promise<any> {
 
-    this.noticeService.getMyNotices().subscribe(
-      response => {
-        this.myNotices = response;
+    const self = this;
 
-        if (!this.myNotices || this.myNotices.length === 0) {
-          this.noticesTitle = 'You don\'t have any live notices.';
-        }
+    return new Promise((resolve, reject) => {
 
-        this.myNotices.forEach(notice => {
+      self.noticeService.getMyNotices().subscribe(
+        response => {
+          self.myNotices = response;
 
-          notice.description = notice.description.replace("'", "").replace("'", "");
-          console.log(notice);
+          if (!self.myNotices || self.myNotices.length === 0) {
+            self.noticesTitle = 'You don\'t have any live notices.';
+          }
 
-          console.log(notice.show_date);
-          notice.show_date = moment(new Date(notice.show_date)).fromNow();
+          self.myNotices.forEach(notice => {
 
+            notice.description = notice.description.replace("'", "").replace("'", "");
+            notice.show_date = moment(new Date(notice.show_date)).fromNow();
+
+          });
+
+          resolve();
+
+        },
+        error => {
+          reject(error);
         });
 
-        this.auth.processing = false;
-        this.loading = false;
-
-      },
-      error => {
-        this.error = <any>error;
-        this.loading = false;
-      });
+    });
 
 
   }
 
   getMyHomework() {
 
-    this.noticeService.getMyHomework().subscribe(
-      response => {
-        this.myHomework = response;
+    return new Promise((resolve, reject) => {
 
-        if (!this.myHomework || this.myHomework.length === 0) {
-          this.homeworkTitle = 'You don\'t have any homework.';
-        }
+      this.noticeService.getMyHomework().subscribe(
+        response => {
+          this.myHomework = response;
 
-        this.myHomework.forEach(notice => {
+          if (!this.myHomework || this.myHomework.length === 0) {
+            this.homeworkTitle = 'You don\'t have any homework.';
+          }
 
-          notice.description = notice.description.replace("'", "").replace("'", "");
-          console.log(notice.description);
-          notice.show_date = moment(new Date(notice.show_date)).fromNow();
+          this.myHomework.forEach(notice => {
 
+            notice.description = notice.description.replace("'", "").replace("'", "");
+            notice.show_date = moment(new Date(notice.show_date)).fromNow();
+
+          });
+
+          resolve();
+
+        },
+        error => {
+          reject(error);
         });
 
-        this.auth.processing = false;
-        this.loading = false;
-
-      },
-      error => {
-        this.error = <any>error;
-        this.loading = false;
-      });
+    });
 
 
   }
@@ -245,27 +261,29 @@ export class HomeComponent implements AfterViewInit {
 
   getMyEvents() {
 
-    this.eventService.getMyEvents().subscribe(
-      response => {
-        this.myEvents = response;
+    return new Promise((resolve, reject) => {
 
-        if (!this.myEvents || this.myEvents.length === 0) {
-          this.eventsTitle = 'You don\'t have any events.';
-        }
+      this.eventService.getMyEvents().subscribe(
+        response => {
+          this.myEvents = response;
 
-        this.myEvents.forEach(event => {
-          event.description = event.description.replace("'", "").replace("'", "");
-          event.start_date = HelperService.timeZoneAdjustedDate(event.start_date, event.timezone_offset);
+          if (!this.myEvents || this.myEvents.length === 0) {
+            this.eventsTitle = 'You don\'t have any events.';
+          }
+
+          this.myEvents.forEach(event => {
+            event.description = event.description.replace("'", "").replace("'", "");
+            event.start_date = HelperService.timeZoneAdjustedDate(event.start_date, event.timezone_offset);
+          });
+
+          resolve();
+
+        },
+        error => {
+          reject(error);
         });
 
-        this.auth.processing = false;
-        this.loading = false;
-
-      },
-      error => {
-        this.error = <any>error;
-        this.loading = false;
-      });
+    });
 
 
   }
@@ -276,17 +294,19 @@ export class HomeComponent implements AfterViewInit {
 
   getAllSchoolsIAdminister() {
 
-    this.schoolService.getAllPrivateSchoolsIAdminister().subscribe(
-      response => {
-        this.mySchools = response || [];
-        this.auth.processing = false;
-        this.loading = false;
+    return new Promise((resolve, reject) => {
 
-      },
-      error => {
-        this.error = <any>error;
-        this.loading = false;
-      });
+      this.schoolService.getAllPrivateSchoolsIAdminister().subscribe(
+        response => {
+          this.mySchools = response || [];
+          resolve();
+
+        },
+        error => {
+          reject(error);
+        });
+
+    });
 
 
   }

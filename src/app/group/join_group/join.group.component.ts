@@ -42,6 +42,7 @@ export class JoinGroupComponent implements AfterViewInit {
 
       this.auth.processing = false;
       this.loading = false;
+      console.log(response);
 
       if (!response) {
 

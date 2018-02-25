@@ -64,13 +64,11 @@ export class GroupEventsCalendarComponent extends EventListComponent implements 
   ngAfterViewInit(): void {
 
     this.auth.getFirebaseTokenAsPromise().then(() => {
+      this.loading = true;
+      this.auth.processing = true;
       this.getEvents()
         .then(() => {
           return this.isGroupAdmin(parseInt(this.schoolId, 10), parseInt(this.groupId, 10));
-        })
-        .then(() => {
-          this.loading = false;
-          this.auth.processing = false;
         })
         .catch(err => {
           console.log(err);
@@ -122,21 +120,22 @@ export class GroupEventsCalendarComponent extends EventListComponent implements 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.loading = true;
+        this.auth.processing = true;
 
         this.auth.getFirebaseTokenAsPromise().then(() => {
 
           this.eventService.deleteEvent(event).subscribe(res => {
 
-            this.loading = false;
+            this.clearSelectedEvents();
             this.getEvents();
 
           }, error => {
 
             console.log(error);
             this.loading = false;
+            this.auth.processing = false;
 
           });
-
 
         });
 
@@ -163,7 +162,6 @@ export class GroupEventsCalendarComponent extends EventListComponent implements 
 
     return new Promise((resolve, reject) => {
 
-      this.auth.processing = true;
       this.route.params.subscribe(params => {
         this.groupId = params['group_id'];
         this.schoolId = params['school_id'];
@@ -202,12 +200,16 @@ export class GroupEventsCalendarComponent extends EventListComponent implements 
             this.selectedMonth = month.format('MMMM');
 
             this.events = tempEvents;
+            this.loading = false;
+            this.auth.processing = false;
             resolve(this.events);
 
           });
 
       }, err => {
 
+        this.loading = false;
+        this.auth.processing = false;
         reject(err);
 
 
