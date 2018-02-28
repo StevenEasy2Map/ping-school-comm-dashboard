@@ -1,15 +1,13 @@
 import {AfterViewInit, Component} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {EventService} from '../services/event.service';
-import {FriendlyDatePipe} from '../../common/pipes/friendly.date.pipe';
-import {FriendlyDateTimePipe} from '../../common/pipes/friendly.date.time.pipe';
-import {Event} from '../models/event';
 import {AuthService} from '../../../providers/auth-service';
 import {HelperService} from '../../../providers/helper-service';
-import {DetailsBaseComponent} from "../../notice/notice_details/details.base.component";
-import {DocumentSigningService} from "../../document_signing/services/document.signing.service";
-import {MatSnackBar} from "@angular/material";
+import {DetailsBaseComponent} from '../../notice/notice_details/details.base.component';
+import {DocumentSigningService} from '../../document_signing/services/document.signing.service';
+import {MatSnackBar} from '@angular/material';
 import {PaymentsService} from '../../payments/services/payments.service';
+import {GoogleCalendarApiClientService} from '../google_calendar_api/google.calendar.api.client.service';
 
 @Component({
   selector: 'app-event-details-component',
@@ -27,16 +25,19 @@ export class EventDetailsComponent extends DetailsBaseComponent implements After
   error = '';
   loading = true;
   feeAmount = 0;
+  eventAddedToCalendar = false;
 
   constructor(private auth: AuthService,
               public eventService: EventService,
               public router: Router,
               public documentSigningService: DocumentSigningService,
+              public googleAPIClientService: GoogleCalendarApiClientService,
               public paymentsService: PaymentsService,
               public snackBar: MatSnackBar,
               public route: ActivatedRoute) {
 
     super(documentSigningService, paymentsService);
+    googleAPIClientService.eventAdded$.subscribe(item => this.onEventAdded());
 
   }
 
@@ -81,6 +82,18 @@ export class EventDetailsComponent extends DetailsBaseComponent implements After
       });
 
 
+  }
+
+  addEventToCalendar() {
+    this.googleAPIClientService.initEventInsert(this.event);
+  }
+
+  onEventAdded() {
+    this.eventAddedToCalendar = true;
+    this.snackBar.open('Event successfully added to your calendar');
+    setTimeout(() => {
+      this.snackBar.dismiss();
+    }, 1500);
   }
 
   signDocument() {

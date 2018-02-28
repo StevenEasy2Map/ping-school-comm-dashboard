@@ -78,6 +78,12 @@ https://material.angular.io/
 
 CKEditor
 https://docs.ckeditor.com/ckeditor4/latest/guide/dev_toolbar.html
+
+Google Calendar API
+https://developers.google.com/google-apps/calendar/
+https://developers.google.com/google-apps/calendar/quickstart/js
+https://developers.google.com/google-apps/calendar/v3/reference/events/insert
+
   
   
   

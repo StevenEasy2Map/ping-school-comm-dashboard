@@ -19,6 +19,11 @@
     <a (click)="goBack()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Back</a>
   </h2>
 
+
+  <div class="right-align">
+    <button *ngIf="!eventAddedToCalendar" (click)="addEventToCalendar()" mat-raised-button color="primary">Add this event to my calendar</button>
+  </div>
+
   <div class="content entity-details-parent">
 
     <h4 class="darkGreyHeader top-bottom-margin center-align">{{event.title}}</h4>

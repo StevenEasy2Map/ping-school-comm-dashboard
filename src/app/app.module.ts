@@ -64,6 +64,7 @@ import {GroupHomeworkListComponent} from './notice/notice_list/group.homework.li
 import {JoinGroupComponent} from './group/join_group/join.group.component';
 import {EventDateTimePipe} from './common/pipes/event.date.time.pipe';
 import {EventDateTimeFromToPipe} from './common/pipes/event.date.time.from.to.pipe';
+import {GoogleCalendarApiClientService} from "./event/google_calendar_api/google.calendar.api.client.service";
 
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
@@ -189,7 +190,7 @@ const appRoutes: Routes = [
     MatTabsModule, MatCardModule, MatButtonModule, MatIconModule, MatSnackBarModule, MatExpansionModule,
     MatRadioModule, MatSelectModule, MatDialogModule, MatDatepickerModule, MatNativeDateModule
   ],
-  providers: [AppComponent, AuthService, AuthGuard, StorageService, APIService, HelperService, AngularFireAuth],
+  providers: [AppComponent, AuthService, AuthGuard, StorageService, APIService, HelperService, AngularFireAuth, GoogleCalendarApiClientService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -110,7 +110,7 @@
           <mat-card-content (click)="viewNoticeDetails(notice)">
             <p class="notice-date">Published {{ notice.show_date }}</p>
             <h5 *ngIf="!notice.school_wide" class="notice-sub-subtitle">{{notice.school_name}}</h5>
-            <div class="notice-details-description" [innerHTML]="notice.description"></div>
+            <!--<div class="notice-details-description" [innerHTML]="notice.description"></div>-->
 
           </mat-card-content>
           <mat-card-actions>
@@ -158,7 +158,7 @@
           <mat-card-content (click)="viewEventDetails(event)">
             <p class="notice-date">{{ event.start_date | eventdatetime }}</p>
             <h5 *ngIf="!event.school_wide" class="notice-sub-subtitle">{{event.school_name}}</h5>
-            <div [innerHTML]="event.description" class="notice-details-description"></div>
+            <!--<div [innerHTML]="event.description" class="notice-details-description"></div>-->
           </mat-card-content>
           <mat-card-actions>
 
@@ -205,7 +205,7 @@
           <mat-card-content (click)="viewNoticeDetails(notice)">
             <p class="notice-date">Published {{ notice.show_date }}</p>
             <h5 *ngIf="!notice.school_wide" class="notice-sub-subtitle">{{notice.school_name}}</h5>
-            <div class="notice-details-description" [innerHTML]="notice.description"></div>
+            <!--<div class="notice-details-description" [innerHTML]="notice.description"></div>-->
 
           </mat-card-content>
 
@@ -274,7 +274,7 @@
                 </button>
                 <span class="stats-total">{{ group.member_count}} member<span *ngIf="group.member_count !== 1">s</span></span>
               </div>
-              <div (click)="viewGroupMembers(i)" *ngIf="group.awaiting_validation_count && group.role !== 'member' && group.validated" class="right">
+              <div (click)="viewGroupMembers(i)" *ngIf="group.awaiting_validation_count && group.role !== 'member' && group.validated && group.awaiting_validation_count > 0" class="right">
                 <button mat-icon-button>
                   <mat-icon aria-label="Edit">star</mat-icon>
                 </button>
