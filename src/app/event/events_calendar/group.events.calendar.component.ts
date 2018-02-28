@@ -181,6 +181,12 @@ export class GroupEventsCalendarComponent extends EventListComponent implements 
               event.start_date = HelperService.timeZoneAdjustedDate(event.start_date, event.timezone_offset);
               event.end_date = HelperService.timeZoneAdjustedDate(event.end_date, event.timezone_offset);
 
+              if (Number.isSafeInteger(event.emails_sent) && event.emails_sent > 0 && Number.isSafeInteger(event.emails_opened)) {
+                event.emails_opened_stats = `${Math.round((event.emails_opened / event.emails_sent) * 100)}% (${event.emails_opened} / ${event.emails_sent})`;
+              } else {
+                event.emails_opened_stats = 'N/A';
+              }
+
               tempEvents.push({
 
                 id: event.id,
@@ -188,6 +194,7 @@ export class GroupEventsCalendarComponent extends EventListComponent implements 
                 start: event.start_date,
                 end: event.end_date,
                 future_date: event.future_date,
+                emails_opened_stats: event.emails_opened_stats,
                 signature_document_id: event.signature_document_id,
                 signature_document_template_id: event.signature_document_template_id,
                 payment_applicable: event.payment_applicable,
