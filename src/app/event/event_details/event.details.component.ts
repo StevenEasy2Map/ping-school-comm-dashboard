@@ -37,7 +37,8 @@ export class EventDetailsComponent extends DetailsBaseComponent implements After
               public route: ActivatedRoute) {
 
     super(documentSigningService, paymentsService);
-    googleAPIClientService.eventAdded$.subscribe(item => this.onEventAdded());
+    googleAPIClientService.eventAddedToCalendar$.subscribe(item => this.onEventAddedToCalendar());
+    googleAPIClientService.errorEncountered$.subscribe(item => this.onCalendarErrorEncountered(item));
 
   }
 
@@ -88,12 +89,18 @@ export class EventDetailsComponent extends DetailsBaseComponent implements After
     this.googleAPIClientService.initEventInsert(this.event);
   }
 
-  onEventAdded() {
+  onEventAddedToCalendar() {
     this.eventAddedToCalendar = true;
-    this.snackBar.open('Event successfully added to your calendar');
-    setTimeout(() => {
-      this.snackBar.dismiss();
-    }, 1500);
+    this.snackBar.open('Successfully added to your calendar', '', {duration: 1000});
+  }
+
+  onCalendarErrorEncountered(err) {
+    console.log(err);
+    let errorMessage = 'An error unfortunately occurred';
+    if (err && err['error'] && err.error === 'popup_blocked_by_browser') {
+      errorMessage = 'Please unblock the popup in the browser\'s address bar';
+    }
+    this.snackBar.open(errorMessage, '', {duration: 3000});
   }
 
   signDocument() {
@@ -102,10 +109,7 @@ export class EventDetailsComponent extends DetailsBaseComponent implements After
       response => {
         this.loading = false;
         this.event.signature_user_document_status = 'complete';
-        this.snackBar.open('Thank you, please check your email!');
-        setTimeout(() => {
-          this.snackBar.dismiss();
-        }, 1500);
+        this.snackBar.open('Thank you, please check your email!', '', {duration: 3000});
       },
       error => {
         this.error = <any>error;
@@ -122,11 +126,8 @@ export class EventDetailsComponent extends DetailsBaseComponent implements After
     this.makePayment(this.event.payment_reference, 'event', this.event.id, this.event.payment_amount).then(res => {
       this.loading = false;
       this.event.amount_paid_by_user = this.event.payment_amount;
-      this.snackBar.open('Thank you, your payment has been received!');
+      this.snackBar.open('Thank you, your payment has been received!', '', {duration: 3000});
       this.processPayment = false;
-      setTimeout(() => {
-        this.snackBar.dismiss();
-      }, 4000);
 
     }, err => {
       this.error = <any>err;

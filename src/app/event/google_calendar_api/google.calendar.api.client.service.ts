@@ -1,5 +1,5 @@
 import {AppSettings} from '../../app.settings';
-import {EventEmitter, Injectable} from "@angular/core";
+import {EventEmitter, Injectable} from '@angular/core';
 
 declare var gapi: any;
 
@@ -7,20 +7,24 @@ declare var gapi: any;
 export class GoogleCalendarApiClientService {
 
   event: any = {};
-  eventAdded$: EventEmitter<any>;
+  eventAddedToCalendar$: EventEmitter<any>;
+  errorEncountered$: EventEmitter<any>;
 
   constructor() {
-    this.eventAdded$ = new EventEmitter();
+    this.eventAddedToCalendar$ = new EventEmitter();
+    this.errorEncountered$ = new EventEmitter();
   }
 
   initEventInsert(event) {
     this.event = event;
-    const updateSigninStatus = this.updateSigninStatus.bind(this);
-    const initClient = this.initClient.bind(this, updateSigninStatus);
+    const insertEvent = this.insertEvent.bind(this);
+    const signOut = this.signOut.bind(this);
+    const raiseError = this.raiseError.bind(this);
+    const initClient = this.initClient.bind(this, insertEvent, signOut, raiseError);
     gapi.load('client:auth2', initClient);
   }
 
-  private initClient(updateSigninStatus) {
+  private initClient(insertEvent, signOut, raiseError) {
 
     gapi.client.init({
       apiKey: AppSettings.GOOGLE_API_KEY,
@@ -31,50 +35,63 @@ export class GoogleCalendarApiClientService {
 
       // Handle the initial sign-in state.
       if (!gapi.auth2.getAuthInstance().isSignedIn.get()) {
-        gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
-        gapi.auth2.getAuthInstance().signIn();
+
+        gapi.auth2.getAuthInstance().signIn({prompt: 'select_account'})
+          .then(insertEvent)
+          .then(signOut)
+          .catch(raiseError);
+
       } else {
-        this.insertEvent();
+
+        insertEvent()
+          .then(signOut)
+          .catch(raiseError);
+
       }
+    }).catch(err => {
+      raiseError(err);
     });
   }
 
-  private insertEvent() {
+  private raiseError(err) {
+    this.errorEncountered$.emit(err);
+  }
 
-    const event = {
-      'summary': `${this.event['group_name']} - ${this.event['title']}`,
-      'start': {
-        'dateTime': this.event.start_date
-      },
-      'end': {
-        'dateTime': this.event.end_date
-      },
-      'reminders': {
-        'useDefault': true
-      }
-    };
+  private signOut() {
+    gapi.auth2.getAuthInstance().signOut();
+    console.log('signed out');
+    this.eventAddedToCalendar$.emit(true);
+  }
 
-    const request = gapi.client.calendar.events.insert({
-      'calendarId': 'primary',
-      'resource': event
-    });
+  private insertEvent(): Promise<any> {
 
-    request.execute((e) => {
-      console.log(e);
-      gapi.auth2.getAuthInstance().signOut();
-      this.eventAdded$.emit(true);
+    return new Promise((resolve, reject) => {
+
+      const event = {
+        'summary': `${this.event['group_name']} - ${this.event['title']}`,
+        'start': {
+          'dateTime': this.event.start_date
+        },
+        'end': {
+          'dateTime': this.event.end_date
+        },
+        'reminders': {
+          'useDefault': true
+        }
+      };
+
+      const request = gapi.client.calendar.events.insert({
+        'calendarId': 'primary',
+        'resource': event
+      });
+
+      request.execute((e) => {
+        console.log(e);
+        resolve(true);
+      });
     });
 
   }
 
-  updateSigninStatus(isSignedIn) {
-    if (isSignedIn) {
-      console.log('signed in');
-      this.insertEvent();
-
-    } else {
-      console.log('signed out');
-    }
-  }
 
 }
