@@ -271,6 +271,7 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
     postValue['group_ids'] = [this.groupId];
     postValue['school_id'] = this.schoolId;
     postValue['email_status'] = parseInt(this.emailStatus, 10);
+    postValue['base_url'] = this.getBaseUrl();
     console.log(postValue['email_status']);
 
     let templateDetails = {};

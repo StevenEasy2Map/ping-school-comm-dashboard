@@ -14,6 +14,14 @@ export abstract class PingBaseComponent {
     return newDate;
   }
 
+  getBaseUrl() {
+    let location = window.location.href;
+    const ind = location.lastIndexOf('/');
+    location = location.substring(0, ind);
+    console.log(location); // http://localhost:4200/new-event;group_id=66;school_id=113
+    return location;
+  }
+
   padNumber(value) {
     const item = parseInt(value, 10);
     if (item < 10) {

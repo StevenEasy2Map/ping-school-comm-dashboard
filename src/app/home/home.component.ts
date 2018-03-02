@@ -10,6 +10,7 @@ import {MatDialog, MatSnackBar, MatTabChangeEvent} from "@angular/material";
 import {DialogAreYouSureComponent} from "../common/modals/are.you.sure.component";
 import {Observable} from 'rxjs';
 import {HelperService} from "../../providers/helper-service";
+import {DialogShareUrlComponent} from "../common/modals/share.url.component";
 
 @Component({
   selector: 'app-home-component',
@@ -78,7 +79,7 @@ export class HomeComponent implements AfterViewInit {
       window.localStorage.setItem('ping-home-tab-index', tabChangeEvent.index.toString());
       this.selectedTabIndex = tabChangeEvent.index;
     }
-  }
+  };
 
   retrieveSavedTabIndex() {
     if (typeof(Storage) !== 'undefined') {
@@ -86,6 +87,17 @@ export class HomeComponent implements AfterViewInit {
       return this.selectedTabIndex = parseInt(index, 10);
     }
     return 0;
+  }
+
+  shareItem(url) {
+
+    this.dialog.open(DialogShareUrlComponent, {
+      data: {
+        title: 'Share this item',
+        url: url
+      }
+    });
+
   }
 
   getMyGroups(): Promise<any> {

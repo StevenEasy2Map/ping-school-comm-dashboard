@@ -6,6 +6,10 @@ declare var gapi: any;
 @Injectable()
 export class GoogleCalendarApiClientService {
 
+  // https://developers.google.com/identity/sign-in/web/listeners
+  // https://developers.google.com/identity/sign-in/web/reference
+  // https://developers.google.com/google-apps/calendar/v3/reference/events/insert
+
   event: any = {};
   eventAddedToCalendar$: EventEmitter<any>;
   errorEncountered$: EventEmitter<any>;

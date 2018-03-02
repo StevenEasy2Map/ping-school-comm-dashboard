@@ -21,6 +21,7 @@ export class EventDetailsComponent extends DetailsBaseComponent implements After
   groupId = 0;
   eventId = 0;
   event: any;
+  noBack = false;
   eventGroups: any[] = [];
   error = '';
   loading = true;
@@ -50,6 +51,7 @@ export class EventDetailsComponent extends DetailsBaseComponent implements After
         this.schoolId = params['school_id'];
         this.groupId = params['group_id'];
         this.eventId = params['event_id'];
+        this.noBack = params['no_back'] || false;
         this.getEventDetails();
         this.getEventGroups();
       });

@@ -65,6 +65,7 @@ import {JoinGroupComponent} from './group/join_group/join.group.component';
 import {EventDateTimePipe} from './common/pipes/event.date.time.pipe';
 import {EventDateTimeFromToPipe} from './common/pipes/event.date.time.from.to.pipe';
 import {GoogleCalendarApiClientService} from "./event/google_calendar_api/google.calendar.api.client.service";
+import {DialogShareUrlComponent} from "./common/modals/share.url.component";
 
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
@@ -165,11 +166,12 @@ const appRoutes: Routes = [
     EventDateTimePipe,
     EventDateTimeFromToPipe,
 
-    DialogAreYouSureComponent
+    DialogAreYouSureComponent,
+    DialogShareUrlComponent
 
 
   ],
-  entryComponents: [DialogAreYouSureComponent],
+  entryComponents: [DialogAreYouSureComponent, DialogShareUrlComponent],
   imports: [
     BrowserModule,
     MaterializeModule,
