@@ -61,7 +61,7 @@ export abstract class DetailsBaseComponent extends PingBaseComponent {
               entity_type: entityType,
               amount: amount,
               stripe_token: resp.id,
-              payment_type: 'payment'
+              payment_type: 'Credit Card'
             };
 
             this.paymentsService.makePayment(payload).subscribe(

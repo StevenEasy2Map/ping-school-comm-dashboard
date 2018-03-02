@@ -84,6 +84,9 @@ https://developers.google.com/google-apps/calendar/
 https://developers.google.com/google-apps/calendar/quickstart/js
 https://developers.google.com/google-apps/calendar/v3/reference/events/insert
 
+Charts
+https://valor-software.com/ng2-charts/
+
   
   
   
