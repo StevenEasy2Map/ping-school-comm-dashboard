@@ -22,30 +22,17 @@
 
   <div class="right-align calendar-view-parent">
 
-    <button class="waves-effect waves-light btn"
-            mwlCalendarPreviousView
+    <button  mwlCalendarPreviousView
             (click)="clearSelectedEvents()"
             [(viewDate)]="viewDate"
-            [view]="view">
-      <i class="material-icons left">chevron_left</i>
-      Previous
-    </button>
-
-    <button class="waves-effect waves-light btn"
-            mwlCalendarToday
+            [view]="view" mat-raised-button><mat-icon>fast_rewind</mat-icon></button>
+    <button mwlCalendarToday
             (click)="clearSelectedEvents()"
-            [(viewDate)]="viewDate">
-      Today
-    </button>
-
-    <button class="waves-effect waves-light btn"
-            (click)="clearSelectedEvents()"
+            [(viewDate)]="viewDate" mat-raised-button>Today</button>
+    <button (click)="clearSelectedEvents()"
             mwlCalendarNextView
             [(viewDate)]="viewDate"
-            [view]="view">
-      <i class="material-icons right">chevron_right</i>
-      Next
-    </button>
+            [view]="view" mat-raised-button><mat-icon>fast_forward</mat-icon></button>
 
   </div>
 
@@ -61,6 +48,7 @@
     <thead>
     <th>Event Title</th>
     <th class="center-align">Event Date</th>
+    <th *ngIf="groupAdmin" class="right-align">Email Open Rate</th>
     <th *ngIf="groupAdmin" class="center-align">Signatures</th>
     <th *ngIf="groupAdmin" class="center-align">Payments</th>
     <th *ngIf="groupAdmin" class="center-align">Edit</th>
@@ -70,6 +58,12 @@
     <tr *ngFor="let event of selectedEvents; let i = index;" [ngClass]="{'past-event' : event && !event.future_date}" >
       <td><a [ngClass]="{'past-event' : event && !event.future_date}" (click)="viewEventDetails(event)">{{ event.title | ellipsis:20 }}</a></td>
       <td [ngClass]="{'past-event' : event && !event.future_date}" class="center-align">{{ event.start | friendlydatetime }} - {{ event.end | friendlydatetime }}</td>
+
+      <td *ngIf="groupAdmin" class="right-align">
+          <span *ngIf="event.emails_opened_stats">{{event.emails_opened_stats}}</span>
+          <span *ngIf="!event.emails_opened_stats">-</span>
+        </td>
+
       <td *ngIf="groupAdmin" class="center-align">
 
         <a [ngClass]="{'past-event' : event && !event.future_date}" *ngIf="event.signature_document_id && event.signature_document_template_id" (click)="viewEventSignedDocs(event);">

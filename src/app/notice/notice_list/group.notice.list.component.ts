@@ -60,6 +60,14 @@ export class GroupNoticeListComponent extends NoticeListComponent {
               return b.show_date - a.show_date;
             });
 
+            this.notices.forEach(notice => {
+              if (Number.isSafeInteger(notice.emails_sent) && notice.emails_sent > 0 && Number.isSafeInteger(notice.emails_opened)) {
+                notice.emails_opened_stats = `${Math.round((notice.emails_opened / notice.emails_sent) * 100)}% (${notice.emails_opened} / ${notice.emails_sent})`;
+              } else {
+                notice.emails_opened_stats = 'N/A';
+              }
+            });
+
             resolve(this.notices);
 
           });

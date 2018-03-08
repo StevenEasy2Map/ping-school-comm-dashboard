@@ -18,6 +18,7 @@ export class NoticeDetailsComponent extends DetailsBaseComponent implements Afte
   schoolId = 0;
   groupId = 0;
   noticeId = 0;
+  noBack = false;
   notice: any = {};
   noticeGroups: any[] = [];
   error = '';
@@ -41,6 +42,7 @@ export class NoticeDetailsComponent extends DetailsBaseComponent implements Afte
         this.schoolId = params['school_id'];
         this.groupId = params['group_id'];
         this.noticeId = params['notice_id'];
+        this.noBack = params['no_back'] || false;
         this.getNoticeDetails();
         this.getNoticeGroups();
       });

@@ -16,7 +16,7 @@
 
 <div *ngIf="!loading && !processPayment" class="container notice">
   <h2 class="inline-page-title center-align">
-    <a (click)="goBack()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Back</a>
+    <a *ngIf="!noBack" (click)="goBack()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Back</a>
   </h2>
 
   <div class="content entity-details-parent">

@@ -1,15 +1,13 @@
 import {AfterViewInit, Component} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {EventService} from '../services/event.service';
-import {FriendlyDatePipe} from '../../common/pipes/friendly.date.pipe';
-import {FriendlyDateTimePipe} from '../../common/pipes/friendly.date.time.pipe';
-import {Event} from '../models/event';
 import {AuthService} from '../../../providers/auth-service';
 import {HelperService} from '../../../providers/helper-service';
-import {DetailsBaseComponent} from "../../notice/notice_details/details.base.component";
-import {DocumentSigningService} from "../../document_signing/services/document.signing.service";
-import {MatSnackBar} from "@angular/material";
+import {DetailsBaseComponent} from '../../notice/notice_details/details.base.component';
+import {DocumentSigningService} from '../../document_signing/services/document.signing.service';
+import {MatSnackBar} from '@angular/material';
 import {PaymentsService} from '../../payments/services/payments.service';
+import {GoogleCalendarApiClientService} from '../google_calendar_api/google.calendar.api.client.service';
 
 @Component({
   selector: 'app-event-details-component',
@@ -23,20 +21,25 @@ export class EventDetailsComponent extends DetailsBaseComponent implements After
   groupId = 0;
   eventId = 0;
   event: any;
+  noBack = false;
   eventGroups: any[] = [];
   error = '';
   loading = true;
   feeAmount = 0;
+  eventAddedToCalendar = false;
 
   constructor(private auth: AuthService,
               public eventService: EventService,
               public router: Router,
               public documentSigningService: DocumentSigningService,
+              public googleAPIClientService: GoogleCalendarApiClientService,
               public paymentsService: PaymentsService,
               public snackBar: MatSnackBar,
               public route: ActivatedRoute) {
 
     super(documentSigningService, paymentsService);
+    googleAPIClientService.eventAddedToCalendar$.subscribe(item => this.onEventAddedToCalendar());
+    googleAPIClientService.errorEncountered$.subscribe(item => this.onCalendarErrorEncountered(item));
 
   }
 
@@ -48,6 +51,7 @@ export class EventDetailsComponent extends DetailsBaseComponent implements After
         this.schoolId = params['school_id'];
         this.groupId = params['group_id'];
         this.eventId = params['event_id'];
+        this.noBack = params['no_back'] || false;
         this.getEventDetails();
         this.getEventGroups();
       });
@@ -83,16 +87,31 @@ export class EventDetailsComponent extends DetailsBaseComponent implements After
 
   }
 
+  addEventToCalendar() {
+    this.googleAPIClientService.initEventInsert(this.event);
+  }
+
+  onEventAddedToCalendar() {
+    this.eventAddedToCalendar = true;
+    this.snackBar.open('Successfully added to your calendar', '', {duration: 1000});
+  }
+
+  onCalendarErrorEncountered(err) {
+    console.log(err);
+    let errorMessage = 'An error unfortunately occurred';
+    if (err && err['error'] && err.error === 'popup_blocked_by_browser') {
+      errorMessage = 'Please unblock the popup in the browser\'s address bar';
+    }
+    this.snackBar.open(errorMessage, '', {duration: 3000});
+  }
+
   signDocument() {
     this.loading = true;
     this.digitallySignDocument(this.schoolId, this.event.signature_document_id).subscribe(
       response => {
         this.loading = false;
         this.event.signature_user_document_status = 'complete';
-        this.snackBar.open('Thank you, please check your email!');
-        setTimeout(() => {
-          this.snackBar.dismiss();
-        }, 1500);
+        this.snackBar.open('Thank you, please check your email!', '', {duration: 3000});
       },
       error => {
         this.error = <any>error;
@@ -109,11 +128,8 @@ export class EventDetailsComponent extends DetailsBaseComponent implements After
     this.makePayment(this.event.payment_reference, 'event', this.event.id, this.event.payment_amount).then(res => {
       this.loading = false;
       this.event.amount_paid_by_user = this.event.payment_amount;
-      this.snackBar.open('Thank you, your payment has been received!');
+      this.snackBar.open('Thank you, your payment has been received!', '', {duration: 3000});
       this.processPayment = false;
-      setTimeout(() => {
-        this.snackBar.dismiss();
-      }, 4000);
 
     }, err => {
       this.error = <any>err;

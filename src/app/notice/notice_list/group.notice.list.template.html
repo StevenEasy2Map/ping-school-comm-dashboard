@@ -14,7 +14,7 @@
   </div>
 </div>
 
-<div class="container notices">
+<div class="wide-container notices">
   <div class="content">
     <h2 class="inline-page-title center-align">
       <a routerLink="/" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Back</a>
@@ -32,6 +32,7 @@
       <th>Notice Title</th>
       <th class="center-align">Date Published</th>
       <th>Status</th>
+      <th *ngIf="groupAdmin" class="right-align">Email Open Rate</th>
       <th *ngIf="groupAdmin" class="center-align">Signatures</th>
       <th *ngIf="groupAdmin" class="center-align">Payments</th>
       <th *ngIf="groupAdmin" class="center-align">Edit</th>
@@ -43,9 +44,15 @@
         <td [ngClass]="{'past-event' : notice && !notice.future_date, 'upcoming-event' : notice && notice.upcoming_date}">
           <a *ngIf="groupAdmin || !notice.future_date" (click)="viewNoticeDetails(notice)">{{ notice.title | ellipsis:20 }}</a>
           <span *ngIf="!groupAdmin && notice.future_date">{{ notice.title | ellipsis:20 }}</span>
-          </td>
+        </td>
         <td [ngClass]="{'past-event' : notice && !notice.future_date, 'upcoming-event' : notice && notice.upcoming_date}" class="center-align">{{ notice.show_date | friendlydate }}</td>
         <td [ngClass]="{'past-event' : notice && !notice.future_date, 'upcoming-event' : notice && notice.upcoming_date}">{{ noticeActiveStatus(notice) }}</td>
+
+        <td *ngIf="groupAdmin" class="right-align">
+          <span *ngIf="notice.emails_opened_stats">{{notice.emails_opened_stats}}</span>
+          <span *ngIf="!notice.emails_opened_stats">-</span>
+        </td>
+
         <td *ngIf="groupAdmin" class="center-align">
 
           <a [ngClass]="{'past-event' : notice && !notice.future_date, 'upcoming-event' : notice && notice.upcoming_date}" *ngIf="notice.signature_document_id && notice.signature_document_template_id" (click)="viewNoticeSignedDocs(notice);">

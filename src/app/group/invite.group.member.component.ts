@@ -12,6 +12,7 @@ import {ModalModule} from 'ngx-modialog';
 import {BootstrapModalModule, Modal, bootstrap4Mode} from '../../../node_modules/ngx-modialog/plugins/bootstrap';
 import {MatSnackBar} from "@angular/material";
 import set = Reflect.set;
+import {PingBaseComponent} from "../ping.base.component";
 
 @Component({
   selector: 'app-invite-group-member-component',
@@ -19,7 +20,7 @@ import set = Reflect.set;
   styleUrls: ['group.style.scss'],
   providers: [GroupService],
 })
-export class InviteGroupMemberComponent implements AfterViewInit {
+export class InviteGroupMemberComponent extends PingBaseComponent implements AfterViewInit {
 
   emailAddresses: string[] = [];
   emailAddressesToSend = [];
@@ -43,6 +44,7 @@ export class InviteGroupMemberComponent implements AfterViewInit {
               private modal: Modal,
               private snackBar: MatSnackBar,
               private groupService: GroupService) {
+    super();
   }
 
   ngAfterViewInit(): void {
@@ -167,6 +169,12 @@ export class InviteGroupMemberComponent implements AfterViewInit {
 
   inviteUsersViaEmail() {
     this.inviteUsers = true;
+  }
+
+  copyToken(token) {
+    if (this.copyTextToClipboard(token)) {
+      this.snackBar.open('Token successfully copied to your clipboard', '', {duration: 2000});
+    }
   }
 
 }

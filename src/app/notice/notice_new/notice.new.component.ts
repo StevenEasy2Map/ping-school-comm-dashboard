@@ -237,6 +237,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
     postValue['group_ids'] = [this.groupId];
     postValue['school_id'] = this.schoolId;
     postValue['email_status'] = parseInt(this.emailStatus, 10);
+    postValue['base_url'] = this.getBaseUrl();
     this.loading = true;
 
     if (this.noticeId) {

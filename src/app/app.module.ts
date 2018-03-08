@@ -64,6 +64,9 @@ import {GroupHomeworkListComponent} from './notice/notice_list/group.homework.li
 import {JoinGroupComponent} from './group/join_group/join.group.component';
 import {EventDateTimePipe} from './common/pipes/event.date.time.pipe';
 import {EventDateTimeFromToPipe} from './common/pipes/event.date.time.from.to.pipe';
+import {GoogleCalendarApiClientService} from "./event/google_calendar_api/google.calendar.api.client.service";
+import {DialogShareUrlComponent} from "./common/modals/share.url.component";
+import {ChartsModule} from "ng2-charts";
 
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
@@ -164,11 +167,12 @@ const appRoutes: Routes = [
     EventDateTimePipe,
     EventDateTimeFromToPipe,
 
-    DialogAreYouSureComponent
+    DialogAreYouSureComponent,
+    DialogShareUrlComponent
 
 
   ],
-  entryComponents: [DialogAreYouSureComponent],
+  entryComponents: [DialogAreYouSureComponent, DialogShareUrlComponent],
   imports: [
     BrowserModule,
     MaterializeModule,
@@ -187,9 +191,9 @@ const appRoutes: Routes = [
 
     AngularFireModule.initializeApp(environment.firebase),
     MatTabsModule, MatCardModule, MatButtonModule, MatIconModule, MatSnackBarModule, MatExpansionModule,
-    MatRadioModule, MatSelectModule, MatDialogModule, MatDatepickerModule, MatNativeDateModule
+    MatRadioModule, MatSelectModule, MatDialogModule, MatDatepickerModule, MatNativeDateModule, ChartsModule
   ],
-  providers: [AppComponent, AuthService, AuthGuard, StorageService, APIService, HelperService, AngularFireAuth],
+  providers: [AppComponent, AuthService, AuthGuard, StorageService, APIService, HelperService, AngularFireAuth, GoogleCalendarApiClientService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

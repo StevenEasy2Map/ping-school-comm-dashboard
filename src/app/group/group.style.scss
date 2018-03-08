@@ -77,8 +77,38 @@ div.submit-button-parent {
 
 h4.group-created {
   text-align: center;
-  font-size: 23px;
-  color: #585858
+  font-size: 36px;
+  color: #585858;
+}
+
+h5.token {
+  text-align: center;
+  font-size: 24px;
+  color: #393939;
+
+  p.highlight-token {
+    font-weight: bold;
+    font-size: 40px;
+    color: #601a1c;
+    display: block;
+
+    :hover {
+      color: #932a2c;
+    }
+
+    .copy {
+      font-size: 18px;
+      color: #777777;
+      cursor:pointer;
+    }
+  }
+
+}
+
+div.role-explanation{
+  font-style:italic;
+  color:#555555;
+  font-size:15px;
 }
 
 input[_ngcontent-c2] ~ label[_ngcontent-c2] {
