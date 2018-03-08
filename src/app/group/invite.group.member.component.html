@@ -18,9 +18,8 @@
 
   <div class="col s12">
     <h4 *ngIf="!inviteUsers" class="group-created">Congratulations, your group has been created!</h4>
-    <h5>Your Group's invite token is <span style="font-weight:bold">{{token}}</span></h5>
-    <p class="group-invite-token-explain">In the SchoolComm smartphone app, users can use this token to join
-      your group</p>
+    <h5 class="token">Share the following token with others who want to join your group:
+      <p id="token" class="highlight-token">{{token}}&nbsp;<mat-icon class="copy" (click)="copyToken(token)">content_copy</mat-icon></p></h5>
   </div>
   <div *ngIf="!inviteUsers" class="col s6" style="text-align: center;margin-top:30px;">
     <button mat-raised-button (click)="goHome()">
@@ -83,11 +82,12 @@
     <div class="row">
 
       <div class="input-field col s12">
-        <h6>Users' Role</h6>
+        <h6>Choose the users' role</h6>
         <select [(ngModel)]="role" id="role" name="role" style="max-width: 500px;">
           <option value="admin">administrator</option>
           <option selected="selected" value="member">member</option>
         </select>
+        <div class="role-explanation"><span class="bold-text">Administrators</span> can create notices and events for this group, <span class="bold-text">members</span> can only view events and notices.</div>
       </div>
 
     </div>
@@ -96,7 +96,7 @@
       <div class="col s12 submit-button-parent">
 
         <button (click)="goHome()" mat-raised-button style="float:left;margin-left:80px;">Home</button>
-        <button mat-raised-button color="primary" style="float:right;margin-right:80px;" [disabled]="!loginForm.form.valid" (click)="inviteGroupMembers()">Invite</button>
+        <button mat-raised-button color="primary" style="float:right;margin-right:80px;" [disabled]="!loginForm.form.valid" (click)="inviteGroupMembers()">Done</button>
 
       </div>
     </div>

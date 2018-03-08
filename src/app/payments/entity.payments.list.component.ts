@@ -140,6 +140,46 @@ export class EntityPaymentsListComponent extends PingBaseComponent implements On
 
   }
 
+  getNonPayments(): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+
+      this.paymentsService.getNonPayments(this.entityId,
+        this.entityType, this.groupId,
+        this.schoolId).subscribe(res => {
+        this.nonPayments = res;
+
+        res.forEach(item => {
+
+          this.payments.push({
+            first_name: item.first_name,
+            last_name: item.last_name,
+            email: item.email,
+            payment_reference: '-',
+            payment_type: '**not paid**'
+          });
+
+        });
+
+        this.payments.sort((a, b) => {
+          if (a.last_name.toUpperCase() < b.last_name.toUpperCase()) {
+            return -1;
+          }
+          if (a.last_name.toUpperCase() > b.last_name.toUpperCase()) {
+            return 1;
+          }
+          return 0;
+        });
+
+        resolve(true);
+      }, err => {
+        reject(err);
+      });
+
+    });
+
+  }
+
   // events
   public chartClicked(e: any): void {
     console.log(e);
@@ -215,23 +255,6 @@ export class EntityPaymentsListComponent extends PingBaseComponent implements On
   }
 
 
-  getNonPayments(): Promise<any> {
-
-    return new Promise((resolve, reject) => {
-
-      this.paymentsService.getNonPayments(this.entityId,
-        this.entityType, this.groupId,
-        this.schoolId).subscribe(res => {
-        this.nonPayments = res;
-        resolve(true);
-      }, err => {
-        reject(err);
-      });
-
-    });
-
-  }
-
   refundPayment($event, paymentId) {
 
     $event.preventDefault();
@@ -255,6 +278,7 @@ export class EntityPaymentsListComponent extends PingBaseComponent implements On
           this.snackBar.open('Payment successfully refunded');
           setTimeout(() => {
             this.snackBar.dismiss();
+            this.loading = false;
           }, 1500);
           this.getEntityPayments();
           this.getNonPayments();

@@ -58,6 +58,9 @@ export class GoogleCalendarApiClientService {
   }
 
   private raiseError(err) {
+    if (err && err.error === 'popup_closed_by_user') {
+      return;
+    }
     this.errorEncountered$.emit(err);
   }
 

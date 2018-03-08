@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div *ngIf="!processManualPayment" class="row">
       <div class="col s6">
         <canvas baseChart
                 [data]="memberChartData"
@@ -78,10 +78,10 @@
         <td>{{ payment.email }}</td>
         <td>{{ payment.payment_reference }}</td>
         <td>{{ payment.payment_type }}</td>
-        <td class="right-align">{{payment.currency}} {{ payment.amount | number: '1.2-2' }}</td>
-        <td class="center-align">{{ (payment.payment_date | friendlydate) || '-' }}</td>
+        <td class="right-align"><span *ngIf="payment.payment_id">{{payment.currency}} {{ payment.amount | number: '1.2-2' }}</span></td>
+        <td class="center-align"><span *ngIf="payment.payment_id">{{ (payment.payment_date | friendlydate) || '-' }}</span></td>
         <!--<td class="center-align"> {{ payment.processed ? 'Yes' : 'No' }}</td>-->
-        <td class="right-align"><a (click)="refundPayment($event, payment.payment_id)" href="#">Refund payment</a></td>
+        <td class="right-align"><a *ngIf="payment.payment_id" (click)="refundPayment($event, payment.payment_id)" href="#">Refund payment</a></td>
       </tr>
       </tbody>
     </table>

@@ -22,30 +22,17 @@
 
   <div class="right-align calendar-view-parent">
 
-    <button class="waves-effect waves-light btn"
-            mwlCalendarPreviousView
+    <button  mwlCalendarPreviousView
             (click)="clearSelectedEvents()"
             [(viewDate)]="viewDate"
-            [view]="view">
-      <i class="material-icons left">chevron_left</i>
-      Previous
-    </button>
-
-    <button class="waves-effect waves-light btn"
-            mwlCalendarToday
+            [view]="view" mat-raised-button><mat-icon>fast_rewind</mat-icon></button>
+    <button mwlCalendarToday
             (click)="clearSelectedEvents()"
-            [(viewDate)]="viewDate">
-      Today
-    </button>
-
-    <button class="waves-effect waves-light btn"
-            (click)="clearSelectedEvents()"
+            [(viewDate)]="viewDate" mat-raised-button>Today</button>
+    <button (click)="clearSelectedEvents()"
             mwlCalendarNextView
             [(viewDate)]="viewDate"
-            [view]="view">
-      <i class="material-icons right">chevron_right</i>
-      Next
-    </button>
+            [view]="view" mat-raised-button><mat-icon>fast_forward</mat-icon></button>
 
   </div>
 
