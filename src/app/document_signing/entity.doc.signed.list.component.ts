@@ -35,6 +35,14 @@ export class EntityDocSignedListComponent implements OnInit, AfterViewInit {
   outstandingSignatures = false;
   signDate = moment();
 
+  signChartLabels: string[] = ['Signed', 'Initiated, awaiting signature', 'Not signed'];
+  signChartData: number[] = [0, 0, 0];
+  signChartColors : any[] = [
+      {
+        backgroundColor:["#95ffaa", "#6FC8CE", "#bebcbb"]
+      }];
+  signChartType = 'pie';
+
   constructor(private auth: AuthService,
               public documentSignService: DocumentSigningService,
               public router: Router,
@@ -64,6 +72,15 @@ export class EntityDocSignedListComponent implements OnInit, AfterViewInit {
       });
 
     });
+  }
+
+  // events
+  public chartClicked(e: any): void {
+    console.log(e);
+  }
+
+  public chartHovered(e: any): void {
+    console.log(e);
   }
 
   getDocumentDetails(): void {
@@ -162,11 +179,24 @@ export class EntityDocSignedListComponent implements OnInit, AfterViewInit {
     this.documentSignService.getEntityUserDocuments(this.entityId, this.entityType).subscribe(res => {
       this.documents = res.documents;
 
+      let signedTotal = 0;
+      let initiatedTotal = 0;
+      let notSignedTotal = 0;
+
       this.documents.forEach(document => {
         if (!document.document_status || document.document_status !== 'complete') {
           this.outstandingSignatures = true;
+          if (!document.document_status) {
+            notSignedTotal += 1;
+          } else {
+            initiatedTotal += 1;
+          }
+        } else {
+          signedTotal += 1;
         }
       });
+
+      this.signChartData = [signedTotal, initiatedTotal, notSignedTotal];
 
     });
 

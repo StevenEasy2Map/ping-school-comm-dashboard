@@ -6,13 +6,29 @@
     <h4>{{entityTitle}}</h4>
     <h5>{{documentDetails['title']}}</h5>
 
-    <div *ngIf="!processManualSignature" class="col s12 right-align">
-      <button mat-raised-button color="primary">Send reminder to non-signers</button>
-      <button *ngIf="outstandingSignatures"
-              mat-raised-button color="primary"
-              (click)="showManualSignatureControls()">Process manual signature
-      </button>
+    <div *ngIf="!processManualSignature" class="row">
+      <div class="col s6">
+        <button mat-raised-button color="primary">Send reminder to non-signers</button>
+        <button *ngIf="outstandingSignatures"
+                mat-raised-button color="primary"
+                (click)="showManualSignatureControls()">Process manual signature
+        </button>
+
+      </div>
+
+      <div class="col s6">
+        <canvas baseChart
+                [data]="signChartData"
+                [labels]="signChartLabels"
+                [chartType]="signChartType"
+                [colors]="signChartColors"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)"></canvas>
+      </div>
+
     </div>
+
+
 
     <table *ngIf="!processManualSignature" class="bordered">
       <thead>

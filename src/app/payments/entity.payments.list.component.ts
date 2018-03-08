@@ -53,6 +53,10 @@ export class EntityPaymentsListComponent extends PingBaseComponent implements On
   memberChartLabels: string[] = ['Paid', 'Not Paid'];
   memberChartData: number[] = [0, 0];
   memberChartType = 'doughnut';
+  memberChartColors: any[] = [
+    {
+      backgroundColor: ["#64c772", "#bebcbb"]
+    }];
 
 
   constructor(private auth: AuthService,
@@ -82,26 +86,33 @@ export class EntityPaymentsListComponent extends PingBaseComponent implements On
         this.entityId = params['entity_id'];
         this.entityType = params['entity_type'];
         this.entityTitle = params['entity_title'];
+        this.loadPaymentData();
 
-        const getEntityPayments = this.getEntityPayments.bind(this);
-        const getNonPayments = this.getNonPayments.bind(this);
-        const getEntityDetails = this.getEntityDetails.bind(this);
-        const getGroupSummary = this.getGroupSummary.bind(this);
 
-        getEntityPayments()
-          .then(getNonPayments)
-          .then(getEntityDetails)
-          .then(getGroupSummary)
-          .then(() => {
-            this.loading = false;
-          })
-          .catch(err => {
-            console.log(err);
-            this.loading = false;
-          });
       });
 
     });
+  }
+
+  loadPaymentData() {
+
+    const getEntityPayments = this.getEntityPayments.bind(this);
+    const getNonPayments = this.getNonPayments.bind(this);
+    const getEntityDetails = this.getEntityDetails.bind(this);
+    const getGroupSummary = this.getGroupSummary.bind(this);
+
+    getEntityPayments()
+      .then(getNonPayments)
+      .then(getEntityDetails)
+      .then(getGroupSummary)
+      .then(() => {
+        this.loading = false;
+      })
+      .catch(err => {
+        console.log(err);
+        this.loading = false;
+      });
+
   }
 
   getEntityPayments(): Promise<any> {
@@ -280,8 +291,7 @@ export class EntityPaymentsListComponent extends PingBaseComponent implements On
             this.snackBar.dismiss();
             this.loading = false;
           }, 1500);
-          this.getEntityPayments();
-          this.getNonPayments();
+          this.loadPaymentData();
         });
       }
     });
@@ -319,7 +329,8 @@ export class EntityPaymentsListComponent extends PingBaseComponent implements On
 
     this.paymentsService.makeManualPayment(payload).subscribe(res => {
       this.processManualPayment = false;
-      this.getEntityPayments();
+      this.loading = false;
+      this.loadPaymentData();
     });
   }
 
