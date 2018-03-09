@@ -22,22 +22,14 @@
       "{{entityTitle}}" - Payments Made</h2>
 
     <div *ngIf="!processManualPayment" class="row top-bottom-margin">
-      <div class="col s12 m4">
+      <div class="col s12">
         <h5>Amount Received : {{ paymentCurrency }} {{ paymentTotal | number: '1.2-2' }}
           <div *ngIf="paymentsMade !== 0">{{paymentsMade}} payment<span *ngIf="paymentsMade > 1">s</span></div>
         </h5>
       </div>
-      <div class="col s12 m8 right-align">
-        <button mat-raised-button color="primary">Send reminder to non-payers</button>
-        <button mat-raised-button color="primary">Export payments list</button>
-        <button *ngIf="nonPayments && nonPayments.length > 0"
-                mat-raised-button color="primary"
-                (click)="processManualPayment = true">Process manual payment
-        </button>
-      </div>
     </div>
 
-    <div *ngIf="!processManualPayment" class="row">
+    <div *ngIf="!processManualPayment" class="row stats-parent">
       <div class="col s6">
         <canvas baseChart
                 [data]="memberChartData"
@@ -58,6 +50,17 @@
                 (chartClick)="chartClicked($event)"></canvas>
       </div>
 
+    </div>
+
+    <div *ngIf="!processManualPayment" class="row top-padding">
+      <div class="col s12 right-align">
+        <button mat-raised-button color="primary">Send reminder to non-payers</button>
+        <button mat-raised-button color="primary">Export payments list</button>
+        <button *ngIf="nonPayments && nonPayments.length > 0"
+                mat-raised-button color="primary"
+                (click)="processManualPayment = true">Process manual payment
+        </button>
+      </div>
     </div>
 
     <table *ngIf="!processManualPayment" class="bordered">

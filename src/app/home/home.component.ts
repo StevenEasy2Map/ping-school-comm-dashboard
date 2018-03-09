@@ -5,12 +5,12 @@ import {AuthService} from '../../providers/auth-service';
 import {SchoolService} from '../school/school.service';
 import {NoticeService} from '../notice/services/notice.service';
 import {EventService} from '../event/services/event.service';
-import * as moment from "moment";
-import {MatDialog, MatSnackBar, MatTabChangeEvent} from "@angular/material";
-import {DialogAreYouSureComponent} from "../common/modals/are.you.sure.component";
+import * as moment from 'moment';
+import {MatDialog, MatSnackBar, MatTabChangeEvent} from '@angular/material';
+import {DialogAreYouSureComponent} from '../common/modals/are.you.sure.component';
 import {Observable} from 'rxjs';
-import {HelperService} from "../../providers/helper-service";
-import {DialogShareUrlComponent} from "../common/modals/share.url.component";
+import {HelperService} from '../../providers/helper-service';
+import {DialogShareUrlComponent} from '../common/modals/share.url.component';
 
 @Component({
   selector: 'app-home-component',
@@ -32,6 +32,12 @@ export class HomeComponent implements AfterViewInit {
   groupsTitle = 'My Groups';
   homeworkTitle = 'My Homework';
   selectedTabIndex = 0;
+  unreadNotices: any[] = [];
+  unreadHomework: any[] = [];
+  unreadEvents: any[] = [];
+  showUnreadEvents = false;
+  showUnreadNotices = false;
+  showUnreadHomework = false;
 
   constructor(public auth: AuthService,
               public groupService: GroupService,
@@ -45,7 +51,9 @@ export class HomeComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    this.auth.getFirebaseTokenAsPromise().then(() => {
+    const self = this;
+
+    self.auth.getFirebaseTokenAsPromise().then(() => {
 
       this.getAllSchoolsIAdminister()
         .then(() => {
@@ -100,17 +108,24 @@ export class HomeComponent implements AfterViewInit {
 
   }
 
-  getMyGroups(): Promise<any> {
+  markNoticeAsRead(i) {
 
-    const self = this;
+  }
+
+  markEventAsRead(i) {
+
+  }
+
+  getMyGroups(): Promise<any> {
 
     return new Promise((resolve, reject) => {
 
-      self.groupService.getMyGroups().subscribe(
+      this.groupService.getMyGroups().subscribe(
         response => {
-          self.myGroups = response;
-          if (!self.myGroups || self.myGroups.length === 0) {
-            self.groupsTitle = 'You aren\'t a member of any groups.';
+          this.myGroups = response;
+          console.log(this.myGroups);
+          if (!this.myGroups || this.myGroups.length === 0) {
+            this.groupsTitle = 'You aren\'t a member of any groups.';
           }
 
           resolve();
@@ -138,8 +153,12 @@ export class HomeComponent implements AfterViewInit {
             self.noticesTitle = 'You don\'t have any live notices.';
           }
 
+          self.unreadNotices = [];
           self.myNotices.forEach(notice => {
 
+            if (!notice.read_receipt) {
+              self.unreadNotices.push(notice);
+            }
             notice.description = notice.description.replace("'", "").replace("'", "");
             notice.show_date = moment(new Date(notice.show_date)).fromNow();
 
@@ -169,7 +188,12 @@ export class HomeComponent implements AfterViewInit {
             this.homeworkTitle = 'You don\'t have any homework.';
           }
 
+          this.unreadHomework = [];
           this.myHomework.forEach(notice => {
+
+            if (!notice.read_receipt) {
+              this.unreadHomework.push(notice);
+            }
 
             notice.description = notice.description.replace("'", "").replace("'", "");
             notice.show_date = moment(new Date(notice.show_date)).fromNow();
@@ -283,7 +307,13 @@ export class HomeComponent implements AfterViewInit {
             this.eventsTitle = 'You don\'t have any events.';
           }
 
+          this.unreadEvents = [];
           this.myEvents.forEach(event => {
+
+            if (!event.read_receipt) {
+              this.unreadEvents.push(event);
+            }
+
             event.description = event.description.replace("'", "").replace("'", "");
             event.start_date = HelperService.timeZoneAdjustedDate(event.start_date, event.timezone_offset);
           });
@@ -311,6 +341,7 @@ export class HomeComponent implements AfterViewInit {
       this.schoolService.getAllPrivateSchoolsIAdminister().subscribe(
         response => {
           this.mySchools = response || [];
+          console.log('we got here');
           resolve();
 
         },

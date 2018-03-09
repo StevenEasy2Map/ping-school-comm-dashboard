@@ -170,7 +170,7 @@ export class EntityDocSignedListComponent implements OnInit, AfterViewInit {
   }
 
   backToList(): void {
-    this.router.navigate(['/group-notices-list', {group_id: this.groupId, school_id: this.schoolId}]);
+    this.router.navigate([`/group-${this.entityType}s-list`, {group_id: this.groupId, school_id: this.schoolId}]);
   }
 
   getEntityDocuments(): void {

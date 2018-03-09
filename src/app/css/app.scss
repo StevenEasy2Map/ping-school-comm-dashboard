@@ -151,9 +151,9 @@ select {
   background-color: #f2f2f2;
 }
 
-.upcoming-event{
+.upcoming-event {
   background-color: #e7cfcc;
-  font-style:italic;
+  font-style: italic;
 }
 
 .error-message-header-parent {
@@ -1196,16 +1196,22 @@ div.payment-received-thank-you {
   text-align: right;
 }
 
-h6.payment-amount-due{
+h6.payment-amount-due {
   margin: 15px 0 20px 0;
-    font-size: 18px;
-    color: #555555;
+  font-size: 18px;
+  color: #555555;
 
-  span.fee-explanation{
-    font-size:13px;
-    color:#777777;
-    font-style:italic;
+  span.fee-explanation {
+    font-size: 13px;
+    color: #777777;
+    font-style: italic;
   }
+}
+
+div.row.stats-parent {
+  background-color: #f7f6f6;
+  padding: 10px;
+  border-radius: 3px;
 }
 
 
