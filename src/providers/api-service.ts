@@ -56,17 +56,17 @@ export class APIService {
 
   }
 
-  private extractData(res: Response) {
+  private extractData(res: any) {
     console.log(res.json());
     const body = res.json();
     return body || {};
   }
 
-  private handleError(error: Response | any) {
+  private handleError(error: any) {
     console.log(error);
     // to use a remote logging infrastructure?
-    if (error instanceof Response) {
-      return Observable.throw(JSON.parse(error._body));
+    if (error['_body']) {
+      return Observable.throw(JSON.parse(error['_body']));
     } else {
       return Observable.throw(error);
     }
