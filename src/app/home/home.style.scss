@@ -13,6 +13,27 @@ div.avatar {
 
 }
 
+a.unread-summary {
+  font-size: 18px;
+  color: #4c4c4c;
+  font-weight: 300;
+  text-decoration: underline;
+}
+
+div.row.unread-item {
+  padding: 8px 8px 0 8px;
+  background-color: #FAFAFA;
+  border-radius: 4px;
+  margin-bottom: 3px;
+  margin-left: 20px;
+
+  a.mark-as-read{
+    font-size:16px;
+    float:right;
+  }
+
+}
+
 div.avatar:hover {
   background-color: #FFFFFF;
   opacity: .50;

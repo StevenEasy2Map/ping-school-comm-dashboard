@@ -63,17 +63,14 @@ export class APIService {
   }
 
   private handleError(error: Response | any) {
-    // In a real world app, you might use a remote logging infrastructure
-    let errMsg: string;
+    console.log(error);
+    // to use a remote logging infrastructure?
     if (error instanceof Response) {
-      const body = error.json() || '';
-      const err = body.error || JSON.stringify(body);
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+      return Observable.throw(JSON.parse(error._body));
     } else {
-      errMsg = error.message ? error.message : error.toString();
+      return Observable.throw(error);
     }
-    console.error(errMsg);
-    return Observable.throw(errMsg);
+
   }
 
 }

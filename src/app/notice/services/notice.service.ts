@@ -36,6 +36,10 @@ export class NoticeService extends APIService {
     return this.post(notice, '/api/notice/notice_payment');
   }
 
+  markAsRead(payload: any): Observable<any> {
+    return this.post(payload, '/api/notice/mark_as_read');
+  }
+
   updateNoticePaymentDetails(notice: any): Observable<any> {
     return this.post(notice, '/api/notice/update_notice_payment');
   }
