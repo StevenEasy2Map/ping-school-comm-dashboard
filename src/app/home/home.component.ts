@@ -11,6 +11,7 @@ import {DialogAreYouSureComponent} from '../common/modals/are.you.sure.component
 import {Observable} from 'rxjs';
 import {HelperService} from '../../providers/helper-service';
 import {DialogShareUrlComponent} from '../common/modals/share.url.component';
+import {DialogErrorComponent} from "../common/modals/dialog.error.component";
 
 @Component({
   selector: 'app-home-component',
@@ -74,12 +75,37 @@ export class HomeComponent implements AfterViewInit {
           this.selectedTabIndex = this.retrieveSavedTabIndex();
         }).catch(err => {
         this.error = <any>err;
+        this.displayErrorDialog(this.error);
         this.auth.processing = false;
         this.loading = false;
       });
 
     });
 
+  }
+
+  displayErrorDialog(error) {
+    if (this.loading) {
+      this.loading = false;
+    }
+    if (this.auth.processing) {
+      this.auth.processing = false;
+    }
+
+    console.log(error.error_message);
+
+    if (error && !error.hasOwnProperty('error_message')) {
+      try {
+        error = JSON.parse(error);
+      } catch (e) {
+
+      }
+    }
+    this.dialog.open(DialogErrorComponent, {
+      data: {
+        message: error.error_message || 'An error occurred, please try again'
+      }
+    });
   }
 
   tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
@@ -109,11 +135,51 @@ export class HomeComponent implements AfterViewInit {
   }
 
   markNoticeAsRead(i) {
+    if (!this.unreadNotices[i]) return;
+    this.auth.processing = true;
+    this.loading = true;
+    this.noticeService.markAsRead({notice_id: this.unreadNotices[i].id}).subscribe(res => {
+      this.unreadNotices.splice(i, 1);
+      this.auth.processing = false;
+      this.loading = false;
+    }, error => {
+      this.displayErrorDialog(this.error);
+      this.error = <any>error;
+      this.auth.processing = false;
+      this.loading = false;
+    });
+  }
 
+  markHomeworkAsRead(i) {
+    if (!this.unreadHomework[i]) return;
+    this.auth.processing = true;
+    this.loading = true;
+    this.noticeService.markAsRead({notice_id: this.unreadHomework[i].id}).subscribe(res => {
+      this.unreadHomework.splice(i, 1);
+      this.auth.processing = false;
+      this.loading = false;
+    }, error => {
+      this.displayErrorDialog(this.error);
+      this.error = <any>error;
+      this.auth.processing = false;
+      this.loading = false;
+    });
   }
 
   markEventAsRead(i) {
-
+    if (!this.unreadEvents[i]) return;
+    this.auth.processing = true;
+    this.loading = true;
+    this.eventService.markAsRead({event_id: this.unreadEvents[i].id}).subscribe(res => {
+      this.unreadEvents.splice(i, 1);
+      this.auth.processing = false;
+      this.loading = false;
+    }, error => {
+      this.displayErrorDialog(this.error);
+      this.error = <any>error;
+      this.auth.processing = false;
+      this.loading = false;
+    });
   }
 
   getMyGroups(): Promise<any> {
@@ -189,6 +255,7 @@ export class HomeComponent implements AfterViewInit {
           }
 
           this.unreadHomework = [];
+          console.log(this.myHomework);
           this.myHomework.forEach(notice => {
 
             if (!notice.read_receipt) {
@@ -382,6 +449,9 @@ export class HomeComponent implements AfterViewInit {
             this.getMyHomework();
             this.getMyEvents();
           }, 1500);
+        }, error => {
+          this.error = error;
+          this.displayErrorDialog(this.error);
         });
 
       }

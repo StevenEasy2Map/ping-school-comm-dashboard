@@ -40,6 +40,10 @@ export class EventService extends APIService {
     return this.post(event, '/api/event/delete_event');
   }
 
+  markAsRead(payload: any): Observable<any> {
+    return this.post(payload, '/api/event/mark_as_read');
+  }
+
   getEventPayments(eventId: number, groupId: number, schoolId: number): Observable<any> {
     return this.get(`/api/event/event_payments/${eventId}/${groupId}/${schoolId}`);
   }

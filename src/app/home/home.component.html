@@ -17,7 +17,7 @@
 <div *ngIf="!loading" class="container content">
 
   <div class="center-align" style="padding-bottom:0;">
-    <img src="/assets/logo.svg" style="width:100px;margin-bottom:20px;"/>
+    <img src="/assets/logo.svg" style="width:40px;margin-bottom:10px;"/>
   </div>
 
   <div class="row">
@@ -27,42 +27,36 @@
   </div>
 
   <div class="row">
-    <div *ngIf="unreadEvents.length > 0" class="col s12"><a (click)="showUnreadEvents = !showUnreadEvents; $event.preventDefault();">You have {{unreadEvents.length}} unread event<span *ngIf="unreadEvents.length !== 1">s</span> </a>
+    <div *ngIf="unreadEvents.length > 0" class="col s12"><a class="unread-summary" (click)="showUnreadEvents = !showUnreadEvents; $event.preventDefault();">You have {{unreadEvents.length}} unread event<span *ngIf="unreadEvents.length !== 1">s</span> </a>
       <div *ngIf="showUnreadEvents" class="row">
-        <div *ngFor="let event of unreadEvents; let i = index" class="row" style="margin-left:20px;">
-          <div class="col s10 bold-text">
+        <div *ngFor="let event of unreadEvents; let i = index" class="row unread-item">
+          <div class="col s12 bold-text">
             <a (click)="viewEventDetails(event)">{{event.title}}</a>
-          </div>
-          <div class="col s2">
-            <a style="font-size:16px;" (click)="markEventAsRead(i)">
+            <a class="mark-as-read" (click)="markEventAsRead(i)">
               <mat-icon aria-label="Delete">clear</mat-icon>
             </a>
           </div>
         </div>
       </div>
     </div>
-    <div *ngIf="unreadNotices.length > 0" class="col s12"><a (click)="showUnreadNotices = !showUnreadNotices; $event.preventDefault();">You have {{unreadNotices.length}} unread notice<span *ngIf="unreadNotices.length !== 1">s</span></a>
+    <div *ngIf="unreadNotices.length > 0" class="col s12"><a class="unread-summary" (click)="showUnreadNotices = !showUnreadNotices; $event.preventDefault();">You have {{unreadNotices.length}} unread notice<span *ngIf="unreadNotices.length !== 1">s</span></a>
       <div *ngIf="showUnreadNotices" class="row">
-        <div *ngFor="let notice of unreadNotices; let i = index" class="row" style="margin-left:20px;">
-          <div class="col s10 bold-text">
+        <div *ngFor="let notice of unreadNotices; let i = index" class="row unread-item">
+          <div class="col s12 bold-text">
             <a (click)="viewNoticeDetails(notice)">{{notice.title}}</a>
-          </div>
-          <div class="col s2">
-            <a style="font-size:16px;" (click)="markNoticeAsRead(i)">
+            <a class="mark-as-read" (click)="markNoticeAsRead(i)">
               <mat-icon aria-label="Delete">clear</mat-icon>
             </a>
           </div>
         </div>
       </div>
     </div>
-    <div *ngIf="unreadHomework.length > 0" class="col s12"><a (click)="showUnreadHomework = !showUnreadHomework; $event.preventDefault();">You have {{unreadHomework.length}} unread homework item<span *ngIf="unreadHomework.length !== 1">s</span></a>
+    <div *ngIf="unreadHomework.length > 0" class="col s12"><a class="unread-summary" (click)="showUnreadHomework = !showUnreadHomework; $event.preventDefault();">You have {{unreadHomework.length}} unread homework item<span *ngIf="unreadHomework.length !== 1">s</span></a>
       <div *ngIf="showUnreadHomework" class="row">
-        <div *ngFor="let notice of unreadHomework; let i = index" class="row" style="margin-left:20px;">
-          <div class="col s10 bold-text">
+        <div *ngFor="let notice of unreadHomework; let i = index" class="row unread-item">
+          <div class="col s12 bold-text">
             <a (click)="viewNoticeDetails(notice)">{{notice.title}}</a>
-          </div>
-          <div class="col s2">
-            <a style="font-size:16px;" (click)="markNoticeAsRead(i)">
+            <a class="mark-as-read" (click)="markHomeworkAsRead(i)">
               <mat-icon aria-label="Delete">clear</mat-icon>
             </a>
           </div>

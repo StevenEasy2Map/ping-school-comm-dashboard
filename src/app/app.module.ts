@@ -67,6 +67,7 @@ import {EventDateTimeFromToPipe} from './common/pipes/event.date.time.from.to.pi
 import {GoogleCalendarApiClientService} from "./event/google_calendar_api/google.calendar.api.client.service";
 import {DialogShareUrlComponent} from "./common/modals/share.url.component";
 import {ChartsModule} from "ng2-charts";
+import {DialogErrorComponent} from "./common/modals/dialog.error.component";
 
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
@@ -168,11 +169,12 @@ const appRoutes: Routes = [
     EventDateTimeFromToPipe,
 
     DialogAreYouSureComponent,
-    DialogShareUrlComponent
+    DialogShareUrlComponent,
+    DialogErrorComponent
 
 
   ],
-  entryComponents: [DialogAreYouSureComponent, DialogShareUrlComponent],
+  entryComponents: [DialogAreYouSureComponent, DialogShareUrlComponent, DialogErrorComponent],
   imports: [
     BrowserModule,
     MaterializeModule,
