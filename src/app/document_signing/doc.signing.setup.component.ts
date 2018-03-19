@@ -20,6 +20,8 @@ export abstract class DocSigningSetupComponent extends PingBaseComponent {
   docSigningProcessStep2Completed = false;
   docSigningProcessStep3Completed = false;
 
+  docSigningShowAdvanced = false;
+
   ckEditorConfig = {
     'uiColor': '#EBEBEB',
     'toolbarGroups': [
@@ -198,7 +200,7 @@ export abstract class DocSigningSetupComponent extends PingBaseComponent {
   onDocumentCategorySelect(entity: object, event: Event): void {
 
     console.log(this.documentCategory);
-    if (!this.documentCategory) {
+    if (!this.documentCategory || !this.documentCategory['id']) {
       return;
     }
     this.documentTemplate = {};

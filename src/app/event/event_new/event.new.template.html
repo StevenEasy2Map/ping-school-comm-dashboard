@@ -26,7 +26,7 @@
       <mat-expansion-panel expanded="true" hideToggle="true">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            Event Details
+            Event Title and Message
           </mat-panel-title>
           <mat-panel-description>
             &nbsp;
@@ -42,6 +42,20 @@
           </div>
         </div>
 
+        <ckeditor [config]="ckEditorConfig" [(ngModel)]="event.description" debounce="500"></ckeditor>
+
+      </mat-expansion-panel>
+
+      <mat-expansion-panel hideToggle="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Event Details
+          </mat-panel-title>
+          <mat-panel-description>
+            &nbsp;
+            <mat-icon>comment</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
 
         <div class="row">
           <div class="col s6">
@@ -228,24 +242,6 @@
 
         </div>
 
-
-      </mat-expansion-panel>
-
-      <mat-expansion-panel hideToggle="true">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Event Message
-          </mat-panel-title>
-          <mat-panel-description>
-            &nbsp;
-            <mat-icon>comment</mat-icon>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-
-
-        <ckeditor [config]="ckEditorConfig" [(ngModel)]="event.description" debounce="500"></ckeditor>
-
-
       </mat-expansion-panel>
 
       <!--[expanded]="step === 2" (opened)="setStep(2)" -->
@@ -370,9 +366,9 @@
 
               <tbody>
               <tr *ngFor="let field of documentTemplateFields; let i = index;">
-                <td>{{ field.code_description}}</td>
+                <td *ngIf="field.autofill === 1">{{ field.code_description}}</td>
                 <td *ngIf="field.autofill === 1"><input type="text" [(ngModel)]="field.default_value"/></td>
-                <td class="auto-fill-off" *ngIf="field.autofill === 0">{{ field.default_value }}</td>
+                <!--<td class="auto-fill-off" *ngIf="field.autofill === 0">{{ field.default_value }}</td>-->
               </tr>
               </tbody>
             </table>
@@ -380,9 +376,11 @@
           </div>
 
           <div class="col s12">
-            <h5 style="margin-top:30px;">Specify your document's details</h5>
+            <h5 (click)="docSigningShowAdvanced = !docSigningShowAdvanced" style="cursor:pointer;margin-top:30px;">
+              <span *ngIf="!docSigningShowAdvanced">Show</span>
+              <span *ngIf="docSigningShowAdvanced">Hide</span> advanced options</h5>
 
-            <div class="col s12">
+            <div *ngIf="docSigningShowAdvanced" class="col s12">
               <p class="title">Call To Action</p>
               <p class="docSectionExplanation">
                 This is the text displayed in the Ping app which prompts the user to sign. Typically something like
@@ -392,7 +390,7 @@
                      id="document_call_to_action" type="text"/>
             </div>
 
-            <div class="col s12">
+            <div *ngIf="docSigningShowAdvanced" class="col s12">
               <p class="title">Title</p>
               <p class="docSectionExplanation">
                 This is the document title. Typically something like 'Indemnity Form'.
@@ -401,7 +399,7 @@
                      id="document_title" type="text"/>
             </div>
 
-            <div class="col s12">
+            <div *ngIf="docSigningShowAdvanced" class="col s12">
               <p class="title">Description (optional)</p>
               <p class="docSectionExplanation">
                 Allows you to include any specific instructions or details.
@@ -496,12 +494,6 @@
             <h6 for="ref">Payment Reference</h6>
             <input id="ref" type="text" class="validate short" style="max-width:300px;" placeholder="Payment Reference"
                    [(ngModel)]="event.payment_reference">
-            <br>
-
-            <input [(ngModel)]="appendPaymentRefUserLastName" name="lastname_ref"
-                   type="checkbox" id="lastname_ref"/>
-            <label style="font-size:13px !important;margin-top:5px;" class="small-text" for="lastname_ref">Append
-              user's lastname to reference</label>
 
 
           </div>
@@ -524,7 +516,19 @@
 
         <div *ngIf="paymentApplicable" class="row">
 
-          <div class="input-field col s12">
+          <h5 (click)="paymentShowAdvanced = !paymentShowAdvanced" style="cursor:pointer;margin-left:10px;">
+            <span *ngIf="!paymentShowAdvanced">Show</span>
+            <span *ngIf="paymentShowAdvanced">Hide</span> advanced options</h5>
+
+          <div *ngIf="paymentShowAdvanced" class="col s12">
+            <input [(ngModel)]="appendPaymentRefUserLastName" name="lastname_ref"
+                   type="checkbox" id="lastname_ref"/>
+            <label style="font-size:13px !important;margin-top:5px;" class="small-text" for="lastname_ref">Append
+              user's lastname to reference</label>
+
+          </div>
+
+          <div *ngIf="paymentShowAdvanced" class="input-field col s12">
             <h6>Payment title</h6>
             <input class="validate short"
                    style="max-width:500px;"
@@ -533,7 +537,7 @@
                    id="payment_title" type="text">
           </div>
 
-          <div class="input-field col s12">
+          <div *ngIf="paymentShowAdvanced" class="input-field col s12">
             <h6>Payment description / notes <span class="small-text">(if applicable)</span></h6>
             <textarea [(ngModel)]="event.payment_instructions"
                       id="payment_notes" style="max-width:500px;height:100px;"
@@ -542,6 +546,8 @@
             <label style="display: none" for="payment_notes">Textarea</label>
 
           </div>
+
+
         </div>
 
 
