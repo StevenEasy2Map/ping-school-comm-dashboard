@@ -66,7 +66,7 @@ export class APIService {
     console.log(error);
     // to use a remote logging infrastructure?
     if (error instanceof Response) {
-      return Observable.throw(JSON.parse(error._body));
+      return Observable.throw(JSON.parse(<any>error)._body);
     } else {
       return Observable.throw(error);
     }
