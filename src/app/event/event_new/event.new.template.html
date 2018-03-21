@@ -400,7 +400,7 @@
             </div>
 
             <div *ngIf="docSigningShowAdvanced" class="col s12">
-              <p class="title">Description (optional)</p>
+              <p class="title">Instructions (optional)</p>
               <p class="docSectionExplanation">
                 Allows you to include any specific instructions or details.
               </p>
@@ -538,7 +538,7 @@
           </div>
 
           <div *ngIf="paymentShowAdvanced" class="input-field col s12">
-            <h6>Payment description / notes <span class="small-text">(if applicable)</span></h6>
+            <h6>Payment instructions <span class="small-text">(optional)</span></h6>
             <textarea [(ngModel)]="event.payment_instructions"
                       id="payment_notes" style="max-width:500px;height:100px;"
                       name="payment_notes" class="materialize-textarea"
