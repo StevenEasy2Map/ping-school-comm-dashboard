@@ -13,6 +13,20 @@ div.avatar {
 
 }
 
+div.fc-left{
+  h2{
+    font-size:18px !important;
+  }
+}
+
+div.card.selected-date-events{
+  margin-top:30px;
+}
+
+div.calendar-view-parent{
+  margin:20px 0;
+}
+
 a.unread-summary {
   font-size: 18px;
   color: #4c4c4c;
@@ -128,12 +142,24 @@ button.join-group {
     margin-top: 30px;
   }
 
+  div.home-container{
+    width:85% !important;
+  }
+
   .home-card {
-    width: 600px;
+    width: 500px;
     margin-top: 30px;
     margin-left: auto;
     margin-right: auto;
 
+  }
+
+  .group-card {
+    width: 450px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: top;
   }
 
   img.home {

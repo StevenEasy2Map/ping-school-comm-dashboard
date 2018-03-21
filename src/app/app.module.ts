@@ -68,6 +68,7 @@ import {GoogleCalendarApiClientService} from "./event/google_calendar_api/google
 import {DialogShareUrlComponent} from "./common/modals/share.url.component";
 import {ChartsModule} from "ng2-charts";
 import {DialogErrorComponent} from "./common/modals/dialog.error.component";
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 const appRoutes: Routes = [
   {path: 'landing', component: LandingComponent},
@@ -190,6 +191,7 @@ const appRoutes: Routes = [
 
     ModalModule.forRoot(),
     BootstrapModalModule,
+    FlexLayoutModule,
 
     AngularFireModule.initializeApp(environment.firebase),
     MatTabsModule, MatCardModule, MatButtonModule, MatIconModule, MatSnackBarModule, MatExpansionModule,

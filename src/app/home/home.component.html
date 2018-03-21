@@ -14,7 +14,7 @@
   </div>
 </div>
 
-<div *ngIf="!loading" class="container content">
+<div style="width:85%" *ngIf="!loading" class="container content home-container">
 
   <div class="center-align" style="padding-bottom:0;">
     <img src="/assets/logo.svg" style="width:40px;margin-bottom:10px;"/>
@@ -123,7 +123,7 @@
 
     </mat-tab>
 
-    <mat-tab label="My Notices ({{myNotices.length}})">
+    <mat-tab *ngIf="myNotices && myNotices.length > 0" label="My Notices ({{myNotices.length}})">
       <div class="tab-content">
         <h2 class="center-align" style="padding-bottom:0;position:relative">{{noticesTitle}}</h2>
 
@@ -174,61 +174,118 @@
 
     </mat-tab>
 
-    <mat-tab label="Upcoming Events ({{myEvents.length}})">
+    <mat-tab *ngIf="myEvents && myEvents.length > 0" label="Upcoming Events ({{myEvents.length}})">
 
       <div class="tab-content">
 
         <h2 class="center-align" style="padding-bottom:0;">{{eventsTitle}}</h2>
 
-        <mat-card class="home-card pointer" *ngFor="let event of myEvents; let i = index">
+        <button style="position:absolute;right:60px;top:10px;"
+                (click)="showEventList = false" mat-icon-button>
+          <mat-icon aria-label="Calendar">event</mat-icon>
+        </button>
 
-          <button *ngIf="event.short_url" style="position:absolute;right:100px;top:10px;"
-                  (click)="shareItem(event.short_url)" mat-icon-button>
-            <mat-icon aria-label="Edit">share</mat-icon>
-          </button>
+        <button (click)="showEventList = true" style="position:absolute;top:10px;right:10px;" mat-icon-button>
+          <mat-icon aria-label="Calendar">list</mat-icon>
+        </button>
 
-          <button (click)="hideEntity($event, 'event', event.id)" style="position:absolute;top:10px;right:10px;" mat-icon-button>
-            <mat-icon aria-label="Example icon-button with a heart icon">clear</mat-icon>
-          </button>
 
-          <button *ngIf="event.group_member_role === 'admin' || event.group_member_role === 'owner' || event.school_member_role === 'admin' || event.school_member_role === 'owner'"
-                  (click)="editEntity($event, 'event', event.id, event.group_id, event.school_id)"
-                  style="position:absolute;top:10px;right:60px;" mat-icon-button>
-            <mat-icon aria-label="Example icon-button with a heart icon">edit</mat-icon>
-          </button>
+        <div *ngIf="!showEventList">
+          <div class="right-align calendar-view-parent">
 
-          <mat-card-header (click)="viewEventDetails(event)">
-            <div *ngIf="event.group_image" [ngStyle]="{'background-image': getUrl(event.group_image)}"
-                 mat-card-avatar class="home-header-image"></div>
-            <mat-card-title>{{ event.title }}</mat-card-title>
-            <mat-card-subtitle>{{event.group_name}}</mat-card-subtitle>
-          </mat-card-header>
-          <div class="home-card-image" (click)="viewEventDetails(event)" *ngIf="event.image" [ngStyle]="{'background-image': getUrl(event.image)}"></div>
-          <mat-card-content (click)="viewEventDetails(event)">
-            <p class="notice-date">{{ event.start_date | eventdatetime }}</p>
-            <h5 *ngIf="!event.school_wide" class="notice-sub-subtitle">{{event.school_name}}</h5>
-            <!--<div [innerHTML]="event.description" class="notice-details-description"></div>-->
-          </mat-card-content>
-          <mat-card-actions>
+            <button mwlCalendarPreviousView
+                    (click)="clearSelectedEvents()"
+                    [(viewDate)]="viewDate"
+                    [view]="view" mat-raised-button>
+              <mat-icon>fast_rewind</mat-icon>
+            </button>
+            <button mwlCalendarToday
+                    (click)="clearSelectedEvents()"
+                    [(viewDate)]="viewDate" mat-raised-button>Today
+            </button>
+            <button (click)="clearSelectedEvents()"
+                    mwlCalendarNextView
+                    [(viewDate)]="viewDate"
+                    [view]="view" mat-raised-button>
+              <mat-icon>fast_forward</mat-icon>
+            </button>
 
-            <div *ngIf="event.signature_document_id && (!event.signature_user_document_status || event.signature_user_document_status !== 'complete')" class="signature-due">Signature Required</div>
-            <div *ngIf="event.signature_document_id && event.signature_user_document_status === 'complete'" class="signature-due signed">Signature Received</div>
+          </div>
 
-            <div *ngIf="event.payment_applicable && !event.event_payment_amount" class="payment">Payment Applicable</div>
-            <div *ngIf="event.payment_applicable
+          <h3 class="center-align">{{selectedMonth }}</h3>
+
+          <mwl-calendar-month-view
+            [viewDate]="viewDate"
+            (dayClicked)="dayClicked($event.day)"
+            [events]="calendarEvents">
+          </mwl-calendar-month-view>
+
+          <table *ngIf="selectedEvents.length > 0" style="margin-top:30px;margin-bottom:100px;" class="bordered">
+            <thead>
+            <th>Event Title</th>
+            <th class="center-align">Event Date</th>
+            </thead>
+            <tbody>
+            <tr *ngFor="let event of selectedEvents; let i = index;" [ngClass]="{'past-event' : event && !event.future_date}">
+              <td><a [ngClass]="{'past-event' : event && !event.future_date}" (click)="viewEventDetails(event)">{{ event.title | ellipsis:20 }}</a></td>
+              <td [ngClass]="{'past-event' : event && !event.future_date}" class="center-align">{{ event.start | eventdatetimefromto: [event.start,event.end] }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div *ngIf="showEventList">
+          <mat-card *ngFor="let event of myEvents; let i = index" class="home-card pointer">
+
+            <button *ngIf="event.short_url" style="position:absolute;right:100px;top:10px;"
+                    (click)="shareItem(event.short_url)" mat-icon-button>
+              <mat-icon aria-label="Edit">share</mat-icon>
+            </button>
+
+            <button (click)="hideEntity($event, 'event', event.id)" style="position:absolute;top:10px;right:10px;" mat-icon-button>
+              <mat-icon aria-label="Example icon-button with a heart icon">clear</mat-icon>
+            </button>
+
+            <button *ngIf="event.group_member_role === 'admin' || event.group_member_role === 'owner' || event.school_member_role === 'admin' || event.school_member_role === 'owner'"
+                    (click)="editEntity($event, 'event', event.id, event.group_id, event.school_id)"
+                    style="position:absolute;top:10px;right:60px;" mat-icon-button>
+              <mat-icon aria-label="Example icon-button with a heart icon">edit</mat-icon>
+            </button>
+
+            <mat-card-header (click)="viewEventDetails(event)">
+              <div *ngIf="event.group_image" [ngStyle]="{'background-image': getUrl(event.group_image)}"
+                   mat-card-avatar class="home-header-image"></div>
+              <mat-card-title>{{ event.title }}</mat-card-title>
+              <mat-card-subtitle>{{event.group_name}}</mat-card-subtitle>
+            </mat-card-header>
+            <div class="home-card-image" (click)="viewEventDetails(event)" *ngIf="event.image" [ngStyle]="{'background-image': getUrl(event.image)}"></div>
+            <mat-card-content (click)="viewEventDetails(event)">
+              <p class="notice-date">{{ event.start_date | eventdatetime }}</p>
+              <h5 *ngIf="!event.school_wide" class="notice-sub-subtitle">{{event.school_name}}</h5>
+              <!--<div [innerHTML]="event.description" class="notice-details-description"></div>-->
+            </mat-card-content>
+            <mat-card-actions>
+
+              <div *ngIf="event.signature_document_id && (!event.signature_user_document_status || event.signature_user_document_status !== 'complete')" class="signature-due">Signature Required</div>
+              <div *ngIf="event.signature_document_id && event.signature_user_document_status === 'complete'" class="signature-due signed">Signature Received</div>
+
+              <div *ngIf="event.payment_applicable && !event.event_payment_amount" class="payment">Payment Applicable</div>
+              <div *ngIf="event.payment_applicable
             && event.event_payment_amount
             && event.event_payment_currency" class="payment paid">{{event.event_payment_currency}} {{ event.event_payment_amount | number:'1.2' }} paid
-            </div>
-          </mat-card-actions>
+              </div>
+            </mat-card-actions>
 
-        </mat-card>
+          </mat-card>
+        </div>
+
 
       </div>
 
 
     </mat-tab>
 
-    <mat-tab label="My Homework ({{myHomework.length}})">
+    <mat-tab *ngIf="myHomework && myHomework.length > 0" label="My Homework ({{myHomework.length}})">
       <div class="tab-content">
         <h2 class="center-align" style="padding-bottom:0;">{{homeworkTitle}}</h2>
 
@@ -274,74 +331,81 @@
 
         <h2 class="center-align" style="clear:both;margin-top:40px;padding-bottom:0;">{{groupsTitle}}</h2>
 
-        <mat-card class="home-card" *ngFor="let group of myGroups; let i = index">
+        <mat-grid-list rowHeight="500px" [cols]="cols | async" gutterSize="16px">
+          <mat-grid-tile style="height: calc(100vh - 24px)" *ngFor="let group of myGroups; let i = index">
 
-          <button (click)="leaveGroup($event, group.id)" style="position:absolute;top:0px;right:0px;" mat-icon-button>
-            <mat-icon aria-label="Example icon-button with a heart icon">clear</mat-icon>
-          </button>
+            <mat-card class="group-card">
 
-          <mat-card-header>
+              <button (click)="leaveGroup($event, group.id)" style="position:absolute;top:0px;right:0px;" mat-icon-button>
+                <mat-icon aria-label="Example icon-button with a heart icon">clear</mat-icon>
+              </button>
 
-            <button *ngIf="group.role !== 'member' && group.validated" style="position:absolute;right:40px;top:0;" (click)="editGroup(i)" mat-icon-button>
-              <mat-icon aria-label="Edit">edit</mat-icon>
-            </button>
+              <mat-card-header>
 
-            <button *ngIf="group.role !== 'member' && group.validated" style="position:absolute;right:80px;top:0;" (click)="inviteUsersToGroup(i)" mat-icon-button>
-              <mat-icon aria-label="Edit">share</mat-icon>
-            </button>
-
-            <div *ngIf="group.school_logo" [ngStyle]="{'background-image': getUrl(group.school_logo)}"
-                 mat-card-avatar class="home-header-image"></div>
-            <mat-card-title>{{ group.name }}</mat-card-title>
-            <mat-card-subtitle>{{group.school_name}}</mat-card-subtitle>
-          </mat-card-header>
-          <div class="home-card-image" (click)="viewEventsCalendar(i)" *ngIf="group.image" [ngStyle]="{'background-image': getUrl(group.image)}"></div>
-          <mat-card-content>
-
-            <div style="margin:0;padding:0;width: 100%;text-align: right;color:#a2a2a2;">
-              <div (click)="viewEventsCalendar(i)" *ngIf="group.event_count && group.validated" class="right">
-                <button mat-icon-button>
-                  <mat-icon aria-label="Edit">event</mat-icon>
+                <button *ngIf="group.role !== 'member' && group.validated" style="position:absolute;right:40px;top:0;" (click)="editGroup(i)" mat-icon-button>
+                  <mat-icon aria-label="Edit">edit</mat-icon>
                 </button>
-                <span class="stats-total">{{ group.event_count}} event<span *ngIf="group.event_count !== 1">s</span></span>
-              </div>
-              <div (click)="viewGroupNotices(i)" *ngIf="group.notice_count && group.validated" class="right">
-                <button mat-icon-button>
-                  <mat-icon aria-label="Edit">assignment</mat-icon>
-                </button>
-                <span class="stats-total">{{ group.notice_count}} notice<span *ngIf="group.notice_count !== 1">s</span></span>
-              </div>
-              <div (click)="viewGroupHomework(i)" *ngIf="group.homework_count && group.validated" class="right">
-                <button mat-icon-button>
-                  <mat-icon aria-label="Edit">note</mat-icon>
-                </button>
-                <span class="stats-total">{{ group.homework_count}} homework<span *ngIf="group.homework_count !== 1">s</span></span>
-              </div>
-              <div (click)="viewGroupMembers(i)" *ngIf="group.member_count && group.role !== 'member' && group.validated" class="right">
-                <button mat-icon-button>
-                  <mat-icon aria-label="Edit">group</mat-icon>
-                </button>
-                <span class="stats-total">{{ group.member_count}} member<span *ngIf="group.member_count !== 1">s</span></span>
-              </div>
-              <div (click)="viewGroupMembers(i)" *ngIf="group.awaiting_validation_count && group.role !== 'member' && group.validated && group.awaiting_validation_count > 0" class="right">
-                <button mat-icon-button>
-                  <mat-icon aria-label="Edit">star</mat-icon>
-                </button>
-                <span class="stats-total user-awaiting-validation">{{ group.awaiting_validation_count}} user<span *ngIf="group.awaiting_validation_count !== 1">s</span> awaiting validation</span>
-              </div>
 
-            </div>
+                <button *ngIf="group.role !== 'member' && group.validated" style="position:absolute;right:80px;top:0;" (click)="inviteUsersToGroup(i)" mat-icon-button>
+                  <mat-icon aria-label="Edit">share</mat-icon>
+                </button>
 
-            <div style="clear:both;" class="notice-details-description">{{group.description}}</div>
-          </mat-card-content>
-          <mat-card-actions>
-            <button *ngIf="group.role !== 'member' && group.validated && group.include_homework" mat-raised-button (click)="createHomework(i)">Add Homework</button>
-            <button *ngIf="group.role !== 'member' && group.validated" mat-raised-button (click)="createNotice(i)">Add Notice</button>
-            <button *ngIf="group.role !== 'member' && group.validated" mat-raised-button (click)="createEvent(i)">Add Event</button>
-            <div *ngIf="group.validated" class="role">{{ group.role }}</div>
-            <div *ngIf="!group.validated" class="awaiting-validation">Awaiting validation</div>
-          </mat-card-actions>
-        </mat-card>
+                <div *ngIf="group.school_logo" [ngStyle]="{'background-image': getUrl(group.school_logo)}"
+                     mat-card-avatar class="home-header-image"></div>
+                <mat-card-title>{{ group.name }}</mat-card-title>
+                <mat-card-subtitle>{{group.school_name}}</mat-card-subtitle>
+              </mat-card-header>
+              <div class="home-card-image" (click)="viewEventsCalendar(i)" *ngIf="group.image" [ngStyle]="{'background-image': getUrl(group.image)}"></div>
+              <mat-card-content>
+
+                <div style="margin:0;padding:0;width: 100%;text-align: right;color:#a2a2a2;">
+                  <div (click)="viewEventsCalendar(i)" *ngIf="group.event_count && group.validated" class="right">
+                    <button mat-icon-button>
+                      <mat-icon aria-label="Edit">event</mat-icon>
+                    </button>
+                    <span class="stats-total">{{ group.event_count}} event<span *ngIf="group.event_count !== 1">s</span></span>
+                  </div>
+                  <div (click)="viewGroupNotices(i)" *ngIf="group.notice_count && group.validated" class="right">
+                    <button mat-icon-button>
+                      <mat-icon aria-label="Edit">assignment</mat-icon>
+                    </button>
+                    <span class="stats-total">{{ group.notice_count}} notice<span *ngIf="group.notice_count !== 1">s</span></span>
+                  </div>
+                  <div (click)="viewGroupHomework(i)" *ngIf="group.homework_count && group.validated" class="right">
+                    <button mat-icon-button>
+                      <mat-icon aria-label="Edit">note</mat-icon>
+                    </button>
+                    <span class="stats-total">{{ group.homework_count}} homework<span *ngIf="group.homework_count !== 1">s</span></span>
+                  </div>
+                  <div (click)="viewGroupMembers(i)" *ngIf="group.member_count && group.role !== 'member' && group.validated" class="right">
+                    <button mat-icon-button>
+                      <mat-icon aria-label="Edit">group</mat-icon>
+                    </button>
+                    <span class="stats-total">{{ group.member_count}} member<span *ngIf="group.member_count !== 1">s</span></span>
+                  </div>
+                  <div (click)="viewGroupMembers(i)" *ngIf="group.awaiting_validation_count && group.role !== 'member' && group.validated && group.awaiting_validation_count > 0" class="right">
+                    <button mat-icon-button>
+                      <mat-icon aria-label="Edit">star</mat-icon>
+                    </button>
+                    <span class="stats-total user-awaiting-validation">{{ group.awaiting_validation_count}} user<span *ngIf="group.awaiting_validation_count !== 1">s</span> awaiting validation</span>
+                  </div>
+
+                </div>
+
+                <!--<div style="clear:both;" class="notice-details-description">{{group.description}}</div>-->
+              </mat-card-content>
+              <mat-card-actions style="clear:both;">
+                <button *ngIf="group.role !== 'member' && group.validated && group.include_homework" mat-raised-button (click)="createHomework(i)">Add Homework</button>
+                <button *ngIf="group.role !== 'member' && group.validated" mat-raised-button (click)="createNotice(i)">Add Notice</button>
+                <button *ngIf="group.role !== 'member' && group.validated" mat-raised-button (click)="createEvent(i)">Add Event</button>
+                <div *ngIf="group.validated" class="role">{{ group.role }}</div>
+                <div *ngIf="!group.validated" class="awaiting-validation">Awaiting validation</div>
+              </mat-card-actions>
+            </mat-card>
+          </mat-grid-tile>
+        </mat-grid-list>
+
+
       </div>
 
     </mat-tab>

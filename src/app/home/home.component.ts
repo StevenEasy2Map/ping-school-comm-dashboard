@@ -1,4 +1,4 @@
-import {AfterViewInit, Component} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {GroupService} from '../group/group.service';
 import {AuthService} from '../../providers/auth-service';
@@ -8,10 +8,15 @@ import {EventService} from '../event/services/event.service';
 import * as moment from 'moment';
 import {MatDialog, MatSnackBar, MatTabChangeEvent} from '@angular/material';
 import {DialogAreYouSureComponent} from '../common/modals/are.you.sure.component';
-import {Observable} from 'rxjs';
 import {HelperService} from '../../providers/helper-service';
 import {DialogShareUrlComponent} from '../common/modals/share.url.component';
 import {DialogErrorComponent} from "../common/modals/dialog.error.component";
+import {ObservableMedia} from '@angular/flex-layout';
+import {Observable} from "rxjs/Observable";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/takeWhile";
+import "rxjs/add/operator/startWith";
+import {CalendarEvent} from 'angular-calendar';
 
 @Component({
   selector: 'app-home-component',
@@ -19,7 +24,7 @@ import {DialogErrorComponent} from "../common/modals/dialog.error.component";
   styleUrls: ['./home.style.scss'],
   providers: [GroupService, SchoolService, NoticeService, EventService],
 })
-export class HomeComponent implements AfterViewInit {
+export class HomeComponent implements OnInit, AfterViewInit {
 
   myGroups: any[] = [];
   myNotices: any[] = [];
@@ -39,6 +44,33 @@ export class HomeComponent implements AfterViewInit {
   showUnreadEvents = false;
   showUnreadNotices = false;
   showUnreadHomework = false;
+  showEventList = true;
+
+  view = 'month';
+  public viewDate: Date = new Date();
+  public calendarEvents: CalendarEvent[];
+  selectedEvents: any[] = [];
+  selectedMonth = '';
+
+  colors: any = {
+    red: {
+      primary: '#ad2121',
+      secondary: '#FAE3E3'
+    },
+    blue: {
+      primary: '#1e90ff',
+      secondary: '#D1E8FF'
+    },
+    grey: {
+      primary: '#888888',
+      secondary: '#818181'
+    }
+  };
+
+  /**
+   * The number of colums in the md-grid-list directive.
+   */
+  public cols: Observable<number>;
 
   constructor(public auth: AuthService,
               public groupService: GroupService,
@@ -47,7 +79,34 @@ export class HomeComponent implements AfterViewInit {
               public eventService: EventService,
               public dialog: MatDialog,
               public snackBar: MatSnackBar,
-              public router: Router) {
+              public router: Router,
+              public observableMedia: ObservableMedia) {
+  }
+
+  ngOnInit() {
+
+    const grid = new Map([
+      ["xs", 1],
+      ["sm", 1],
+      ["md", 1],
+      ["lg", 2],
+      ["xl", 3]
+    ]);
+    let start: number;
+    grid.forEach((cols, mqAlias) => {
+      if (this.observableMedia.isActive(mqAlias)) {
+        start = cols;
+      }
+    });
+    this.cols = this.observableMedia.asObservable()
+      .map(change => {
+        console.log(change);
+        console.log(grid.get(change.mqAlias));
+        return grid.get(change.mqAlias);
+      })
+      .startWith(start);
+
+
   }
 
   ngAfterViewInit(): void {
@@ -82,6 +141,19 @@ export class HomeComponent implements AfterViewInit {
 
     });
 
+  }
+
+  public dayClicked({date, events}: { date: Date, events: CalendarEvent[] }): void {
+
+    console.log(events);
+    this.selectedEvents = events;
+  }
+
+  clearSelectedEvents(): void {
+    console.log(this.viewDate);
+    const month = moment(this.viewDate);
+    this.selectedMonth = month.format('MMMM');
+    this.selectedEvents = [];
   }
 
   displayErrorDialog(error) {
@@ -375,6 +447,7 @@ export class HomeComponent implements AfterViewInit {
           }
 
           this.unreadEvents = [];
+          const tempEvents = [];
           this.myEvents.forEach(event => {
 
             if (!event.read_receipt) {
@@ -383,7 +456,24 @@ export class HomeComponent implements AfterViewInit {
 
             event.description = event.description.replace("'", "").replace("'", "");
             event.start_date = HelperService.timeZoneAdjustedDate(event.start_date, event.timezone_offset);
+            event.end_date = HelperService.timeZoneAdjustedDate(event.end_date, event.timezone_offset);
+
+            tempEvents.push({
+
+              id: event.id,
+              title: event.title,
+              start: event.start_date,
+              end: event.end_date,
+              future_date: event.future_date,
+              color: event.future_date ? this.colors.blue : this.colors.grey
+            });
+
+
           });
+
+          const month = moment(new Date());
+          this.selectedMonth = month.format('MMMM');
+          this.calendarEvents = tempEvents;
 
           resolve();
 
