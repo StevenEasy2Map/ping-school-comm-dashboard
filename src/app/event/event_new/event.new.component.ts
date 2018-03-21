@@ -53,6 +53,7 @@ export class NewEventComponent extends DocSigningSetupComponent implements OnIni
   paymentApplicable = false;
   allowUsersToSetPaymentAmount = false;
   appendPaymentRefUserLastName = false;
+  paymentShowAdvanced = false;
 
   constructor(private auth: AuthService,
               public eventService: EventService,

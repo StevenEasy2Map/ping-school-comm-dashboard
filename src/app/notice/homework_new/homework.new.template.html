@@ -25,7 +25,7 @@
       <mat-expansion-panel expanded="true" hideToggle="true">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            Homework Details
+            Homework Title and Message
           </mat-panel-title>
           <mat-panel-description>
             &nbsp;
@@ -33,13 +33,28 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
 
-
         <div class="row">
           <div class="col s12">
             <h6>Title</h6>
             <input style="max-width:500px" class="validate" [(ngModel)]="notice.title" id="noticetitle" type="text"/>
           </div>
         </div>
+
+        <ckeditor [config]="ckEditorConfig" [(ngModel)]="notice.description" debounce="500"></ckeditor>
+
+
+      </mat-expansion-panel>
+      <!--[expanded]="step === 1" (opened)="setStep(1)" -->
+      <mat-expansion-panel hideToggle="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Details
+          </mat-panel-title>
+          <mat-panel-description>
+            &nbsp;
+            <mat-icon>comment</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
 
         <div class="row">
           <div class="col s6">
@@ -153,21 +168,6 @@
 
         </div>
 
-
-      </mat-expansion-panel>
-      <!--[expanded]="step === 1" (opened)="setStep(1)" -->
-      <mat-expansion-panel hideToggle="true">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Message
-          </mat-panel-title>
-          <mat-panel-description>
-            &nbsp;
-            <mat-icon>comment</mat-icon>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-
-        <ckeditor [config]="ckEditorConfig" [(ngModel)]="notice.description" debounce="500"></ckeditor>
 
       </mat-expansion-panel>
 

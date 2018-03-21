@@ -41,6 +41,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
   paymentApplicable = false;
   allowUsersToSetPaymentAmount = false;
   appendPaymentRefUserLastName = false;
+  paymentShowAdvanced = false;
 
   constructor(private auth: AuthService,
               public noticeService: NoticeService,
