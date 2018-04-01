@@ -1,10 +1,11 @@
 export class AppSettings {
 
 
-  public static NODE_SERVER_URL_TEST = window.location.href.toString().includes('heroku') ? 'http://ec2-34-210-83-65.us-west-2.compute.amazonaws.com' : 'http://localhost:8888';
-  public static NODE_SERVER_URL_LIVE = window.location.href.toString().includes('heroku') ? 'http://ec2-34-210-83-65.us-west-2.compute.amazonaws.com' : 'http://localhost:8888';
+  public static NODE_SERVER_URL_TEST = window.location.href.toString().includes('heroku') ? 'https://node.easy2map.com' : 'http://localhost:8888';
+  public static NODE_SERVER_URL_LIVE = window.location.href.toString().includes('heroku') ? 'https://node.easy2map.com' : 'http://localhost:8888';
   // public static NODE_SERVER_URL_TEST = 'http://localhost:8888';
   // public static NODE_SERVER_URL_LIVE = 'http://localhost:8888';
+  // http://ec2-34-210-83-65.us-west-2.compute.amazonaws.com
 
   public static QUICKLY_SIGN_API_APPLICATION_CLIENT_ID = 'ahFzfnRoZW1hc3NpdmUtbGl2ZXIYCxILQXBwbGljYXRpb24YgICAgOy3nAoMogEHc2FuZGJveA';
   public static QUICKLY_SIGN_API_APPLICATION_CLIENT_NAME = 'Ping App';
