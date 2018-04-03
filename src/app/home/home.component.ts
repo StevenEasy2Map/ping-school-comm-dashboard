@@ -34,10 +34,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
   mySchools: any[] = [];
   error = '';
   loading = true;
-  noticesTitle = 'My Notices';
-  eventsTitle = 'My Events';
+  noticesTitle = 'Noticeboard';
+  eventsTitle = 'Upcoming Events';
   groupsTitle = 'My Groups';
-  homeworkTitle = 'My Homework';
+  homeworkTitle = 'Homework';
   selectedTabIndex = 0;
   unreadNotices: any[] = [];
   unreadHomework: any[] = [];
