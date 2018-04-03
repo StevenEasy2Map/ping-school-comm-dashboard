@@ -12,11 +12,12 @@ import {HelperService} from '../../providers/helper-service';
 import {DialogShareUrlComponent} from '../common/modals/share.url.component';
 import {DialogErrorComponent} from "../common/modals/dialog.error.component";
 import {ObservableMedia} from '@angular/flex-layout';
-import {Observable} from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/takeWhile";
 import "rxjs/add/operator/startWith";
 import {CalendarEvent} from 'angular-calendar';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/forkJoin';
 
 @Component({
   selector: 'app-home-component',
@@ -100,8 +101,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     });
     this.cols = this.observableMedia.asObservable()
       .map(change => {
-        console.log(change);
-        console.log(grid.get(change.mqAlias));
         return grid.get(change.mqAlias);
       })
       .startWith(start);
@@ -261,7 +260,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.groupService.getMyGroups().subscribe(
         response => {
           this.myGroups = response;
-          console.log(this.myGroups);
           if (!this.myGroups || this.myGroups.length === 0) {
             this.groupsTitle = 'You aren\'t a member of any groups.';
           }
@@ -327,7 +325,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
           }
 
           this.unreadHomework = [];
-          console.log(this.myHomework);
           this.myHomework.forEach(notice => {
 
             if (!notice.read_receipt) {
@@ -498,7 +495,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.schoolService.getAllPrivateSchoolsIAdminister().subscribe(
         response => {
           this.mySchools = response || [];
-          console.log('we got here');
           resolve();
 
         },

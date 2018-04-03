@@ -16,9 +16,6 @@ export class APIService {
 
   get(url: string): Observable<any> {
 
-    console.log(this.auth.firebaseUserToken);
-    console.log(this.auth.authenticated);
-
     url += `/${this.auth.firebaseUserToken}`;
     return this.http.get(`${this.apiUrl}${url}`)
       .map(this.extractData)
@@ -57,7 +54,6 @@ export class APIService {
   }
 
   private extractData(res: any) {
-    console.log(res.json());
     const body = res.json();
     return body || {};
   }

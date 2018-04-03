@@ -83,6 +83,7 @@ Google Calendar API
 https://developers.google.com/google-apps/calendar/
 https://developers.google.com/google-apps/calendar/quickstart/js
 https://developers.google.com/google-apps/calendar/v3/reference/events/insert
+https://console.cloud.google.com/apis/credentials?project=ping-email-server
 
 Charts
 https://valor-software.com/ng2-charts/
