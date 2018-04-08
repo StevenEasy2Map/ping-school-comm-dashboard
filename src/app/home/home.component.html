@@ -398,7 +398,7 @@
                 <button *ngIf="group.role !== 'member' && group.validated && group.include_homework" mat-raised-button (click)="createHomework(i)">Add Homework</button>
                 <button *ngIf="group.role !== 'member' && group.validated" mat-raised-button (click)="createNotice(i)">Add Notice</button>
                 <button *ngIf="group.role !== 'member' && group.validated" mat-raised-button (click)="createEvent(i)">Add Event</button>
-                <div *ngIf="group.validated" class="role">{{ group.role }}</div>
+                <!--<div *ngIf="group.validated" class="role">{{ group.role }}</div>-->
                 <div *ngIf="!group.validated" class="awaiting-validation">Awaiting validation</div>
               </mat-card-actions>
             </mat-card>

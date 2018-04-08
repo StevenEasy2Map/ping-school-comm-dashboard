@@ -76,7 +76,7 @@ export class NewNoticeComponent extends DocSigningSetupComponent implements OnIn
     return new Notice(0, showDate.toString(),
       showDate.toString(), hideDate.toString(),
       '', '', '',
-      '', 0, '', '', '', '', '', 0, 0, '', '', '', '', '', '', 1, 0, 1, 'Make payment');
+      '', 0, '', '', '', '', '', 1, 0, '', '', '', '', '', '', 1, 0, 1, 'Make payment');
 
   }
 

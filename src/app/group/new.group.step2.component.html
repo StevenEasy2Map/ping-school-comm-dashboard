@@ -169,7 +169,7 @@
                  name="questionTitle" type="text" class="validate form-control">
           <label style="display: none" for="questionTitle">Question</label>
         </div>
-        <div class="input-field col s12">
+        <div class="input-field col s12"> {{question.required}}
           <input *ngIf="!!question"
                  [(ngModel)]="question.required"
                  name="questionRequired"

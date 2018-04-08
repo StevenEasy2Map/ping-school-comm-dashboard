@@ -95,6 +95,7 @@ export class NewGroupStep2Component implements AfterViewInit {
             const observables = [];
             this.questions.forEach(question => {
               question.group_id = this.groupId;
+              console.log(question.required);
               observables.push(this.groupService.addQuestion(question));
             });
 
@@ -263,8 +264,6 @@ export class NewGroupStep2Component implements AfterViewInit {
         });
     });
 
-
   }
-
 
 }
