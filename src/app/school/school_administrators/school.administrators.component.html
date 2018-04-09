@@ -15,7 +15,7 @@
 </div>
 
 <div *ngIf="!loading" class="container row top-padding">
-  <form #loginForm="ngForm" class="col s12">
+  <form *ngIf="!inviting" #loginForm="ngForm" class="col s12">
     <div class="row">
       <div role="alert" *ngIf="error" class="col s12">
         <span class="red-text text-darken-4">{{ error }}</span>
@@ -25,7 +25,7 @@
     <h2 class="inline-page-title center-align">
       <a (click)="goBack()" class="back-nav cancel-link"><img src="/assets/arrow-left.svg"/>Back</a>
 
-      {{ schoolName }}<br>School Administrators</h2>
+      {{ schoolName }}</h2>
 
     <div class="row">
 
@@ -44,7 +44,8 @@
             <td>{{ member.email }}</td>
             <td [ngClass]="{'bold-text' : member.role === 'admin' || member.role === 'owner'}">{{ member.role }}</td>
             <td class="center-align">
-              <a *ngIf="member.firebase_user_id !== '__invitation__'" (click)="removeSchoolAdmin(member)"><i class="material-icons">delete</i></a>
+              <a *ngIf="member.firebase_user_id !== '__invitation__' && (member.role === 'admin')" (click)="removeSchoolAdmin(member)"><i class="material-icons">delete</i></a>
+              <a *ngIf="member.firebase_user_id !== '__invitation__' && (member.role === 'member')" (click)="removeSchoolMember(member)"><i class="material-icons">delete</i></a>
               <a *ngIf="member.firebase_user_id === '__invitation__'" (click)="uninviteSchoolAdministrator(member)"><i class="material-icons">delete</i></a>
             </td>
           </tr>
@@ -54,5 +55,92 @@
     </div>
 
   </form>
+
+  <a *ngIf="!inviting" style="margin-top:20px;" class="add-new-wrapper" (click)="inviting = true">
+    <div class="btn-floating btn-large waves-effect waves-light orange">
+      <i class="material-icons">add</i>
+    </div>
+    <span>Add new user</span>
+  </a>
+
+  <div *ngIf="inviting">
+
+    <form #submitForm="ngForm">
+
+      <h2 class="inline-page-title center-align">Invite users to {{schoolName}}</h2>
+
+      <div class="row">
+        <div class="input-field col s12">
+          <h6>Invite users via email <span class="small-text">(press the <b>'Enter'</b> key after typing each email address)</span></h6>
+
+          <tag-input [(ngModel)]="emailAddresses" name="emailAddresses"
+                     [modelAsStrings]="true"
+                     (onAdd)="onAdd($event)"
+                     (onRemove)="onRemove($event)"
+                     [separatorKeyCodes]="[32, 188]"
+                     secondaryPlaceholder="Enter email address"
+                     placeholder="Enter email address">
+          </tag-input>
+
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:-15px;">
+        <div class="input-field col s12">
+          <h6>Add a message (optional)</h6>
+          <textarea [(ngModel)]="motivation"
+                    id="motivation" style="max-width:500px;height:100px;"
+                    name="motivation" class="materialize-textarea"
+                    data-length="512"></textarea>
+          <label style="display: none" for="motivation">Textarea</label>
+
+        </div>
+      </div>
+
+      <div class="row">
+
+        <div class="col s12">
+
+          <mat-form-field style="min-width:400px;">
+            <mat-select name="role" [style.width]="'100%'" [(ngModel)]="role" placeholder="User's role">
+              <mat-option value="admin">administrator</mat-option>
+              <mat-option selected="selected" value="member">member</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col s12">
+
+          <mat-form-field style="min-width:400px;">
+            <mat-select multiple name="selectedGroups" [style.width]="'100%'" [(ngModel)]="selectedGroups" placeholder="Add users to one or more groups (optional)">
+              <mat-option *ngFor="let group of schoolGroups" [value]="group.id">
+                {{ group.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col s12 submit-button-parent">
+
+          <button (click)="inviting = false" mat-raised-button style="float:left;margin-left:80px;" type="submit" name="action">Cancel</button>
+
+          <button [disabled]="!submitForm.form.valid" (click)="inviteSchoolMembers()"
+                  mat-raised-button color="primary" style="float:right;margin-right:80px;" type="submit" name="action">Invite
+          </button>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
 
 </div>

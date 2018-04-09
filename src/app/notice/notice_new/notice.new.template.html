@@ -472,7 +472,9 @@
 
         <div *ngIf="paymentApplicable" class="row">
           <div class="col s12 top-padding">
-            <input class="filled-in" [(ngModel)]="allowUsersToSetPaymentAmount" name="allow_user_set"
+            <input class="filled-in"
+                   [(ngModel)]="allowUsersToSetPaymentAmount"
+                   name="allow_user_set"
                    type="checkbox" id="allow_user_set"/>
             <label style="!important;margin-top:5px;" for="allow_user_set">Allow user to choose payment amount</label>
           </div>

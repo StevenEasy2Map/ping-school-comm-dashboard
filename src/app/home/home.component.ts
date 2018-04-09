@@ -16,7 +16,7 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/takeWhile";
 import "rxjs/add/operator/startWith";
 import {CalendarEvent} from 'angular-calendar';
-import { Observable } from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 
 @Component({
@@ -235,6 +235,32 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.auth.processing = false;
       this.loading = false;
     });
+  }
+
+  viewEntityPayments(entityType, entity): void {
+
+    this.router.navigate(['/entity-payments-list', {
+      entity_id: entity.id,
+      group_id: entity.group_id,
+      entity_type: entityType,
+      school_id: entity.school_id,
+      entity_title: entity.title,
+    }]);
+
+  }
+
+  viewEntitySignedDocs(entityType, entity): void {
+
+    this.router.navigate(['/entity-doc-signed-list', {
+      entity_id: entity.id,
+      group_id: entity.group_id,
+      entity_type: entityType,
+      school_id: entity.school_id,
+      document_id: entity.signature_document_id,
+      template_id: entity.signature_document_template_id,
+      entity_title: entity.title,
+    }]);
+
   }
 
   markEventAsRead(i) {

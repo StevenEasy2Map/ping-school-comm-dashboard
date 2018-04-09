@@ -23,6 +23,10 @@ export class GroupService extends APIService {
     return this.get('/api/school/all_schools');
   }
 
+  getSchoolGroups(schoolId: string): Observable<any> {
+    return this.get(`/api/group/get_school_groups/${schoolId}`);
+  }
+
   createGroup(group: Group): Observable<any> {
     return this.post(group, '/api/group/create_group');
   }

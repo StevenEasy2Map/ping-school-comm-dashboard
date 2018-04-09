@@ -44,6 +44,10 @@ export class SchoolService extends APIService {
     return this.post(payload, '/api/school/remove_school_administrator');
   }
 
+  removeSchoolMember(payload: any): Observable<any> {
+    return this.post(payload, '/api/school/remove_school_member');
+  }
+
   uninviteSchoolAdministrator(payload: any): Observable<any> {
     return this.post(payload, '/api/school/uninvite_school_administrator');
   }

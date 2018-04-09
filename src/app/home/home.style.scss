@@ -13,18 +13,24 @@ div.avatar {
 
 }
 
-div.fc-left{
-  h2{
-    font-size:18px !important;
+div.fc-left {
+  h2 {
+    font-size: 18px !important;
   }
 }
 
-div.card.selected-date-events{
-  margin-top:30px;
+.home-page[_ngcontent-c2] mat-card-title[_ngcontent-c2] {
+  margin-top: 26px !important;
+  padding-bottom: 5px;
+  position: relative
 }
 
-div.calendar-view-parent{
-  margin:20px 0;
+div.card.selected-date-events {
+  margin-top: 30px;
+}
+
+div.calendar-view-parent {
+  margin: 20px 0;
 }
 
 a.unread-summary {
@@ -41,9 +47,9 @@ div.row.unread-item {
   margin-bottom: 3px;
   margin-left: 20px;
 
-  a.mark-as-read{
-    font-size:16px;
-    float:right;
+  a.mark-as-read {
+    font-size: 16px;
+    float: right;
   }
 
 }
@@ -142,8 +148,8 @@ button.join-group {
     margin-top: 30px;
   }
 
-  div.home-container{
-    width:85% !important;
+  div.home-container {
+    width: 85% !important;
   }
 
   .home-card {
