@@ -1,8 +1,8 @@
 export class AppSettings {
 
 
-  public static NODE_SERVER_URL_TEST = window.location.href.toString().includes('heroku') ? 'https://node.easy2map.com' : 'http://localhost:8888';
-  public static NODE_SERVER_URL_LIVE = window.location.href.toString().includes('heroku') ? 'https://node.easy2map.com' : 'http://localhost:8888';
+  public static NODE_SERVER_URL_TEST = window.location.href.toString().includes('heroku') ? 'https://node.easy2map.com' : 'https://testing-dot-school-comm-sql.appspot.com';
+  public static NODE_SERVER_URL_LIVE = window.location.href.toString().includes('heroku') ? 'https://node.easy2map.com' : 'https://testing-dot-school-comm-sql.appspot.com';
   // public static NODE_SERVER_URL_TEST = 'http://localhost:8888';
   // public static NODE_SERVER_URL_LIVE = 'http://localhost:8888';
   // http://ec2-34-210-83-65.us-west-2.compute.amazonaws.com
